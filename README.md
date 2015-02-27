@@ -3,7 +3,9 @@
 A small raytracing project that might one day render beautiful images :3
 
 LightWhat version 0.4.1 
+
 by Robert Lindner 
+
 using SDL2, Assimp and tinyxml2 => find full licenses under acknowledgments.txt
 
 to run start LightWhat.exe
