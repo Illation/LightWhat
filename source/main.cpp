@@ -1,4 +1,4 @@
-//version 0.4.1
+//version 0.4.2
 //by Robert Lindner
 //using SDL2, Assimp and tinyxml2
 
