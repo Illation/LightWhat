@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{90d2e4ae-1c62-4cf7-9219-ec7cdadc97f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileManagment">
+      <UniqueIdentifier>{e238d5e0-a3ae-4f95-ad80-1d2d4519df82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry">
+      <UniqueIdentifier>{61cc891c-9bda-421d-80eb-0c96f3e82276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileManagment\Import">
+      <UniqueIdentifier>{667cc4b4-6e69-4b65-b8e7-bba3099dd868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{e3662eea-d9f5-47dc-997e-47af9d64431c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Geometry">
+      <UniqueIdentifier>{89cb6001-3b53-413f-84aa-8455c85f32ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FileManagment">
+      <UniqueIdentifier>{ce36099d-9375-44e8-8fbd-bb62241dee5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FileManagment\Import">
+      <UniqueIdentifier>{113584f0-afc3-4e23-8434-4affdc5c3942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{017e90cb-045c-4668-9562-9c655e126932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{d30e43b1-3874-42f6-94c2-b1b9d427ebd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileManagment\Export">
+      <UniqueIdentifier>{9881ab5d-da04-49f1-bfc5-8d2fc499823d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FileManagment\Export">
+      <UniqueIdentifier>{6e2f8651-d276-4417-8c4a-e789289cc728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry\shapes">
+      <UniqueIdentifier>{ba4388e8-ceab-4970-b49c-a2c081745329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Geometry\shapes">
+      <UniqueIdentifier>{2e0b786f-827e-4db3-8844-79216dbbfe50}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationRoot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\tinyxml2.cpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Renderer.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\winmain.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\ImageExporter.cpp">
+      <Filter>Source Files\FileManagment\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\common.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\commonR.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shape.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shapes\Mesh.cpp">
+      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shapes\Sphere.cpp">
+      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shapes\Plane.cpp">
+      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PostProcessor.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Scene.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\SceneLoader.cpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ApplicationRoot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\tinyxml2.h">
+      <Filter>Header Files\FileManagment\Import</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderer.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\winmain.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\ImageExporter.h">
+      <Filter>Header Files\FileManagment\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\common.h">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shape.h">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\commonR.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Mesh.h">
+      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Sphere.h">
+      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Plane.h">
+      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PostProcessor.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Scene.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\SceneLoader.h">
+      <Filter>Header Files\FileManagment\Import</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LightWhat.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="LightWhatIcon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="icon2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
