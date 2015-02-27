@@ -25,8 +25,8 @@ note: scenes do not clear automatically, so before you load a different scene or
 
 Exporting: 
 Only tested with files generated with the blender exporter: 
-	* check the triangulate option 
-	* dont use textures yet
+* check the triangulate option 
+* dont use textures yet
 
 if you find any bugs tell me about them please
 
