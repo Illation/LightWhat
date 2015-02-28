@@ -88,11 +88,11 @@ struct Shader
 
 struct DifferentialGeometry{
 	DifferentialGeometry();
-	DifferentialGeometry(intersection, vec3, vec3, double, double, size_t, int);
+	DifferentialGeometry(intersection, vec3, vec3, point2, size_t, int);
 	intersection i;
 	vec3 n;
 	vec3 dir;
-	double u, v;
+	point2 uv;
 	size_t mat;
 	int bounces;
 };

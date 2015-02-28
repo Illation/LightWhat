@@ -83,8 +83,14 @@ void Mesh::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, 
 							closest.n = N.Norm(0.00001);
 
 							//uv map
-							closest.u = u;
-							closest.v = v;
+							closest.uv = point2(u, v);
+							if (plist.hasUV)
+							{
+								vec2 uv1 = m_UVs[0].coords[thisTri.uvA];
+								vec2 uv2 = m_UVs[0].coords[thisTri.uvB];
+								vec2 uv3 = m_UVs[0].coords[thisTri.uvC];
+								closest.uv = uv1 + (uv3 - uv1)*u + (uv2 - uv1)*v;
+							}
 						}
 					}
 					else its.hit = false;

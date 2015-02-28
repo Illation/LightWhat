@@ -98,12 +98,11 @@ string Shader::printShader(){
 //Differential geometry
 DifferentialGeometry::DifferentialGeometry(){
 }
-DifferentialGeometry::DifferentialGeometry(intersection lI, vec3 lN, vec3 lDir, double lU, double lV, size_t materialIndex, int lBounce){
+DifferentialGeometry::DifferentialGeometry(intersection lI, vec3 lN, vec3 lDir, point2 lUV, size_t materialIndex, int lBounce){
 	i = lI;
 	n = lN;
 	dir = lDir;
-	u = lU;
-	v = lV;
+	uv = lUV;
 	mat = materialIndex;
 	bounces = lBounce;
 }
