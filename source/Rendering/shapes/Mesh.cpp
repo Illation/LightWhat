@@ -32,6 +32,13 @@ polylist::polylist(size_t materialIndex, bool lUV){
 	hasUV = lUV;
 }
 
+UVset::UVset(){
+}
+UVset::UVset(string lName, bool lActive){
+	name = lName;
+	isActive = lActive;
+}
+
 Mesh::Mesh(){
 }
 Mesh::~Mesh(){
@@ -143,6 +150,16 @@ void Mesh::addNormal(vec3 norm){
 }
 void Mesh::addPolyList(size_t mIndex, bool hasUV){
 	m_TriLists.push_back(polylist(mIndex, hasUV));
+}
+void Mesh::addUVset(string name, bool isActive){
+	m_UVs.push_back(UVset(name, isActive));
+}
+void Mesh::addUV(point2 coord, size_t index){
+	if (index < m_UVs.size())
+	{
+		m_UVs[index].coords.push_back(coord);
+	}
+	else cout << "Error adding UV coordinates: UVset does not exist!" << endl;
 }
 void Mesh::createTri(int a, int b, int c, int x, int y, int z, size_t index){
 	

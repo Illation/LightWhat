@@ -29,6 +29,15 @@ struct polylist{
 	vector <tri> triangles;
 };
 
+struct UVset{
+	UVset();
+	UVset(string, bool);
+
+	vector<point2> coords;
+	bool isActive;
+	string name;
+};
+
 class Mesh : public shape
 {
 public:
@@ -50,22 +59,29 @@ public:
 	void addVertex(point3 vert);
 	void addNormal(vec3 norm);
 	void addPolyList(size_t mIndex, bool hasUV);
+	void addUVset(string Name, bool isActive);
+	void addUV(point2 coords, size_t index);
 	void createTri(int a, int b, int c, int x, int y, int z, size_t index);
 	void createTri(tri f, size_t index);
 
 	void setPosition(double x, double y, double z);
 	void setPosition(point3 pos);
 	void setMaterial(size_t materialIndex, size_t index);
+	void setUVactive(size_t uvIndex, bool isActive);
 
 	vector <point3>getVertices();
 	vector <vec3>getNormals();
 	vector <polylist>getPolyLists();
+	vector <UVset>getUVCoordinates();
+	string getName();
 
 	int getVertCount();
 	int getTriCount();
 private: 
-	vector  <point3>m_VertexList;
+	vector <point3>m_VertexList;
 	vector <vec3>m_NormalList;
-	vector  <polylist>m_TriLists;
+	vector <polylist>m_TriLists;
+	vector <UVset>m_UVs;
 	point3 m_Origin;
+	string m_Name;
 };
