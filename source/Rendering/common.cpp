@@ -1,6 +1,6 @@
 #include "common.h"
 
-//Vector
+//3D Vector
 vec3::vec3(){
 }
 vec3::vec3(double lx, double ly, double lz){
@@ -30,7 +30,7 @@ string vec3::ToString() const{
 }
 //operators
 vec3 operator*(double factor, const vec3& rightRef){
-	return vec3(rightRef.x * factor, rightRef.y * factor, rightRef.y*factor);
+	return vec3(rightRef.x * factor, rightRef.y * factor, rightRef.z*factor);
 }
 vec3& vec3::operator=(const vec3& otherRef){
 	if (&otherRef != this){
@@ -89,6 +89,88 @@ bool vec3::operator!=(const vec3& otherRef) const{
 	return !(*this == otherRef);
 }
 
+//2D Vector
+vec2::vec2(){
+}
+vec2::vec2(double lx, double ly){
+	x = lx;
+	y = ly;
+}
+//methods
+double vec2::Dot(const vec2& otherRef) const{
+	return x * otherRef.x + y * otherRef.y;
+}
+vec2 vec2::Orthagonal() const{
+	return vec2(-y, x);
+}
+double vec2::Length() const{
+	return sqrt(pow(x, 2) + pow(y, 2));
+}
+double vec2::Angle(const vec2& otherRef) const{
+	return acos((vec2(x, y).Dot(otherRef)) / (vec2(x, y).Length() / otherRef.Length()));
+}
+vec2 vec2::Norm(double epsilon) const{
+	if (Length() < epsilon)return vec2(0, 0);
+	else return vec2(x, y) / Length();
+}
+string vec2::ToString() const{
+	return string("x: ") + to_string(x) + string(", y: ") + to_string(y);
+}
+//operators
+vec2 operator*(double factor, const vec2& rightRef){
+	return vec2(rightRef.x * factor, rightRef.y * factor);
+}
+vec2& vec2::operator=(const vec2& otherRef){
+	if (&otherRef != this){
+		x = otherRef.x;
+		y = otherRef.y;
+	}
+	return *this;
+}
+vec2 vec2::operator+(const vec2& otherRef) const{
+	return vec2(x + otherRef.x, y + otherRef.y);
+}
+vec2 vec2::operator-(const vec2& otherRef) const{
+	return vec2(x - otherRef.x, y - otherRef.y);
+}
+vec2 vec2::operator-() const{
+	return vec2(-x, -y);
+}
+vec2 vec2::operator+() const{
+	return *this;
+}
+vec2 vec2::operator*(double factor) const{
+	return vec2(x * factor, y * factor);
+}
+vec2 vec2::operator/(double divisor) const{
+	return vec2(x / divisor, y / divisor);
+}
+vec2& vec2::operator+=(const vec2& otherRef){
+	x += otherRef.x;
+	y += otherRef.y;
+	return *this;
+}
+vec2& vec2::operator-=(const vec2& otherRef){
+	x -= otherRef.x;
+	y -= otherRef.y;
+	return *this;
+}
+vec2& vec2::operator*=(double factor){
+	x *= factor;
+	y *= factor;
+	return *this;
+}
+vec2& vec2::operator/=(double divisor){
+	x /= divisor;
+	y /= divisor;
+	return *this;
+}
+bool vec2::operator==(const vec2& otherRef) const{
+	return x == otherRef.x && y == otherRef.y;
+}
+bool vec2::operator!=(const vec2& otherRef) const{
+	return !(*this == otherRef);
+}
 
 //Line
 line::line(){

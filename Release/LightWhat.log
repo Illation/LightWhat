@@ -1,8 +1,5 @@
-﻿Build started 2/27/2015 7:12:03 PM.
+﻿Build started 2/28/2015 2:03:34 PM.
      1>Project "C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\LightWhat.vcxproj" on node 2 (Rebuild target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\users\robert\desktop\personal projects\3dengine\raytracer\github\lightwhat\release\shape.obj' because it is being used by another process.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(363,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(364,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\dependancies\include\assimp" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Release\\" /Fd"..\Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileManagment\ImageExporter.cpp FileManagment\SceneLoader.cpp FileManagment\tinyxml2.cpp GUI\winmain.cpp main.cpp ApplicationRoot.cpp Rendering\common.cpp Rendering\commonR.cpp Rendering\PostProcessor.cpp Rendering\Renderer.cpp Rendering\Scene.cpp Rendering\shape.cpp Rendering\shapes\Mesh.cpp Rendering\shapes\Plane.cpp Rendering\shapes\Sphere.cpp
          ImageExporter.cpp
@@ -46,4 +43,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:08.05
+Time Elapsed 00:00:09.20

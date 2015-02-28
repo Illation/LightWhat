@@ -7,6 +7,8 @@ using namespace std;
 
 struct vec3;
 typedef vec3 point3;
+struct vec2;
+typedef vec2 point2;
 struct line;
 struct plane;
 struct intersection;
@@ -22,9 +24,10 @@ public:
 	double y;
 	double z;
 
+	friend vec3	operator*(double factor, const vec3& right);
+
 	//methods
 	double Dot(const vec3& other) const;								
-	double Norm() const;											
 	double Length() const;											
 	double Angle(const vec3& other) const;						
 	vec3 Norm(double epsilon = 0.001) const;				
@@ -45,6 +48,41 @@ public:
 	vec3&			operator/=(double divisor);
 	bool			operator==(const vec3& other) const;
 	bool			operator!=(const vec3& other) const;
+};
+
+struct vec2
+{
+public:
+	vec2();
+	vec2(double x, double y);
+
+	double x;
+	double y;
+
+	friend vec2	operator*(double factor, const vec2& right);
+
+	//methods
+	double Dot(const vec2& other) const;
+	double Length() const;
+	double Angle(const vec2& other) const;
+	vec2 Norm(double epsilon = 0.001) const;
+	vec2 Orthagonal() const;
+	string ToString() const;
+
+	//Operators	
+	vec2&			operator= (const vec2& other);
+	vec2			operator+ (const vec2& other) const;
+	vec2			operator- (const vec2& other) const;
+	vec2			operator- () const;
+	vec2			operator+ () const;
+	vec2			operator* (double factor) const;
+	vec2			operator/ (double divisor) const;
+	vec2&			operator+=(const vec2& other);
+	vec2&			operator-=(const vec2& other);
+	vec2&			operator*=(double factor);
+	vec2&			operator/=(double divisor);
+	bool			operator==(const vec2& other) const;
+	bool			operator!=(const vec2& other) const;
 };
 
 struct line{
