@@ -56,19 +56,38 @@ void SceneLoader::processModels(const aiScene* scene){
 						lNorm.z = -(daMesh->mNormals[j].y);
 						lMesh->addNormal(lNorm);
 					}
+					//Get UVs
+					bool hasUV = false;
+					for (unsigned int j = 0; j < daMesh->GetNumUVChannels(); j++){
+						if (daMesh->HasTextureCoords(j)){
+							hasUV = true;
+							lMesh->addUVset(string("UV_set_") + to_string(j), true);
+							for (unsigned int k = 0; k < vertNum; k++){
+								point2 lUV;
+								lUV.x = daMesh->mTextureCoords[j][k].x;
+								lUV.y = daMesh->mTextureCoords[j][k].y;
+								lMesh->addUV(lUV, j);
+							}
+						}
+					}
 					//Create Polylist
 					unsigned int matIndex = CUSTOM_BEGIN + scene->mMeshes[i]->mMaterialIndex;
-					bool hasUV = false;
-					if (scene->mMeshes[i]->HasTextureCoords(0)) hasUV = true;
 					lMesh->addPolyList(matIndex, hasUV);
 					if (scene->mMeshes[i]->HasFaces()){
 						for (unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; j++){
 							aiFace* face = &scene->mMeshes[i]->mFaces[j];
 							if (face->mNumIndices == 3){
-								int indexA = face->mIndices[0];
-								int indexB = face->mIndices[1];
-								int indexC = face->mIndices[2];
-								lMesh->createTri(indexA, indexB, indexC, indexA, indexB, indexC, 0);
+								tri thisTri;
+								thisTri.vertA = face->mIndices[0];
+								thisTri.vertB = face->mIndices[1];
+								thisTri.vertC = face->mIndices[2];
+								thisTri.normA = face->mIndices[0];
+								thisTri.normB = face->mIndices[1];
+								thisTri.normC = face->mIndices[2];
+								thisTri.uvA = face->mIndices[0];
+								thisTri.uvB = face->mIndices[1];
+								thisTri.uvC = face->mIndices[2];
+								lMesh->createTri(thisTri, 0);
 							}
 
 						}
