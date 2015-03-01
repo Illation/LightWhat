@@ -4,6 +4,7 @@
 #include "shape.h"
 #include "shapes/Sphere.h"
 #include "shapes/Plane.h"
+#include "../Rendering/Texture.h"
 
 enum materialPointer{
 	BACKGROUND_MATERIAL,
@@ -26,6 +27,7 @@ public:
 	vector  <shape*>shapes;
 	vector  <Light>lights;
 	vector  <Shader>materials;
+	vector  <Texture>textures;
 	colRGB background = colRGB(0, 10, 20) / 255;
 
 	void updateSceneInfo();

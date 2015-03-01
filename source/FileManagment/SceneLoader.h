@@ -19,6 +19,7 @@
 #include <assimp/postprocess.h>
 #include "../Rendering/shapes/Mesh.h"
 #include "../Rendering/Scene.h"
+#include "../Rendering/Texture.h"
 using namespace std;
 class SceneLoader
 {
@@ -33,6 +34,7 @@ public:
 	vector  <shape*>shapes;
 	vector  <Light>lights;
 	vector  <Shader>materials;
+	vector  <Texture>textures;
 private:
 	void processModels(const aiScene* scene);
 	bool processLights(const aiScene* scene);
