@@ -74,3 +74,10 @@
 * restructured meshes to support more data like vertex normals with polylists
 * added support for multiple materials
 * added mesh smoothing
+
+0.4.2
+* added 2D vectors and points
+* added UV sets to Meshes 
+* calculating UV coordinates for mesh intersection
+* added UV loading to sceneLoader
+* added camera transformation
