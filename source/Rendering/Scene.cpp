@@ -31,6 +31,8 @@ void Scene::loadFile(string fileName)
 		light.col = colRGB(1, 1, 1);
 		light.intensity = 3;
 		lights.push_back(light);
+	delete import;
+	import = nullptr;
 }
 
 void Scene::loadTestScene(){

@@ -2,7 +2,7 @@
 
 A small raytracing project that might one day render beautiful images :3
 
-LightWhat version 0.4.1 
+LightWhat version 0.4.2
 
 by Robert Lindner 
 

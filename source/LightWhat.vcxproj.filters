@@ -102,6 +102,9 @@
     <ClCompile Include="FileManagment\SceneLoader.cpp">
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationRoot.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="FileManagment\SceneLoader.h">
       <Filter>Header Files\FileManagment\Import</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
