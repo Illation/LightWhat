@@ -34,21 +34,21 @@ struct Camera
 {
 	Camera();
 	Camera(point3, vec3, int, int);
+	void setTarget(point3);
 
-	void setParameters(double, double, double);
+	void setParameters(double lAngle, double lNearClipPlane, double lFarClipPlane);
 	void setupImagePlane();
 	vector<vector<Ray> > getRayMap(int);
 
 	point3 origin;
 	vec3 direction;
-	int pixelCols;
-	int pixelRows;
+	int screenX;
+	int screenY;
 	double angle;
 	double nearClipPlane;
 	double farClipPlane;
 
 private:
-	point3 center;
 	point3 planeO;
 	vec3 planeX;
 	vec3 planeY;

@@ -22,7 +22,7 @@ string winmain::getFileName(HWND wnd)
 	ofn.lpstrFile = szFile;
 	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = sizeof(szFile);
-	ofn.lpstrFilter = "Collada Files (*.dae)\0*.dae\0\0";
+	ofn.lpstrFilter = "3d model files (*.dae, *.3DS)\0*.dae;*.3DS";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL;
 	ofn.nMaxFileTitle = 0;

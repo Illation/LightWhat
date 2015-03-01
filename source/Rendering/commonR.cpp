@@ -25,33 +25,46 @@ Camera::Camera(){
 }
 Camera::Camera(point3 pos, vec3 dir, int Cols, int Rows){
 	origin = pos;
-	direction = dir;
-	pixelCols = Cols;
-	pixelRows = Rows;
+	direction = dir.Norm();
+	screenX = Cols;
+	screenY = Rows;
+}
+void Camera::setTarget(point3 target){
+	direction = (target - origin).Norm();
 }
 void Camera::setParameters(double lA, double nCP, double fCP){
 	angle = lA, nearClipPlane = nCP, farClipPlane = fCP;
 }
 void Camera::setupImagePlane(){
-	center = point3(0, 0, 5);
-	double width = 1*2;
-	double height = (double)pixelRows / (double)pixelCols*2;
-	planeO = point3(-(width/2), (height/2), 4);
-	planeX = vec3(width, 0, 0);
-	planeY = vec3(0, -height, 0);
+	//get linear screen plane info
+	double angleRad = (angle / 180)*PI;
+	double aspectRatio = (double)screenX / (double)screenY;
+	double halfWidth = tan(angleRad / 2)*nearClipPlane;
+	double halfHeight = halfWidth/aspectRatio;
+	double width = halfWidth * 2;
+	double height = halfHeight * 2;
+	//setup camera cross
+	vec3 up = vec3(0, 1, 0);
+	vec3 right = direction.Cross(up).Norm();
+	vec3 camUp = right.Cross(direction).Norm();
+	point3 planeCenter = origin + nearClipPlane*direction;
+	//calculate screen plane from information
+	planeO = planeCenter-right*halfWidth+camUp*halfHeight;
+	planeX = right*width;
+	planeY = -camUp*height;
 }
 vector<vector<Ray> > Camera::getRayMap(int maxBounces){
 	Camera::setupImagePlane();
 	vector<vector<Ray> > ret;
-	for (int i = 0; i < pixelCols; i++)
+	for (int i = 0; i < screenX; i++)
 	{
 		vector<Ray> rayColumn;
-		for (int j = 0; j < pixelRows; j++)
+		for (int j = 0; j < screenY; j++)
 		{
-			double x = (double)(i + 1) / pixelCols;
-			double y = (double)(j + 1) / pixelRows;
+			double x = (double)(i + 1) / screenX;
+			double y = (double)(j + 1) / screenY;
 			vec3 pixelPos = planeO + (planeX*x) + (planeY*y);
-			rayColumn.push_back(Ray(line(center, pixelPos - center), maxBounces, true));
+			rayColumn.push_back(Ray(line(origin, pixelPos - origin), maxBounces, true));
 		}
 		ret.push_back(rayColumn);
 	}

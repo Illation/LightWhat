@@ -1,4 +1,4 @@
-﻿Build started 2/28/2015 8:53:35 PM.
+﻿Build started 3/1/2015 2:33:10 AM.
      1>Project "C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\LightWhat.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\dependancies\include\assimp" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Debug\\" /Fd"..\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileManagment\ImageExporter.cpp FileManagment\SceneLoader.cpp FileManagment\tinyxml2.cpp GUI\winmain.cpp main.cpp ApplicationRoot.cpp Rendering\common.cpp Rendering\commonR.cpp Rendering\PostProcessor.cpp Rendering\Renderer.cpp Rendering\Scene.cpp Rendering\shape.cpp Rendering\shapes\Mesh.cpp Rendering\shapes\Plane.cpp Rendering\shapes\Sphere.cpp
@@ -43,4 +43,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.21
+Time Elapsed 00:00:09.69

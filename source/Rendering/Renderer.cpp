@@ -46,7 +46,7 @@ bool Renderer::renderNextRow()
 	m_Image[m_currentRow] = colColumn;
 
 	m_currentRow++;
-	if (m_currentRow >= m_ScenePtr->cam.pixelCols)
+	if (m_currentRow >= m_ScenePtr->cam.screenX)
 	{
 		m_currentRow = 0;
 		m_samplesRendered++;
