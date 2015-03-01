@@ -1,25 +1,8 @@
-﻿Build started 3/1/2015 2:33:10 AM.
-     1>Project "C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\LightWhat.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 3/1/2015 2:10:48 PM.
+     1>Project "C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\LightWhat.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\dependancies\include\assimp" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Debug\\" /Fd"..\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileManagment\ImageExporter.cpp FileManagment\SceneLoader.cpp FileManagment\tinyxml2.cpp GUI\winmain.cpp main.cpp ApplicationRoot.cpp Rendering\common.cpp Rendering\commonR.cpp Rendering\PostProcessor.cpp Rendering\Renderer.cpp Rendering\Scene.cpp Rendering\shape.cpp Rendering\shapes\Mesh.cpp Rendering\shapes\Plane.cpp Rendering\shapes\Sphere.cpp
-         Sphere.cpp
-         Plane.cpp
-         Mesh.cpp
-         shape.cpp
-         Scene.cpp
-         Renderer.cpp
-         PostProcessor.cpp
-         commonR.cpp
-         common.cpp
-         ApplicationRoot.cpp
-         main.cpp
-         winmain.cpp
-         tinyxml2.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\dependancies\include\assimp" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Debug\\" /Fd"..\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileManagment\SceneLoader.cpp
          SceneLoader.cpp
-         ImageExporter.cpp
-         Generating Code...
-       ResourceCompile:
-         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"..\Debug\LightWhat.res" LightWhat.rc 
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\Debug\LightWhat.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\LightWhat\v_0.4.1\source\dependancies\lib" SDL2.lib SDL2main.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\Debug\LightWhat.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\Debug\LightWhat.lib" /MACHINE:X86 ..\Debug\LightWhat.res
          ..\Debug\ImageExporter.obj
@@ -37,10 +20,9 @@
          ..\Debug\Mesh.obj
          ..\Debug\Plane.obj
          ..\Debug\Sphere.obj
-     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
          LightWhat.vcxproj -> C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\..\Debug\LightWhat.exe
-     1>Done Building Project "C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\LightWhat.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\GitHub\LightWhat\source\LightWhat.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:09.69
+Time Elapsed 00:00:00.94

@@ -120,7 +120,7 @@ void SceneLoader::processMaterials(const aiScene* scene){
 			}
 			if (aiModel = aiShadingMode_Blinn)
 			{
-				lShade.shade = REFLECT;
+				lShade.shade = PHONG;
 			}
 			lShade.diffuse = colRGB(0.5, 0.5, 0.5);
 			aiColor3D aiDif;

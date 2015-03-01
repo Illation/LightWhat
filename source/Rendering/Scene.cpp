@@ -14,8 +14,8 @@ Scene::~Scene()
 
 void Scene::setupCamera(int camWidth, int camHeight)
 {
-	cam = Camera(point3(13.803, 4.223, 9.99), vec3(0, 0, -1), camWidth, camHeight);
-	cam.setTarget(point3(0.37, 1.808, 0.165));
+	cam = Camera(point3(1380.3, 422.3, 999), vec3(0, 0, -1), camWidth, camHeight);
+	cam.setTarget(point3(037, 180.8, 016.5));
 	cam.setParameters(59.559, 1, 50);
 }
 
@@ -27,9 +27,9 @@ void Scene::loadFile(string fileName)
 	materials = import->materials;
 		//setup Lights
 		Light light;
-		light.center = point3(2, 5, 5);
+		light.center = point3(363.9, 1247.4, 326.4);
 		light.col = colRGB(1, 1, 1);
-		light.intensity = 1;
+		light.intensity = 3;
 		lights.push_back(light);
 }
 
