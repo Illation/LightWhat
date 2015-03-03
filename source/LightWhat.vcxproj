@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependancies\include\assimp;$(SolutionDir)dependancies\include\devIL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependancies\include\assimp;$(SolutionDir)dependancies\include\IL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -73,7 +73,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependancies\include\assimp;$(SolutionDir)dependancies\include\devIL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependancies\include\assimp;$(SolutionDir)dependancies\include\IL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="FileManagment\ImageExporter.cpp" />
     <ClCompile Include="FileManagment\SceneLoader.cpp" />
+    <ClCompile Include="FileManagment\TextureLoader.cpp" />
     <ClCompile Include="FileManagment\tinyxml2.cpp" />
     <ClCompile Include="GUI\winmain.cpp" />
     <ClCompile Include="main.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="ApplicationRoot.h" />
     <ClInclude Include="FileManagment\ImageExporter.h" />
     <ClInclude Include="FileManagment\SceneLoader.h" />
+    <ClInclude Include="FileManagment\TextureLoader.h" />
     <ClInclude Include="FileManagment\tinyxml2.h" />
     <ClInclude Include="GUI\winmain.h" />
     <ClInclude Include="Rendering\common.h" />

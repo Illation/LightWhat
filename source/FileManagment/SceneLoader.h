@@ -20,6 +20,7 @@
 #include "../Rendering/shapes/Mesh.h"
 #include "../Rendering/Scene.h"
 #include "../Rendering/Texture.h"
+#include "TextureLoader.h"
 using namespace std;
 class SceneLoader
 {
@@ -36,6 +37,7 @@ public:
 	vector  <Shader>materials;
 	vector  <Texture>textures;
 private:
+	string directoryName;
 	void processModels(const aiScene* scene);
 	bool processLights(const aiScene* scene);
 	bool processCamera(const aiScene* scene);

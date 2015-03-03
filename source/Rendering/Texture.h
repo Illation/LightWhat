@@ -30,6 +30,8 @@ public:
 	size_t getWidth();
 	size_t getHeight();
 	string getName();
+
+	bool hasAlpha;
 private:
 	string m_Name;
 	vector<vector<colRGB> > m_RGBcolours;

@@ -50,6 +50,9 @@ void ApplicationRoot::initSystems()
 {
 	//Initialize SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
+	ilInit();
+	iluInit();
+	ilutRenderer(ILUT_DIRECT3D9);
 
 	_window = SDL_CreateWindow("LightWhat - Robert Lindner", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED
 		, _screenWidth, _screenHeight, 

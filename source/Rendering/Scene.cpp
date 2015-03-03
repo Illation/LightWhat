@@ -25,6 +25,7 @@ void Scene::loadFile(string fileName)
 	import->loadScene(fileName);
 	shapes = import->shapes;
 	materials = import->materials;
+	textures = import->textures;
 		//setup Lights
 		Light light;
 		light.center = point3(363.9, 1247.4, 326.4);
@@ -61,6 +62,8 @@ void Scene::loadTestScene(){
 void Scene::clearScene(){
 	shapes.clear();
 	lights.clear();
+	materials.clear();
+	textures.clear();
 }
 
 void Scene::updateSceneInfo(){

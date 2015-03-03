@@ -3,6 +3,9 @@
 #include <Windows.h>
 #include <SDL/SDL.h>
 #include <iostream>
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 #include <ctime>
 
 #include "Rendering/Renderer.h"

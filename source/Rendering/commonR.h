@@ -81,8 +81,13 @@ struct Shader
 	Shader(ShadingModel, colRGB, colRGB, PhongParameters);
 	string printShader();
 	ShadingModel shade;
-	colRGB specular;
+
 	colRGB diffuse;
+	bool hasDifTex;
+	size_t difTexIdx;
+
+	colRGB specular;
+
 	PhongParameters param;
 };
 

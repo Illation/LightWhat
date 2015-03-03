@@ -13,6 +13,13 @@ SceneLoader::~SceneLoader()
 }
 
 bool SceneLoader::loadScene(string FileName){
+	const size_t last_slash_idx = FileName.rfind("\\");
+	if (std::string::npos != last_slash_idx)
+	{
+		directoryName = FileName.substr(0, last_slash_idx);
+		cout << endl << "texture directory: " << directoryName << endl << endl;
+	}
+
 	importer = new Assimp::Importer();
 	const aiScene* m_AssimpScenePtr = importer->ReadFile(FileName, aiProcess_CalcTangentSpace |
 		aiProcess_Triangulate |
@@ -23,6 +30,8 @@ bool SceneLoader::loadScene(string FileName){
 		cout << "loading scene with assimp failed" << endl;
 		return false;
 	}
+
+
 	processModels(m_AssimpScenePtr);
 	processMaterials(m_AssimpScenePtr);
 	processLights(m_AssimpScenePtr);
@@ -123,6 +132,30 @@ void SceneLoader::processMaterials(const aiScene* scene){
 				lShade.shade = PHONG;
 			}
 			lShade.diffuse = colRGB(0.5, 0.5, 0.5);
+			//Texture loading
+			lShade.hasDifTex = false;
+			unsigned int difTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE);
+			if (difTexCount > 0)
+			{
+				aiString path;
+				if (aiMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+					string FullPath = directoryName + string ("\\") + path.data;
+					cout << "loading texture: " << path.data << " ..." << endl;
+					TextureLoader  texLoader = TextureLoader();
+
+					bool loadSuccess = false;
+					Texture tex = texLoader.getTexture(FullPath, loadSuccess);
+					if (loadSuccess){
+						size_t texIndex = textures.size();
+						textures.push_back(tex);
+						lShade.difTexIdx = texIndex;
+						lShade.hasDifTex = true;
+						cout << "texture loaded!" << endl;
+					}
+					else cout << "loading texture failed" << endl;
+				}
+			}
+
 			aiColor3D aiDif;
 			if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_COLOR_DIFFUSE, aiDif)) {
 				// handle epic failure here
