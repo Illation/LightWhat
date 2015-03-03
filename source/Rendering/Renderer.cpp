@@ -93,6 +93,11 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 {
 	colRGB ret = colRGB(0, 0, 0);
 	Shader mat = m_ScenePtr->materials[dg.mat];
+	colRGB dif = mat.diffuse;
+	if (mat.hasDifTex)
+	{
+		dif = m_ScenePtr->textures[mat.difTexIdx].getRGB(dg.uv.x, dg.uv.y);
+	}
 	switch (mat.shade)
 	{
 		
@@ -109,7 +114,7 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 					double intensity = N.Dot(L);
 					if (intensity > 0)
 					{
-						difComp += mat.diffuse*m_ScenePtr->lights[i].col*intensity;
+						difComp += dif*m_ScenePtr->lights[i].col*intensity;
 					}
 				}
 			}
@@ -130,7 +135,7 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 					double intensity = N.Dot(L);
 					if (intensity > 0)
 					{
-						acc += mat.diffuse*m_ScenePtr->lights[i].col*intensity;
+						acc += dif*m_ScenePtr->lights[i].col*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
 					double dot = V.Dot(R);
@@ -168,7 +173,7 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 					double intensity = N.Dot(L);
 					if (intensity > 0)
 					{
-						acc += mat.diffuse*m_ScenePtr->lights[i].col*intensity;
+						acc += dif*m_ScenePtr->lights[i].col*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
 					double dot = V.Dot(R);
