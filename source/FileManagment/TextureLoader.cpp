@@ -19,6 +19,8 @@ Texture TextureLoader::getTexture(string fileName, bool &lSuccess){
 	success = ilLoadImage(fileName.c_str());
 	if (success)
 	{
+		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+
 		int width = ilGetInteger(IL_IMAGE_WIDTH);
 		int height = ilGetInteger(IL_IMAGE_HEIGHT);
 		int size = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
@@ -35,9 +37,10 @@ Texture TextureLoader::getTexture(string fileName, bool &lSuccess){
 			double green = (int)(Data[i + 1])/255.0;
 			double blue =  (int)(Data[i + 2])/255.0;
 			double alpha = (int)(Data[i + 3])/255.0;
-			if (i < width*height){
-				int x = i%width;
-				int y = i / width;
+			int pixIdx = i / 4;
+			if (pixIdx < width*height){
+				int x = pixIdx%width;
+				int y = pixIdx / width;
 				ret.setRGB(colRGB(red, green, blue), x, y);
 				ret.setAlpha(alpha, x, y);
 			}

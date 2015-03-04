@@ -41,7 +41,6 @@ private:
 	SDL_Window* _window;
 	SDL_Renderer *sdlRenderer;
 	SDL_Texture *renderTex; 
-	SDL_Texture *textureDisplay;
 	Uint32 * pixels;
 
 	Scene *scPtr = nullptr;
@@ -55,6 +54,7 @@ private:
 	PerformanceMode _mode;
 	int m_ColsRendered = 0;
 	bool isSceneLoaded = false;
+	size_t dispTexIdx=0;
 
 	string fileName = string("");
 	string exeDirectory = string("");
@@ -62,13 +62,18 @@ private:
 	clock_t start;
 
 	//Layout parameters
-	int m_ImagePosX;
-	int m_ImagePosY;
 	int _screenWidth;
 	int _screenHeight;
 
+	int m_ImagePosX;
+	int m_ImagePosY;
 	int m_ResolutionX;
 	int m_ResolutionY;
+
+	int m_TexPosX;
+	int m_TexPosY;
+	int m_TexResolutionX;
+	int m_TexResolutionY;
 	vector<vector<colRGB> > daImage;
 
 

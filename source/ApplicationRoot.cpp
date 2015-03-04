@@ -8,12 +8,15 @@ ApplicationRoot::ApplicationRoot()
 	_screenHeight = 720;
 	_state = RenderingState::SETUP;
 
-	m_ResolutionX = 128;
-	m_ResolutionY = 64;
 	m_ResolutionX = 640;
 	m_ResolutionY = 360;
 	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
 	m_ImagePosY = 100;
+
+	m_TexResolutionX = 400;
+	m_TexResolutionY = 400;
+	m_TexPosX = 50;
+	m_TexPosY = _screenHeight - (m_TexResolutionX + 50);
 }
 
 
@@ -123,7 +126,6 @@ void ApplicationRoot::functionLoop()
 void ApplicationRoot::processInput()
 {
 	SDL_Event evnt;
-
 	while (SDL_PollEvent(&evnt)){
 		switch (evnt.type) {
 		case SDL_QUIT:
@@ -211,6 +213,9 @@ void ApplicationRoot::processInput()
 					renderer->m_BackfaceCulling = false;
 				}
 				break;
+			case SDLK_d:
+				drawTexture();
+				break;
 			default:
 				break;
 			}
@@ -267,6 +272,46 @@ void ApplicationRoot::updateImage()
 	}
 }
 
+void ApplicationRoot::drawTexture(){
+	if (scPtr->textures.size() >0)
+	{
+		Texture tex = scPtr->textures[dispTexIdx];
+		{
+			for (int i = 0; i < m_TexResolutionX; i++)
+			{
+				for (int j = 0; j < m_TexResolutionY; j++)
+				{
+					setPixel(i + m_TexPosX, j + m_TexPosY, tex.getRGB(((double)i / (double)m_TexResolutionX), ((double)j / (double)m_TexResolutionY)));
+				}
+			}
+		}
+	}
+	else
+	{
+		int texSizeX = 40, texSizeY = 40;
+		Texture tex = Texture(string("test texture"), texSizeX, texSizeY);
+		tex.setInterpolationMode(INTPOL_PIXELS);
+		tex.setQuadraticFittingMode(FIT_STRETCHXY);
+		for (int x = 0; x < texSizeX; x++)
+		{
+			for (int y = 0; y < texSizeY; y++)
+			{
+				tex.setRGB(colRGB(x / (double)texSizeX, y / (double)texSizeY, 1), x, y);
+			}
+		}
+		for (int i = 0; i < m_TexResolutionX; i++)
+		{
+			for (int j = 0; j < m_TexResolutionY; j++)
+			{
+				double x = (double)i / (double)m_TexResolutionX;
+				double y = (double)j / (double)m_TexResolutionY;
+				colRGB thisPixel = tex.getRGB(x, y);
+				setPixel(i + m_TexPosX, j + m_TexPosY, thisPixel);
+			}
+		}
+	}
+}
+
 void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
 	SDL_Color color, int fontSize, int posX, int posY)
 {
@@ -307,9 +352,12 @@ void ApplicationRoot::drawImage()
 
 void ApplicationRoot::setPixel(int x, int y, colRGB col)
 {
-	int red = (int)(col.red * 255) << 16;
-	int green = (int)(col.green * 255) << 8;
-	int blue = (int)(col.blue * 255);
-	Uint32 uint = Uint32(red + green + blue);
-	pixels[y * _screenWidth + x] = uint;
+	if (y >= 0 && y < _screenHeight && x >= 0 && x < _screenWidth)
+	{
+		int red = (int)(col.red * 255) << 16;
+		int green = (int)(col.green * 255) << 8;
+		int blue = (int)(col.blue * 255);
+		Uint32 uint = Uint32(red + green + blue);
+		pixels[y * _screenWidth + x] = uint;
+	}
 }
