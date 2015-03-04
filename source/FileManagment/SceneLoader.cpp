@@ -113,7 +113,7 @@ void SceneLoader::processModels(const aiScene* scene){
 }
 
 void SceneLoader::processMaterials(const aiScene* scene){
-	materials.push_back(Shader(BACKGROUND, colRGB(0, 10, 20) / 255, colRGB(0, 0, 0), PhongParameters()));
+	materials.push_back(Shader(BACKGROUND, colRGB(132, 149, 139) / 255, colRGB(0, 0, 0), PhongParameters()));
 	if (scene->HasMaterials())
 	{
 		aiMaterial** aiMaterials = scene->mMaterials;

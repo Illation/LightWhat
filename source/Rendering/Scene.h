@@ -28,7 +28,7 @@ public:
 	vector  <Light>lights;
 	vector  <Shader>materials;
 	vector  <Texture>textures;
-	colRGB background = colRGB(0, 10, 20) / 255;
+	colRGB background = colRGB(132, 149, 139) / 255;
 
 	void updateSceneInfo();
 	int vertCount, triCount, objCount, lightCount;

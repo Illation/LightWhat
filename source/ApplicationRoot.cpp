@@ -157,11 +157,12 @@ void ApplicationRoot::processInput()
 					scPtr->loadFile(fileName);
 					cout << "file loaded! " << endl;
 					scPtr->updateSceneInfo();
-					cout << endl << "Scene info:" << endl;
-					cout << "Vertices: " << scPtr->vertCount << endl;
-					cout << "Triangles: " << scPtr->triCount << endl;
-					cout << "Objects: " << scPtr->objCount << endl;
-					cout << "Lights: " << scPtr->lightCount << endl << endl;
+					sceneInfo.clear();
+					sceneInfo.push_back(string("Scene info:\n"));
+					sceneInfo.push_back(string("Vertices: ") + to_string(scPtr->vertCount) + string("\n"));
+					sceneInfo.push_back(string("Triangles: ") + to_string(scPtr->triCount) + string("\n"));
+					sceneInfo.push_back(string("Objects: ") + to_string(scPtr->objCount) + string("\n"));
+					sceneInfo.push_back(string("Lights: ") + to_string(scPtr->lightCount) + string("\n"));
 				}
 				break;
 			case SDLK_t:
@@ -169,11 +170,12 @@ void ApplicationRoot::processInput()
 				scPtr->loadTestScene();
 				cout << "scene loaded! " << endl;
 				scPtr->updateSceneInfo();
-				cout << endl << "Scene info:" << endl;
-				cout << "Vertices: " << scPtr->vertCount << endl;
-				cout << "Triangles: " << scPtr->triCount << endl;
-				cout << "Objects: " << scPtr->objCount << endl;
-				cout << "Lights: " << scPtr->lightCount << endl << endl;
+				sceneInfo.clear();
+				sceneInfo.push_back(string("Scene info:\n"));
+				sceneInfo.push_back(string("Vertices: ") + to_string(scPtr->vertCount)+string("\n"));
+				sceneInfo.push_back(string("Triangles: ") + to_string(scPtr->triCount) + string("\n"));
+				sceneInfo.push_back(string("Objects: ") + to_string(scPtr->objCount) + string("\n"));
+				sceneInfo.push_back(string("Lights: ") + to_string(scPtr->lightCount) + string("\n"));
 				break;
 			case SDLK_c:
 				cout << "clearing scene..." << endl;
@@ -335,16 +337,24 @@ void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
 	SDL_RenderCopy(sdlRenderer, texture, NULL, &texture_rect);
 }
 
+void ApplicationRoot::displaySceneInfo(){
+	SDL_Color color = { 255, 255, 255, 255 };
+	int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY + m_ResolutionY + dy;
+	for (size_t i = 0; i < sceneInfo.size(); i++){
+		renderText(sceneInfo[i], m_ConsoleFontRegularPtr, color, fSize, x, y);
+		y += dy;
+	}
+}
+
 void ApplicationRoot::drawImage()
 {
 	SDL_UpdateTexture(renderTex, NULL, pixels, _screenWidth *sizeof(Uint32));
 
-	SDL_Color color = { 255, 255, 255, 255 };  // Blue ("Fg" is foreground)
-
+	SDL_Color color = { 255, 255, 255, 255 };
 	SDL_RenderClear(sdlRenderer);
 	SDL_RenderCopy(sdlRenderer, renderTex, NULL, NULL);
 
-	renderText("test text", m_ConsoleFontRegularPtr, color, 20, 10, 10);
+	displaySceneInfo();
 
 	SDL_RenderPresent(sdlRenderer);
 

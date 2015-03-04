@@ -16,14 +16,17 @@ std::vector<vector<colRGB> >PostProcessor::controlExposure(std::vector<vector<co
 	switch (expT)
 	{
 	case AUTO:
-		dHighest = 1 / m_HighestExposure;
-		for (int i = 0; i < resX; i++)
+		if (m_HighestExposure > 1)
 		{
-			for (int j = 0; j < resY; j++)
+			dHighest = 1 / m_HighestExposure;
+			for (int i = 0; i < resX; i++)
 			{
-				colRGB col = image[i][j];
-				col *= dHighest;
-				image[i][j] = col;
+				for (int j = 0; j < resY; j++)
+				{
+					colRGB col = image[i][j];
+					col *= dHighest;
+					image[i][j] = col;
+				}
 			}
 		}
 		return image;

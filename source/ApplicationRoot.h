@@ -34,6 +34,7 @@ private:
 	void updateImage();
 	void drawImage();
 	void drawTexture();
+	void displaySceneInfo();
 	void setPixel(int x, int y, colRGB col);
 	void renderText(const std::string &message, TTF_Font *daFont,
 		SDL_Color color, int fontSize, int posX, int posY);
@@ -80,6 +81,6 @@ private:
 	//GUI stuff
 	TTF_Font *m_ConsoleFontRegularPtr = nullptr;
 	TTF_Font *m_ConsoleFontBoldPtr = nullptr;
-
+	vector<string> sceneInfo;
 };
 
