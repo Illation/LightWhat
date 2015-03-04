@@ -17,6 +17,7 @@ to run start LightWhat.exe
 * press "S" to save your result as a bitmap (*.bmp) 
 * press "P" to toggle between high performance mode and progress viewing mode 
 * press "B" to toggle backface culling on and off
+* press "D" to display the first texture in the list, or a test texture if no images where loaded
 
 note: scenes do not clear automatically, so before you load a different scene or file, press "C" to clear it
 
