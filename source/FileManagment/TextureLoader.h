@@ -12,4 +12,3 @@ public:
 
 	Texture getTexture(string fileName, bool &success);
 };
-

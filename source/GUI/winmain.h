@@ -26,6 +26,7 @@ public:
 	~winmain();
 
 	string getFileName(HWND wnd);
+	string getTTFName(HWND wnd);
 	string saveFileName(HWND wnd);
 	void injectMouse(int x, int y, bool isPressed);
 

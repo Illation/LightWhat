@@ -3,7 +3,9 @@
 
 Scene::Scene()
 {
-	materials.push_back(Shader(BACKGROUND, colRGB(0, 10, 20) / 255, colRGB(0, 0, 0), PhongParameters()));
+	Shader bgs = Shader(BACKGROUND, colRGB(0, 10, 20) / 255, colRGB(0, 0, 0), PhongParameters());
+	bgs.hasDifTex = false;
+	materials.push_back(bgs);
 }
 
 

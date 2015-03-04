@@ -80,10 +80,11 @@ struct Shader
 	Shader();
 	Shader(ShadingModel, colRGB, colRGB, PhongParameters);
 	string printShader();
+	
 	ShadingModel shade;
 
 	colRGB diffuse;
-	bool hasDifTex;
+	bool hasDifTex = false;
 	size_t difTexIdx;
 
 	colRGB specular;

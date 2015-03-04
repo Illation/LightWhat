@@ -68,6 +68,7 @@ public:
 	vec2 Norm(double epsilon = 0.001) const;
 	vec2 Orthagonal() const;
 	string ToString() const;
+	vec2 correctUV() const;
 
 	//Operators	
 	vec2&			operator= (const vec2& other);

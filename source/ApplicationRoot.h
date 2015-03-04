@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_TTF.h>
 #include <iostream>
 #include <IL/il.h>
 #include <IL/ilu.h>
@@ -32,11 +33,15 @@ private:
 	void processInput();
 	void updateImage();
 	void drawImage();
+	void drawTexture();
 	void setPixel(int x, int y, colRGB col);
+	void renderText(const std::string &message, TTF_Font *daFont,
+		SDL_Color color, int fontSize, int posX, int posY);
 
 	SDL_Window* _window;
 	SDL_Renderer *sdlRenderer;
 	SDL_Texture *renderTex; 
+	SDL_Texture *textureDisplay;
 	Uint32 * pixels;
 
 	Scene *scPtr = nullptr;
@@ -52,6 +57,7 @@ private:
 	bool isSceneLoaded = false;
 
 	string fileName = string("");
+	string exeDirectory = string("");
 
 	clock_t start;
 
@@ -64,6 +70,11 @@ private:
 	int m_ResolutionX;
 	int m_ResolutionY;
 	vector<vector<colRGB> > daImage;
+
+
+	//GUI stuff
+	TTF_Font *m_ConsoleFontRegularPtr = nullptr;
+	TTF_Font *m_ConsoleFontBoldPtr = nullptr;
 
 };
 

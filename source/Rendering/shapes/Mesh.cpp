@@ -87,14 +87,11 @@ void Mesh::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, 
 							if (plist.hasUV)
 							{
 								vec2 uv1 = m_UVs[0].coords[thisTri.uvA];
-								uv1.x = fmod(uv1.x, 1);
-								uv1.y = fmod(uv1.y, 1);
+								uv1 = uv1.correctUV();
 								vec2 uv2 = m_UVs[0].coords[thisTri.uvB];
-								uv2.x = fmod(uv2.x, 1);
-								uv2.y = fmod(uv2.y, 1);
+								uv2 = uv2.correctUV();
 								vec2 uv3 = m_UVs[0].coords[thisTri.uvC];
-								uv3.x = fmod(uv3.x, 1);
-								uv3.y = fmod(uv3.y, 1);
+								uv3 = uv3.correctUV();
 								closest.uv = uv1 + (uv3 - uv1)*u + (uv2 - uv1)*v;
 							}
 						}

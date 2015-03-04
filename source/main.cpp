@@ -1,6 +1,6 @@
 //version 0.4.3
 //by Robert Lindner
-//using SDL2, Assimp, devIL and tinyxml2
+//using SDL2, SDL_TFF (with freetype), Assimp, devIL and tinyxml2
 
 //Assimp copyright notice:
 //Copyright(c) 2006 - 2012 assimp team

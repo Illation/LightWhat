@@ -6,7 +6,7 @@ LightWhat version 0.4.2
 
 by Robert Lindner 
 
-using SDL2, Assimp, devIL and tinyxml2 => find full licenses under acknowledgments.txt
+using SDL2, SDL_TFF (with freetype), Assimp, devIL and tinyxml2 => find full licenses under acknowledgments.txt
 
 to run start LightWhat.exe
 

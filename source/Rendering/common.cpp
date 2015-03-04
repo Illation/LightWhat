@@ -116,6 +116,26 @@ vec2 vec2::Norm(double epsilon) const{
 string vec2::ToString() const{
 	return string("x: ") + to_string(x) + string(", y: ") + to_string(y);
 }
+vec2 vec2::correctUV() const{
+	vec2 ret = vec2(x, y);
+	if (x > 1){
+		int intX = (int)x;
+		ret.x = x - intX;
+	}
+	if (x < 0){
+		int intX = (int)x;
+		ret.x = -(x - intX);
+	}
+	if (y > 1){
+		int intY = (int)y;
+		ret.y = y - intY;
+	}
+	if (y < 0){
+		int intY = (int)y;
+		ret.y = -(y - intY);
+	}
+	return ret;
+}
 //operators
 vec2 operator*(double factor, const vec2& rightRef){
 	return vec2(rightRef.x * factor, rightRef.y * factor);

@@ -33,6 +33,8 @@ void ApplicationRoot::run()
 
 void ApplicationRoot::end()
 {
+	TTF_CloseFont(m_ConsoleFontRegularPtr);
+	TTF_CloseFont(m_ConsoleFontBoldPtr);
 	delete[] pixels;
 	delete scPtr;
 	scPtr = nullptr;
@@ -50,6 +52,10 @@ void ApplicationRoot::initSystems()
 {
 	//Initialize SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
+
+	TTF_Init();
+	atexit(TTF_Quit);
+
 	ilInit();
 	iluInit();
 	ilutRenderer(ILUT_DIRECT3D9);
@@ -69,6 +75,29 @@ void ApplicationRoot::initSystems()
 	guiFunctions = new winmain(_screenWidth, _screenHeight); 
 	imgExp = new ImageExporter();
 	_mode = PerformanceMode::VIEW;
+
+
+	cout << "loading fonts..." << endl;
+	char ownPth[MAX_PATH];
+	HMODULE hModule = GetModuleHandle(NULL);
+	if (hModule != NULL)
+	{
+		GetModuleFileName(hModule, ownPth, (sizeof(ownPth)));
+
+		std::string t = ownPth;
+		std::string s = "LightWhat.exe";
+
+		std::string::size_type i = t.find(s);
+
+		if (i != std::string::npos)
+			t.erase(i, s.length());
+
+		exeDirectory = t;
+
+		m_ConsoleFontRegularPtr = TTF_OpenFont((exeDirectory + string("fonts/Inconsolata-Regular.ttf")).c_str(), 20);
+		m_ConsoleFontBoldPtr = TTF_OpenFont((exeDirectory + string("fonts/Inconsolata-Bold.ttf")).c_str(), 20);
+	}
+
 }
 
 void ApplicationRoot::functionLoop()
@@ -238,12 +267,40 @@ void ApplicationRoot::updateImage()
 	}
 }
 
+void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
+	SDL_Color color, int fontSize, int posX, int posY)
+{
+	//We need to first render to a surface as that's what TTF_RenderText
+	//returns, then load that surface into a texture
+	SDL_Surface *surf = TTF_RenderText_Blended(daFont, message.c_str(), color);
+	if (surf == nullptr){
+	}
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(sdlRenderer, surf);
+	if (texture == nullptr){
+	}
+	//Clean up the surface and font
+	SDL_FreeSurface(surf);
+
+	SDL_Rect texture_rect;
+	texture_rect.x = posX;  //the x coordinate
+	texture_rect.y = posY; // the y coordinate
+	texture_rect.w = message.length()*fontSize/2; //the width of the texture
+	texture_rect.h = fontSize;
+
+	SDL_RenderCopy(sdlRenderer, texture, NULL, &texture_rect);
+}
+
 void ApplicationRoot::drawImage()
 {
 	SDL_UpdateTexture(renderTex, NULL, pixels, _screenWidth *sizeof(Uint32));
 
+	SDL_Color color = { 255, 255, 255, 255 };  // Blue ("Fg" is foreground)
+
 	SDL_RenderClear(sdlRenderer);
 	SDL_RenderCopy(sdlRenderer, renderTex, NULL, NULL);
+
+	renderText("test text", m_ConsoleFontRegularPtr, color, 20, 10, 10);
+
 	SDL_RenderPresent(sdlRenderer);
 
 }
