@@ -64,15 +64,15 @@ colRGB Texture::getRGB(double x, double y){
 	case INTPOL_LINEAR:
 		int idXL = (int)texX;
 		double deltaX = texX - (idXL+0.5);
-		int idXR;
-		if (deltaX>0)idXR = idXL + 1;
-		else idXR = idXL - 1;
+		int idXR = idXL;
+		if (deltaX>0 && idXL+1 < m_PixelsX)idXR = idXL + 1;
+		else if(idXL >0)idXR = idXL - 1;
 
 		int idYB = (int)texY;
 		double deltaY = texY - (idYB+0.5);
-		int idYT;
-		if(deltaY>0)idYT = idYB + 1;
-		else idYT = idYB - 1;
+		int idYT = idYB;
+		if (deltaY>0 && idYB + 1 < m_PixelsY)idYT = idYB + 1;
+		else if(idYB>0)idYT = idYB - 1;
 
 		colRGB bot = m_RGBcolours[idXL][idYB] * (1.0 - abs(deltaX)) + m_RGBcolours[idXR][idYB] * (abs(deltaX));
 		colRGB top = m_RGBcolours[idXL][idYT] * (1.0 - abs(deltaX)) + m_RGBcolours[idXR][idYT] * (abs(deltaX));
@@ -103,15 +103,15 @@ double Texture::getAlpha(double x, double y){
 	case INTPOL_LINEAR:
 		int idXL = (int)texX;
 		double deltaX = texX - (idXL + 0.5);
-		int idXR;
-		if (deltaX>0)idXR = idXL + 1;
-		else idXR = idXL - 1;
+		int idXR = idXL;
+		if (deltaX>0 && idXL + 1 < m_PixelsX)idXR = idXL + 1;
+		else if (idXL >0)idXR = idXL - 1;
 
 		int idYB = (int)texY;
 		double deltaY = texY - (idYB + 0.5);
-		int idYT;
-		if (deltaY>0)idYT = idYB + 1;
-		else idYT = idYB - 1;
+		int idYT = idYB;
+		if (deltaY>0 && idYB + 1 < m_PixelsY)idYT = idYB + 1;
+		else if (idYB>0)idYT = idYB - 1;
 
 		double bot = m_AlphaValues[idXL][idYB] * (1.0 - abs(deltaX)) + m_AlphaValues[idXR][idYB] * (abs(deltaX));
 		double top = m_AlphaValues[idXL][idYT] * (1.0 - abs(deltaX)) + m_AlphaValues[idXR][idYT] * (abs(deltaX));

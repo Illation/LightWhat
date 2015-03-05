@@ -27,7 +27,7 @@ Texture TextureLoader::getTexture(string fileName, bool &lSuccess){
 		
 		ILubyte *Data = ilGetData();
 		Texture ret(fileName, width, height);
-		ret.setInterpolationMode(INTPOL_PIXELS);
+		ret.setInterpolationMode(INTPOL_LINEAR);
 		ret.setQuadraticFittingMode(FIT_STRETCHXY);
 		ret.hasAlpha = false;
 

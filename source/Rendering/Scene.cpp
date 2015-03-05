@@ -18,7 +18,7 @@ void Scene::setupCamera(int camWidth, int camHeight)
 {
 	cam = Camera(point3(1380.3, 422.3, 999), vec3(0, 0, -1), camWidth, camHeight);
 	cam.setTarget(point3(037, 180.8, 016.5));
-	cam.setParameters(59.559, 1, 50);
+	cam.setParameters(09.559, 1, 50);
 }
 
 void Scene::loadFile(string fileName)

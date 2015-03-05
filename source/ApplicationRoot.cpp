@@ -290,9 +290,9 @@ void ApplicationRoot::drawTexture(){
 	}
 	else
 	{
-		int texSizeX = 40, texSizeY = 40;
+		int texSizeX = 10, texSizeY = 10;
 		Texture tex = Texture(string("test texture"), texSizeX, texSizeY);
-		tex.setInterpolationMode(INTPOL_PIXELS);
+		tex.setInterpolationMode(INTPOL_LINEAR);
 		tex.setQuadraticFittingMode(FIT_STRETCHXY);
 		for (int x = 0; x < texSizeX; x++)
 		{
