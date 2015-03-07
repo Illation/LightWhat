@@ -58,6 +58,8 @@ public:
 	//methods
 	void addVertex(point3 vert);
 	void addNormal(vec3 norm);
+	void addTangent(vec3 tan);
+	void addBiTangent(vec3 bitan);
 	void addPolyList(size_t mIndex, bool hasUV);
 	void addUVset(string Name, bool isActive);
 	void addUV(point2 coords, size_t index);
@@ -77,9 +79,13 @@ public:
 
 	int getVertCount();
 	int getTriCount();
+
+	bool hasTangentSpace = false;
 private: 
 	vector <point3>m_VertexList;
 	vector <vec3>m_NormalList;
+	vector <vec3>m_TangentList;
+	vector <vec3>m_BiTangentList;
 	vector <polylist>m_TriLists;
 	vector <UVset>m_UVs;
 	point3 m_Origin;

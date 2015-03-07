@@ -79,6 +79,25 @@ void SceneLoader::processModels(const aiScene* scene){
 							}
 						}
 					}
+					if (hasUV)
+					{
+						if (daMesh->HasTangentsAndBitangents())
+						{
+							lMesh->hasTangentSpace = true;
+							for (unsigned int j = 0; j < daMesh->mNumVertices; j++){
+								vec3 lTan;
+								lTan.x = daMesh->mTangents[j].x;
+								lTan.y = daMesh->mTangents[j].z;
+								lTan.z = -(daMesh->mTangents[j].y);
+								lMesh->addTangent(lTan);
+								vec3 lBiTan;
+								lBiTan.x = daMesh->mBitangents[j].x;
+								lBiTan.y = daMesh->mBitangents[j].z;
+								lBiTan.z = -(daMesh->mBitangents[j].y);
+								lMesh->addBiTangent(lBiTan);
+							}
+						}
+					}
 					//Create Polylist
 					unsigned int matIndex = CUSTOM_BEGIN + scene->mMeshes[i]->mMaterialIndex;
 					lMesh->addPolyList(matIndex, hasUV);
@@ -167,6 +186,28 @@ void SceneLoader::processMaterials(const aiScene* scene){
 				if (!lShade.shade == DIFFUSE)
 				{
 					lShade.specular = colRGB(0.5, 0.5, 0.5);
+					lShade.hasSpecTex = false;
+					unsigned int specTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_SPECULAR);
+					if (specTexCount > 0)
+					{
+						aiString path;
+						if (aiMaterials[i]->GetTexture(aiTextureType_SPECULAR, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+							string FullPath = directoryName + string("\\") + path.data;
+							cout << "loading texture: " << path.data << " ..." << endl;
+							TextureLoader  texLoader = TextureLoader();
+
+							bool loadSuccess = false;
+							Texture tex = texLoader.getTexture(FullPath, loadSuccess);
+							if (loadSuccess){
+								size_t texIndex = textures.size();
+								textures.push_back(tex);
+								lShade.specTexIdx = texIndex;
+								lShade.hasSpecTex = true;
+								cout << "texture loaded!" << endl;
+							}
+							else cout << "loading texture failed" << endl;
+						}
+					}
 					aiColor3D aiSpec;
 					if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_COLOR_SPECULAR, aiSpec)) {
 						// handle epic failure here
@@ -186,6 +227,28 @@ void SceneLoader::processMaterials(const aiScene* scene){
 							// handle epic failure here
 						}
 						else lShade.param.ks = (double)aiSpecularScale;
+					}
+					lShade.hasNormTex = false;
+					unsigned int normTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_NORMALS);
+					if (normTexCount > 0)
+					{
+						aiString path;
+						if (aiMaterials[i]->GetTexture(aiTextureType_NORMALS, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+							string FullPath = directoryName + string("\\") + path.data;
+							cout << "loading texture: " << path.data << " ..." << endl;
+							TextureLoader  texLoader = TextureLoader();
+
+							bool loadSuccess = false;
+							Texture tex = texLoader.getTexture(FullPath, loadSuccess);
+							if (loadSuccess){
+								size_t texIndex = textures.size();
+								textures.push_back(tex);
+								lShade.normTexIdx = texIndex;
+								lShade.hasNormTex = true;
+								cout << "texture loaded!" << endl;
+							}
+							else cout << "loading texture failed" << endl;
+						}
 					}
 				}
 			}

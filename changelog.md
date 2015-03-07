@@ -1,4 +1,5 @@
-0.1:
+0.1
+* vector math
 * Triangle Meshes
 * Intersection
 * Point lights
@@ -81,3 +82,18 @@
 * calculating UV coordinates for mesh intersection
 * added UV loading to sceneLoader
 * added camera transformation
+
+0.4.3
+* added Texture class
+* added texture loading with devIL
+* added diffuse map rendering
+* added text display with SDL_TFF
+* added texture display in application ("D")
+
+0.4.4
+* added linear texture interpolation
+* added tangent space data to meshes
+* added specular map texture rendering
+* added tangent space interpolation to mesh intersections
+* added normal map rendering
+* it is now possible to load larger models

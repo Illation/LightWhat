@@ -81,6 +81,24 @@ void Mesh::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, 
 							vec3 n3 = m_NormalList[thisTri.normC];
 							vec3 N = n1 + (n3 - n1)*u + (n2 - n1)*v;
 							closest.n = N.Norm(0.00001);
+							//tangent space for normal maps
+							if (hasTangentSpace)
+							{
+								vec3 t1 = m_TangentList[thisTri.normA];
+								vec3 t2 = m_TangentList[thisTri.normB];
+								vec3 t3 = m_TangentList[thisTri.normC];
+								vec3 T = t1 + (t3 - t1)*u + (t2 - t1)*v;
+								closest.t = T.Norm(0.00001);
+
+								vec3 b1 = m_BiTangentList[thisTri.normA];
+								vec3 b2 = m_BiTangentList[thisTri.normB];
+								vec3 b3 = m_BiTangentList[thisTri.normC];
+								vec3 B = b1 + (b3 - b1)*u + (b2 - b1)*v;
+								closest.b = B.Norm(0.00001);
+
+								closest.hasTangentSpace = true;
+							}
+							else closest.hasTangentSpace = false;
 
 							//uv map
 							closest.uv = point2(u, v);
@@ -155,6 +173,12 @@ void Mesh::addVertex(point3 vert){
 }
 void Mesh::addNormal(vec3 norm){
 	m_NormalList.push_back(norm);
+}
+void Mesh::addTangent(vec3 tan){
+	m_TangentList.push_back(tan);
+}
+void Mesh::addBiTangent(vec3 bitan){
+	m_BiTangentList.push_back(bitan);
 }
 void Mesh::addPolyList(size_t mIndex, bool hasUV){
 	m_TriLists.push_back(polylist(mIndex, hasUV));

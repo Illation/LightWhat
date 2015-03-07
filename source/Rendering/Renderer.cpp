@@ -98,12 +98,26 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 	{
 		dif = m_ScenePtr->textures[mat.difTexIdx].getRGB(dg.uv.x, dg.uv.y);
 	}
+	colRGB spec = mat.specular;
+	if (mat.hasSpecTex)
+	{
+		spec = m_ScenePtr->textures[mat.specTexIdx].getRGB(dg.uv.x, dg.uv.y);
+	}
+	vec3 N = dg.n;
+	if (mat.hasNormTex && dg.hasTangentSpace)
+	{
+		colRGB texCol = m_ScenePtr->textures[mat.normTexIdx].getRGB(dg.uv.x, dg.uv.y);
+		vec3 texN;
+		texN.x = (texCol.red * 2) - 1;
+		texN.y = (texCol.green * 2) - 1;
+		texN.z = (texCol.blue * 2) - 1;
+		vec3 tSpaceN = dg.t*texN.x + dg.b*texN.y + dg.n*texN.z;
+		N = tSpaceN.Norm();
+	}
 	switch (mat.shade)
 	{
-		
 		case DIFFUSE:
 		{
-			vec3 N = dg.n;
 			colRGB difComp = colRGB(0, 0, 0);
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
@@ -123,7 +137,6 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 		break;
 		case REFLECT:
 		{
-			vec3 N = dg.n;
 			vec3 V = dg.dir.Norm(0.0001);
 			colRGB acc = colRGB(0, 0, 0);
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
@@ -141,8 +154,8 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 					double dot = V.Dot(R);
 					if (dot > 0)
 					{
-						double spec = pow(dot, mat.param.ke)*mat.param.ks;
-						acc += m_ScenePtr->lights[i].col*spec;
+						double specI = pow(dot, mat.param.ke)*mat.param.ks;
+						acc += spec*m_ScenePtr->lights[i].col*specI;
 					}
 				}
 			}
@@ -161,7 +174,6 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 		break;
 		case PHONG:
 		{
-			vec3 N = dg.n;
 			vec3 V = dg.dir.Norm(0.0001);
 			colRGB acc = colRGB(0, 0, 0);
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
@@ -179,8 +191,8 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 					double dot = V.Dot(R);
 					if (dot > 0)
 					{
-						double spec = pow(dot, mat.param.ke)*mat.param.ks;
-						acc += m_ScenePtr->lights[i].col*spec;
+						double specI = pow(dot, mat.param.ke)*mat.param.ks;
+						acc += spec*m_ScenePtr->lights[i].col*specI;
 					}
 				}
 			}

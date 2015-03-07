@@ -88,6 +88,11 @@ struct Shader
 	size_t difTexIdx;
 
 	colRGB specular;
+	bool hasSpecTex = false;
+	size_t specTexIdx;
+
+	bool hasNormTex = false;
+	size_t normTexIdx;
 
 	PhongParameters param;
 };
@@ -97,8 +102,11 @@ struct DifferentialGeometry{
 	DifferentialGeometry(intersection, vec3, vec3, point2, size_t, int);
 	intersection i;
 	vec3 n;
+	vec3 t;
+	vec3 b;
 	vec3 dir;
 	point2 uv;
 	size_t mat;
 	int bounces;
+	bool hasTangentSpace = false;
 };
