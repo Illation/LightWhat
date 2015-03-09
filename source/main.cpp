@@ -1,4 +1,4 @@
-//version 0.4.3
+//version 0.5.1
 //by Robert Lindner
 //using SDL2, SDL_TFF (with freetype), Assimp, devIL and tinyxml2
 
@@ -17,7 +17,7 @@
 //PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
 //OR TORT(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 
-#include "ApplicationRoot.h"
+#include "ApplicationRoot.hpp"
 #include <iostream>
 
 int main(int argc, char** argv)

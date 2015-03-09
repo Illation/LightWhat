@@ -1,4 +1,4 @@
-#include "commonR.h"
+#include "commonR.hpp"
 
 //Rays
 Ray::Ray(){
@@ -8,7 +8,6 @@ Ray::Ray(line lLn, int lBounce, bool lPrimary){
 	bounces = lBounce;
 	isPrimary = lPrimary;
 }
-
 
 //Light
 Light::Light(){
@@ -28,12 +27,6 @@ Camera::Camera(point3 pos, vec3 dir, int Cols, int Rows){
 	direction = dir.Norm();
 	screenX = Cols;
 	screenY = Rows;
-}
-void Camera::setTarget(point3 target){
-	direction = (target - origin).Norm();
-}
-void Camera::setParameters(double lA, double nCP, double fCP){
-	angle = lA, nearClipPlane = nCP, farClipPlane = fCP;
 }
 void Camera::setupImagePlane(){
 	//get linear screen plane info
@@ -99,12 +92,6 @@ Shader::Shader(ShadingModel lshade, colRGB ldif, colRGB lspec, PhongParameters l
 	diffuse = ldif;
 	specular = lspec;
 	param = lParam;
-}
-string Shader::printShader(){
-	return to_string(shade) + string(", Spec: ")
-		+ to_string(specular.red) + string(", ") + to_string(specular.green) + string(", ") + to_string(specular.blue)
-		+ string(", Diff: ") + to_string(diffuse.red) + string(", ") + to_string(diffuse.green) + string(", ") + to_string(diffuse.blue)
-		+ string(", param: ") + to_string(param.ka) + string(", ") + to_string(param.kd) + string(", ") + to_string(param.ks) + string(", ") + to_string(param.ke);
 }
 
 

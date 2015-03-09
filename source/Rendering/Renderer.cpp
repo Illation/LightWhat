@@ -1,4 +1,4 @@
-#include "Renderer.h"													
+#include "Renderer.hpp"													
 
 Renderer::Renderer()
 {
@@ -15,22 +15,15 @@ void Renderer::setScene(Scene *sc){
 
 void Renderer::init(int camWidth, int camHeight){
 	//setup blank image
-	double bgCol = 0.6196;
-	for (int i = 0; i < camWidth; i++)
-	{
-		vector<colRGB> colColumn;
-		for (int j = 0; j < camHeight; j++)
-		{
-			colColumn.push_back(colRGB(bgCol, bgCol, bgCol));
-		}
-		m_Image.push_back(colColumn);
-	}
+	m_Image = Texture("Render result", camWidth, camHeight);
+	m_Image.setInterpolationMode(INTPOL_PIXELS);
+	m_Image.setQuadraticFittingMode(FIT_STRETCHXY);
 
 	//setup Ray Map
 	rayMap = m_ScenePtr->cam.getRayMap(p_MaxBounces);
 }
 
-std::vector  <vector<colRGB> >Renderer::getImage()
+Texture Renderer::getImage()
 {
 	return m_Image;
 }
@@ -38,12 +31,10 @@ std::vector  <vector<colRGB> >Renderer::getImage()
 bool Renderer::renderNextRow()
 {
 	vector<Ray> rayColumn = rayMap[m_currentRow];
-	vector<colRGB> colColumn;
 	for (size_t i = 0; i < rayColumn.size();i++)
 	{
-		colColumn.push_back(raycast(rayColumn[i]));
+		m_Image.setRGB(raycast(rayColumn[i]), m_currentRow, i);
 	} 
-	m_Image[m_currentRow] = colColumn;
 
 	m_currentRow++;
 	if (m_currentRow >= m_ScenePtr->cam.screenX)

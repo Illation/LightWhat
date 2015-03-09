@@ -1,4 +1,4 @@
-#include "ApplicationRoot.h"
+#include "ApplicationRoot.hpp"
 #include <stdexcept>
 
 ApplicationRoot::ApplicationRoot()
@@ -234,6 +234,8 @@ void ApplicationRoot::updateImage()
 		renderer->setScene(scPtr);
 		renderer->init(m_ResolutionX, m_ResolutionY);
 		isSceneLoaded = true;
+		double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		cout << endl << "time for setup: " << duration << " seconds" << endl;
 	}
 	//render
 	if (renderer->renderNextRow())
@@ -241,14 +243,25 @@ void ApplicationRoot::updateImage()
 		_state = RenderingState::SETUP;
 		isSceneLoaded = false;
 	}
+	if (_mode == PerformanceMode::VIEW)
+	{
+		daImage = renderer->getImage();
+		for (int i = 0; i < m_ResolutionX; i++)
+		{
+			for (int j = 0; j < m_ResolutionY; j++)
+			{
+				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage.getRGB(i, j));
+			}
+		}
+	}
 	//Postprocessing
-	daImage = renderer->getImage();
 	//if (m_ColsRendered % 20 == 19 || _state == RenderingState::SETUP)
 	if (_state == RenderingState::SETUP)
 	{
+		daImage = renderer->getImage();
 		cout << "postprocessing..." << endl;
 		postPr.updateHighestExposure(daImage, m_ResolutionX, m_ResolutionY);
-		daImage = postPr.controlExposure(daImage, m_ResolutionX, m_ResolutionY, AUTO);
+		postPr.controlExposure(daImage, m_ResolutionX, m_ResolutionY, AUTO);
 		double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		cout << endl << "render completed!" << endl << "time: " << duration << " seconds" << endl;
 
@@ -257,21 +270,11 @@ void ApplicationRoot::updateImage()
 		{
 			for (int j = 0; j < m_ResolutionY; j++)
 			{
-				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage[i][j]);
+				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage.getRGB(i,j));
 			}
 		}
 	}
 	m_ColsRendered++;
-	if (_mode == PerformanceMode::VIEW)
-	{
-		for (int i = 0; i < m_ResolutionX; i++)
-		{
-			for (int j = 0; j < m_ResolutionY; j++)
-			{
-				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage[i][j]);
-			}
-		}
-	}
 }
 
 void ApplicationRoot::drawTexture(){

@@ -1,4 +1,4 @@
-#include "winmain.h"
+#include "winmain.hpp"
 
 
 winmain::winmain(int lX, int lY)

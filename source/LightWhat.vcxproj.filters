@@ -108,58 +108,64 @@
     <ClCompile Include="FileManagment\TextureLoader.cpp">
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\AABB.cpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationRoot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileManagment\tinyxml2.h">
       <Filter>Header Files\FileManagment\Import</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Renderer.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\winmain.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="FileManagment\ImageExporter.h">
-      <Filter>Header Files\FileManagment\Export</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\common.h">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shape.h">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\commonR.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shapes\Mesh.h">
-      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shapes\Sphere.h">
-      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shapes\Plane.h">
-      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\PostProcessor.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Scene.h">
-      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileManagment\SceneLoader.h">
+    <ClInclude Include="FileManagment\ImageExporter.hpp">
+      <Filter>Header Files\FileManagment\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\SceneLoader.hpp">
       <Filter>Header Files\FileManagment\Import</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Texture.h">
+    <ClInclude Include="FileManagment\TextureLoader.hpp">
+      <Filter>Header Files\FileManagment\Import</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Mesh.hpp">
+      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Plane.hpp">
+      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Sphere.hpp">
+      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\AABB.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\common.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shape.hpp">
+      <Filter>Header Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\commonR.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="FileManagment\TextureLoader.h">
-      <Filter>Header Files\FileManagment\Import</Filter>
+    <ClInclude Include="Rendering\PostProcessor.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderer.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Scene.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\winmain.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationRoot.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "Scene.hpp"
 
 
 Scene::Scene()
@@ -16,9 +16,9 @@ Scene::~Scene()
 
 void Scene::setupCamera(int camWidth, int camHeight)
 {
-	cam = Camera(point3(-1.96173, 1.74642, -1.74642), vec3(0, 0, -1), camWidth, camHeight);
-	cam.setTarget(point3(0, 0, 0));
-	cam.setParameters(50, 1, 50);
+	cam = Camera(point3(0, 0.3, 5), vec3(0, 0, -1), camWidth, camHeight);
+	cam.setTarget(point3(0, 0.15, 0));
+	cam.setParameters(55, 1, 50);
 }
 
 void Scene::loadFile(string fileName)
@@ -30,15 +30,10 @@ void Scene::loadFile(string fileName)
 	textures = import->textures;
 		//setup Lights
 		Light light;
-		light.center = point3(363.9, 1247.4, 326.4);
+		light.center = point3(1, 8, 4);
 		light.col = colRGB(1, 1, 1);
 		light.intensity = 3;
 		lights.push_back(light);
-		Light light2;
-		light2.center = point3(-2, 1.5, 0);
-		light2.col = colRGB(1, 1, 1);		
-		light2.intensity = 3;
-		lights.push_back(light2);
 	delete import;
 	import = nullptr;
 }

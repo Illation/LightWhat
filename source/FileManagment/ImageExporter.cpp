@@ -1,4 +1,4 @@
-#include "ImageExporter.h"
+#include "ImageExporter.hpp"
 
 
 ImageExporter::ImageExporter()
@@ -10,7 +10,7 @@ ImageExporter::~ImageExporter()
 {
 }
 
-void ImageExporter::saveBMP(const char *filename, int w, int h, int dpi, vector<vector<colRGB> > data)
+void ImageExporter::saveBMP(const char *filename, int w, int h, int dpi, Texture data)
 { 
 	FILE *f;
 	int k = w*h;
@@ -61,7 +61,7 @@ void ImageExporter::saveBMP(const char *filename, int w, int h, int dpi, vector<
 
 	for (int i = 0; i < k; i++)
 	{
-		colRGB rgb = data[i%w][h - (i / w)];
+		colRGB rgb = data.getRGB(i%w, h - (i / w));
 		double red = rgb.red * 255;
 		double green = rgb.green * 255;
 		double blue = rgb.blue * 255;

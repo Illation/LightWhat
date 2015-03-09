@@ -1,4 +1,4 @@
-#include "SceneLoader.h"
+#include "SceneLoader.hpp"
 
 SceneLoader::SceneLoader()
 {
@@ -148,7 +148,7 @@ void SceneLoader::processMaterials(const aiScene* scene){
 			}
 			if (aiModel = aiShadingMode_Blinn)
 			{
-				lShade.shade = PHONG;
+				lShade.shade = REFLECT;
 			}
 			lShade.diffuse = colRGB(0.5, 0.5, 0.5);
 			//Texture loading

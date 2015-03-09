@@ -1,6 +1,7 @@
-#include "Texture.h"
+#include "Texture.hpp"
 
-
+Texture::Texture(){
+}
 Texture::Texture(string lName, int mX, int mY)
 {
 	m_Name = lName;
@@ -20,8 +21,6 @@ Texture::Texture(string lName, int mX, int mY)
 		m_AlphaValues.push_back(alphaColumn);
 	}
 }
-
-
 Texture::~Texture()
 {
 }
@@ -62,15 +61,15 @@ colRGB Texture::getRGB(double x, double y){
 		ret = m_RGBcolours[(int)texX][(int)texY];
 		break;
 	case INTPOL_LINEAR:
-		int idXL = (int)texX;
+		unsigned int idXL = (int)texX;
 		double deltaX = texX - (idXL+0.5);
-		int idXR = idXL;
+		unsigned int idXR = idXL;
 		if (deltaX>0 && idXL+1 < m_PixelsX)idXR = idXL + 1;
 		else if(idXL >0)idXR = idXL - 1;
 
-		int idYB = (int)texY;
+		unsigned int idYB = (int)texY;
 		double deltaY = texY - (idYB+0.5);
-		int idYT = idYB;
+		unsigned int idYT = idYB;
 		if (deltaY>0 && idYB + 1 < m_PixelsY)idYT = idYB + 1;
 		else if(idYB>0)idYT = idYB - 1;
 
@@ -101,15 +100,15 @@ double Texture::getAlpha(double x, double y){
 		ret = m_AlphaValues[(int)texX][(int)texY];
 		break;
 	case INTPOL_LINEAR:
-		int idXL = (int)texX;
+		unsigned int idXL = (int)texX;
 		double deltaX = texX - (idXL + 0.5);
-		int idXR = idXL;
+		unsigned int idXR = idXL;
 		if (deltaX>0 && idXL + 1 < m_PixelsX)idXR = idXL + 1;
 		else if (idXL >0)idXR = idXL - 1;
 
-		int idYB = (int)texY;
+		unsigned int idYB = (int)texY;
 		double deltaY = texY - (idYB + 0.5);
-		int idYT = idYB;
+		unsigned int idYT = idYB;
 		if (deltaY>0 && idYB + 1 < m_PixelsY)idYT = idYB + 1;
 		else if (idYB>0)idYT = idYB - 1;
 

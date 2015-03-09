@@ -92,6 +92,7 @@
     <ClCompile Include="GUI\winmain.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ApplicationRoot.cpp" />
+    <ClCompile Include="Rendering\AABB.cpp" />
     <ClCompile Include="Rendering\common.cpp" />
     <ClCompile Include="Rendering\commonR.cpp" />
     <ClCompile Include="Rendering\PostProcessor.cpp" />
@@ -104,22 +105,23 @@
     <ClCompile Include="Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationRoot.h" />
-    <ClInclude Include="FileManagment\ImageExporter.h" />
-    <ClInclude Include="FileManagment\SceneLoader.h" />
-    <ClInclude Include="FileManagment\TextureLoader.h" />
+    <ClInclude Include="ApplicationRoot.hpp" />
+    <ClInclude Include="FileManagment\ImageExporter.hpp" />
+    <ClInclude Include="FileManagment\SceneLoader.hpp" />
+    <ClInclude Include="FileManagment\TextureLoader.hpp" />
     <ClInclude Include="FileManagment\tinyxml2.h" />
-    <ClInclude Include="GUI\winmain.h" />
-    <ClInclude Include="Rendering\common.h" />
-    <ClInclude Include="Rendering\commonR.h" />
-    <ClInclude Include="Rendering\PostProcessor.h" />
-    <ClInclude Include="Rendering\Renderer.h" />
-    <ClInclude Include="Rendering\Scene.h" />
-    <ClInclude Include="Rendering\shape.h" />
-    <ClInclude Include="Rendering\shapes\Mesh.h" />
-    <ClInclude Include="Rendering\shapes\Plane.h" />
-    <ClInclude Include="Rendering\shapes\Sphere.h" />
-    <ClInclude Include="Rendering\Texture.h" />
+    <ClInclude Include="GUI\winmain.hpp" />
+    <ClInclude Include="Rendering\AABB.hpp" />
+    <ClInclude Include="Rendering\common.hpp" />
+    <ClInclude Include="Rendering\commonR.hpp" />
+    <ClInclude Include="Rendering\PostProcessor.hpp" />
+    <ClInclude Include="Rendering\Renderer.hpp" />
+    <ClInclude Include="Rendering\Scene.hpp" />
+    <ClInclude Include="Rendering\shape.hpp" />
+    <ClInclude Include="Rendering\shapes\Mesh.hpp" />
+    <ClInclude Include="Rendering\shapes\Plane.hpp" />
+    <ClInclude Include="Rendering\shapes\Sphere.hpp" />
+    <ClInclude Include="Rendering\Texture.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
