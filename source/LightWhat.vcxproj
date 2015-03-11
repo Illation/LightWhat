@@ -93,6 +93,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ApplicationRoot.cpp" />
     <ClCompile Include="Rendering\AABB.cpp" />
+    <ClCompile Include="Rendering\BVH.cpp" />
     <ClCompile Include="Rendering\common.cpp" />
     <ClCompile Include="Rendering\commonR.cpp" />
     <ClCompile Include="Rendering\PostProcessor.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="FileManagment\tinyxml2.h" />
     <ClInclude Include="GUI\winmain.hpp" />
     <ClInclude Include="Rendering\AABB.hpp" />
+    <ClInclude Include="Rendering\BVH.hpp" />
     <ClInclude Include="Rendering\common.hpp" />
     <ClInclude Include="Rendering\commonR.hpp" />
     <ClInclude Include="Rendering\PostProcessor.hpp" />

@@ -164,6 +164,19 @@ point3 Mesh::getPosition()
 {
 	return m_Origin;
 }
+
+AABB Mesh::getBoundingBox(size_t subShapeIdx, size_t subShapeIdx2){
+	tri thisTri = m_TriLists[subShapeIdx].triangles[subShapeIdx2];
+	point3 A = m_VertexList[thisTri.vertA], B = m_VertexList[thisTri.vertB], C = m_VertexList[thisTri.vertC];
+	point3 min = point3(std::min(A.x, std::min(B.x, C.x)), std::min(A.y, std::min(B.y, C.y)), std::min(A.z, std::min(B.z, C.z)));
+	point3 max = point3(std::max(A.x, std::max(B.x, C.x)), std::max(A.y, std::max(B.y, C.y)), std::max(A.z, std::max(B.z, C.z)));
+	return AABB(min, max);
+}
+point3 Mesh::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
+	tri thisTri = m_TriLists[subShapeIdx].triangles[subShapeIdx2];
+	point3 A = m_VertexList[thisTri.vertA], B = m_VertexList[thisTri.vertB], C = m_VertexList[thisTri.vertC];
+	return (A+B+C)/3;
+}
 shapeType Mesh::getType(){
 	return MESH;
 }
@@ -263,4 +276,7 @@ int Mesh::getTriCount(){
 		ret += m_TriLists[i].triangles.size();
 	}
 	return ret;
+}
+int Mesh::getPListCount(){
+	return m_TriLists.size();
 }

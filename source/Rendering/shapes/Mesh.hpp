@@ -1,6 +1,7 @@
 #pragma once
 #include "../commonR.hpp"
 #include "../shape.hpp"
+#include <algorithm>
 #include <vector>
 using namespace std;
 
@@ -52,6 +53,8 @@ public:
 	//shape methods
 	void getIntersection(Ray ray, DifferentialGeometry &closest, double minT, bool bfc);
 	point3 getPosition();
+	AABB getBoundingBox(size_t subShapeIdx, size_t subShapeIdx2);
+	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
 	bool shadowIntersection(line ln);
 	shapeType getType();
 
@@ -79,14 +82,15 @@ public:
 
 	int getVertCount();
 	int getTriCount();
+	int getPListCount();
 
 	bool hasTangentSpace = false;
+	vector <polylist>m_TriLists;
 private: 
 	vector <point3>m_VertexList;
 	vector <vec3>m_NormalList;
 	vector <vec3>m_TangentList;
 	vector <vec3>m_BiTangentList;
-	vector <polylist>m_TriLists;
 	vector <UVset>m_UVs;
 	point3 m_Origin;
 	string m_Name;

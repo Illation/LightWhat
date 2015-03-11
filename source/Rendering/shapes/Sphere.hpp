@@ -19,6 +19,8 @@ public:
 	//shape methods
 	void getIntersection(Ray ray, DifferentialGeometry &closest, double minT, bool bfc);
 	point3 getPosition();
+	AABB getBoundingBox(size_t, size_t);
+	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
 	bool shadowIntersection(line ln);
 	shapeType getType();
 

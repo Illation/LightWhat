@@ -137,12 +137,12 @@ void ApplicationRoot::processInput()
 			{
 			case SDLK_KP_ENTER:
 				_state = RenderingState::RENDER;
-				cout << "rendering.... " << endl;
+				cout << endl << "starting render.... " << endl;
 				start = clock();
 				break;
 			case SDLK_RETURN:
 				_state = RenderingState::RENDER;
-				cout << "rendering.... " << endl;
+				cout << endl << "starting render.... " << endl;
 				start = clock();
 				break;
 			case SDLK_l:
@@ -191,7 +191,7 @@ void ApplicationRoot::processInput()
 				else
 				{
 					cout << "saving file: " << (fileName+string(".bmp")).c_str() << endl;
-					imgExp->saveBMP((fileName + string(".bmp")).c_str(), m_ResolutionX, m_ResolutionY, 72, daImage);
+					imgExp->saveBMP((fileName + string(".bmp")).c_str(), m_ResolutionX, m_ResolutionY, 72, *daImage);
 					cout << "file saved! " << endl;
 				}
 				break;
@@ -235,7 +235,8 @@ void ApplicationRoot::updateImage()
 		renderer->init(m_ResolutionX, m_ResolutionY);
 		isSceneLoaded = true;
 		double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-		cout << endl << "time for setup: " << duration << " seconds" << endl;
+		cout << "time for setup: " << duration << " seconds" << endl;
+		cout << endl << "rendering.... " << endl;
 	}
 	//render
 	if (renderer->renderNextRow())
@@ -250,7 +251,7 @@ void ApplicationRoot::updateImage()
 		{
 			for (int j = 0; j < m_ResolutionY; j++)
 			{
-				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage.getRGB(i, j));
+				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage->getRGB(i, j));
 			}
 		}
 	}
@@ -260,8 +261,8 @@ void ApplicationRoot::updateImage()
 	{
 		daImage = renderer->getImage();
 		cout << "postprocessing..." << endl;
-		postPr.updateHighestExposure(daImage, m_ResolutionX, m_ResolutionY);
-		postPr.controlExposure(daImage, m_ResolutionX, m_ResolutionY, AUTO);
+		postPr.updateHighestExposure(*daImage, m_ResolutionX, m_ResolutionY);
+		postPr.controlExposure(*daImage, m_ResolutionX, m_ResolutionY, AUTO);
 		double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		cout << endl << "render completed!" << endl << "time: " << duration << " seconds" << endl;
 
@@ -270,7 +271,7 @@ void ApplicationRoot::updateImage()
 		{
 			for (int j = 0; j < m_ResolutionY; j++)
 			{
-				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage.getRGB(i,j));
+				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage->getRGB(i,j));
 			}
 		}
 	}

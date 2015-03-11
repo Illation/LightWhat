@@ -45,6 +45,15 @@ bool Sphere::shadowIntersection(line ln){
 point3 Sphere::getPosition(){
 	return m_Center;
 }
+point3 Sphere::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
+	return m_Center;
+}
+
+AABB Sphere::getBoundingBox(size_t i1, size_t i2){
+	point3 min = m_Center - vec3(m_Radius, m_Radius, m_Radius);
+	point3 max = m_Center + vec3(m_Radius, m_Radius, m_Radius);
+	return AABB(min, max);
+}
 shapeType Sphere::getType(){
 	return SPHERE;
 }

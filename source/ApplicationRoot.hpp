@@ -75,7 +75,7 @@ private:
 	int m_TexPosY;
 	int m_TexResolutionX;
 	int m_TexResolutionY;
-	Texture daImage;
+	Texture *daImage;
 
 
 	//GUI stuff

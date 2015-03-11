@@ -55,6 +55,18 @@
     <Filter Include="Header Files\Graphics\Geometry\shapes">
       <UniqueIdentifier>{2e0b786f-827e-4db3-8844-79216dbbfe50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Geometry\Acceleration">
+      <UniqueIdentifier>{cd9c57db-9458-4f29-973d-e500812c4a47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Helper">
+      <UniqueIdentifier>{7e4786d0-2350-4c98-be27-a738521e1e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Geometry\Acceleration">
+      <UniqueIdentifier>{569912ba-fc5a-49fc-8ad0-d3784dade02d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Helper">
+      <UniqueIdentifier>{07458230-3c55-41f6-86da-8a31421ded72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,12 +86,6 @@
     </ClCompile>
     <ClCompile Include="FileManagment\ImageExporter.cpp">
       <Filter>Source Files\FileManagment\Export</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\common.cpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\commonR.cpp">
-      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shape.cpp">
       <Filter>Source Files\Graphics\Geometry</Filter>
@@ -109,7 +115,16 @@
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\AABB.cpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
+      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\commonR.cpp">
+      <Filter>Source Files\Graphics\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\common.cpp">
+      <Filter>Source Files\Graphics\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\BVH.cpp">
+      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,17 +152,8 @@
     <ClInclude Include="Rendering\shapes\Sphere.hpp">
       <Filter>Header Files\Graphics\Geometry\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\AABB.hpp">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\common.hpp">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\shape.hpp">
       <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\commonR.hpp">
-      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\PostProcessor.hpp">
       <Filter>Header Files\Graphics</Filter>
@@ -166,6 +172,18 @@
     </ClInclude>
     <ClInclude Include="ApplicationRoot.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\AABB.hpp">
+      <Filter>Header Files\Graphics\Geometry\Acceleration</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\commonR.hpp">
+      <Filter>Header Files\Graphics\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\common.hpp">
+      <Filter>Header Files\Graphics\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\BVH.hpp">
+      <Filter>Header Files\Graphics\Geometry\Acceleration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -33,6 +33,12 @@ bool Plane::shadowIntersection(line ln){
 	}
 	return ret;
 }
+AABB Plane::getBoundingBox(size_t i1, size_t i2){
+	return AABB(point3(-INFINITY, -INFINITY, -INFINITY), point3(INFINITY, INFINITY, INFINITY));
+}
+point3 Plane::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
+	return p.n*p.d;
+}
 point3 Plane::getPosition(){
 	double Distance = p.d / p.n.Length();
 	point3 origin = p.n.Norm(0.000001)*Distance;

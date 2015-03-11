@@ -57,7 +57,9 @@ vector<vector<Ray> > Camera::getRayMap(int maxBounces){
 			double x = (double)(i + 1) / screenX;
 			double y = (double)(j + 1) / screenY;
 			vec3 pixelPos = planeO + (planeX*x) + (planeY*y);
-			rayColumn.push_back(Ray(line(origin, pixelPos - origin), maxBounces, true));
+			Ray ray = Ray(line(origin, pixelPos - origin), maxBounces, true);
+			ray.precalculate();
+			rayColumn.push_back(ray);
 		}
 		ret.push_back(rayColumn);
 	}

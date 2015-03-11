@@ -10,6 +10,8 @@ public:
 	~AABB();
 
 	bool intersect(Ray ray);
+	point3 center();
+	double volume();
 
 	point3 m_Min, m_Max;
 };

@@ -7,6 +7,8 @@ Renderer::Renderer()
 
 Renderer::~Renderer()																						
 {
+	delete m_BvhPtr;
+	m_BvhPtr = nullptr;
 }
 
 void Renderer::setScene(Scene *sc){
@@ -21,11 +23,18 @@ void Renderer::init(int camWidth, int camHeight){
 
 	//setup Ray Map
 	rayMap = m_ScenePtr->cam.getRayMap(p_MaxBounces);
+
+	//setup BVH
+	cout << "building bvh...." << endl;
+	m_BvhPtr = new BVH();
+	m_BvhPtr->Build(m_ScenePtr);
+	cout << "bvh built!" << endl;
+	//m_BvhPtr->clear();
 }
 
-Texture Renderer::getImage()
+Texture *Renderer::getImage()
 {
-	return m_Image;
+	return &m_Image;
 }
 
 bool Renderer::renderNextRow()

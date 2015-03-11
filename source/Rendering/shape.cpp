@@ -28,3 +28,13 @@ shapeType shape::getType(){
 	cout << "unimplemented method: getType() called!" << endl;
 	return UNDEFINED;
 }
+
+AABB shape::getBoundingBox(size_t subShapeIdx, size_t subShapeIdx2){
+	cout << "unimplemented method: getBoundingBox() called!" << endl;
+	return AABB();
+}
+
+point3 shape::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
+	cout << "unimplemented method: getObjectCenter() called!" << endl;
+	return point3(0,0,0);
+}
