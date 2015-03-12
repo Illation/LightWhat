@@ -8,7 +8,7 @@ class Sphere : public shape
 {
 public:
 	Sphere();
-	Sphere(point3 lC, double lR, size_t matIndex);
+	Sphere(point3 lC, float lR, size_t matIndex);
 	virtual ~Sphere();
 
 
@@ -17,7 +17,7 @@ public:
 	Sphere& operator=(const Sphere&) = delete;
 
 	//shape methods
-	void getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc);
+	void getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, float minT, bool bfc);
 	point3 getPosition();
 	AABB getBoundingBox(size_t, size_t);
 	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
@@ -26,11 +26,11 @@ public:
 
 	//methods
 	void setPosition(point3 pos);
-	void setRadius(double lR);
+	void setRadius(float lR);
 	void setMaterial(size_t matIndex);
 private: 
 	point3 m_Center;
-	double m_Radius, m_SqRadius, m_RRadius;
+	float m_Radius, m_SqRadius, m_RRadius;
 	size_t m_MatIndex;
 };
 

@@ -4,7 +4,7 @@
 #include <algorithm>
 //using namespace std;
 
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062
+#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062f
 
 struct vec3;
 typedef vec3 point3;
@@ -19,27 +19,27 @@ struct vec3
 {
 public:
 	vec3();
-	vec3(double x, double y, double z);
+	vec3(float x, float y, float z);
 
-	double x;
-	double y;
-	double z;
+	float x;
+	float y;
+	float z;
 
-	inline friend vec3	operator*(double factor, const vec3& rightRef){
+	inline friend vec3	operator*(float factor, const vec3& rightRef){
 		return vec3(rightRef.x * factor, rightRef.y * factor, rightRef.z*factor);
 	}
 
 	//methods
-	inline double Dot(const vec3& otherRef) const{
+	inline float Dot(const vec3& otherRef) const{
 		return x * otherRef.x + y * otherRef.y + z*otherRef.z;
 	}
-	inline double Length() const{
+	inline float Length() const{
 		return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 	}
-	inline double Angle(const vec3& otherRef) const{
+	inline float Angle(const vec3& otherRef) const{
 		return acos((vec3(x, y, z).Dot(otherRef)) / (vec3(x, y, z).Length() / otherRef.Length()));
 	}
-	inline vec3 Norm(double epsilon = 0.001) const{
+	inline vec3 Norm(float epsilon = 0.001) const{
 		if (Length() < epsilon)return vec3(0, 0, 0);
 		else return vec3(x, y, z) / Length();
 	}
@@ -72,10 +72,10 @@ public:
 	inline vec3			operator+ () const{
 		return *this;
 	}
-	inline vec3			operator* (double factor) const{
+	inline vec3			operator* (float factor) const{
 		return vec3(x * factor, y * factor, z*factor);
 	}
-	inline vec3			operator/ (double divisor) const{
+	inline vec3			operator/ (float divisor) const{
 		return vec3(x / divisor, y / divisor, z / divisor);
 	}
 	inline vec3&			operator+=(const vec3& otherRef){
@@ -90,13 +90,13 @@ public:
 		z -= otherRef.z;
 		return *this;
 	}
-	inline vec3&			operator*=(double factor){
+	inline vec3&			operator*=(float factor){
 		x *= factor;
 		y *= factor;
 		z *= factor;
 		return *this;
 	}
-	inline vec3&			operator/=(double divisor){
+	inline vec3&			operator/=(float divisor){
 		x /= divisor;
 		y /= divisor;
 		z /= divisor;
@@ -114,26 +114,26 @@ struct vec2
 {
 public:
 	vec2();
-	vec2(double x, double y);
+	vec2(float x, float y);
 
-	double x;
-	double y;
+	float x;
+	float y;
 
-	inline friend vec2	operator*(double factor, const vec2& rightRef){
+	inline friend vec2	operator*(float factor, const vec2& rightRef){
 		return vec2(rightRef.x * factor, rightRef.y * factor);
 	}
 
 	//methods
-	inline double Dot(const vec2& otherRef) const{
+	inline float Dot(const vec2& otherRef) const{
 		return x * otherRef.x + y * otherRef.y;
 	}
-	inline double Length() const{
+	inline float Length() const{
 		return sqrt(pow(x, 2) + pow(y, 2));
 	}
-	inline double Angle(const vec2& otherRef) const{
+	inline float Angle(const vec2& otherRef) const{
 		return acos((vec2(x, y).Dot(otherRef)) / (vec2(x, y).Length() / otherRef.Length()));
 	}
-	inline vec2 Norm(double epsilon = 0.001) const{
+	inline vec2 Norm(float epsilon = 0.001) const{
 		if (Length() < epsilon)return vec2(0, 0);
 		else return vec2(x, y) / Length();
 	}
@@ -185,10 +185,10 @@ public:
 	inline vec2			operator+ () const{
 		return *this;
 	}
-	inline vec2			operator* (double factor) const{
+	inline vec2			operator* (float factor) const{
 		return vec2(x * factor, y * factor);
 	}
-	inline vec2			operator/ (double divisor) const{
+	inline vec2			operator/ (float divisor) const{
 		return vec2(x / divisor, y / divisor);
 	}
 	inline vec2&			operator+=(const vec2& otherRef){
@@ -201,12 +201,12 @@ public:
 		y -= otherRef.y;
 		return *this;
 	}
-	inline vec2&			operator*=(double factor){
+	inline vec2&			operator*=(float factor){
 		x *= factor;
 		y *= factor;
 		return *this;
 	}
-	inline vec2&			operator/=(double divisor){
+	inline vec2&			operator/=(float divisor){
 		x /= divisor;
 		y /= divisor;
 		return *this;
@@ -229,23 +229,23 @@ struct line{
 
 struct intersection{
 	intersection();
-	intersection(bool, point3, double);
+	intersection(bool, point3, float);
 	bool hit;
 	point3 p;
-	double t;
+	float t;
 };
 
 struct plane{
 	plane();
-	plane(vec3, double);
+	plane(vec3, float);
 	plane(point3, point3, point3);
 
 	vec3 n;
-	double d;
+	float d;
 
 	inline intersection lineIts(line ln){
 		intersection ret(false, point3(0, 0, 0), 0);
-		double nd = n.Dot(ln.dir);
+		float nd = n.Dot(ln.dir);
 		if (!(nd == 0)){
 			ret.t = (d - n.Dot(ln.orig)) / nd;
 			ret.hit = true;
@@ -254,7 +254,7 @@ struct plane{
 	}
 	inline intersection rayIts(line ln, bool bfc){
 		intersection ret(false, point3(0, 0, 0), 0);
-		double nd = n.Dot(ln.dir);
+		float nd = n.Dot(ln.dir);
 		if (nd<0){
 			ret.t = (d - n.Dot(ln.orig)) / nd;
 			ret.hit = true;
@@ -271,18 +271,18 @@ struct colRGB
 {
 public:
 	colRGB();
-	colRGB(double red, double green, double blue);
+	colRGB(float red, float green, float blue);
 
-	double red;
-	double green;
-	double blue;
+	float red;
+	float green;
+	float blue;
 
 	inline std::string			ToString() const{
 		using namespace std;
 		return string("red: ") + to_string(red) + string(", green: ") + to_string(green) + string(", blue: ") + to_string(blue);
 	}
 
-	inline friend colRGB operator*(double factor, const colRGB& rightRef){
+	inline friend colRGB operator*(float factor, const colRGB& rightRef){
 		return colRGB(rightRef.red * factor, rightRef.green * factor, rightRef.blue*factor);
 	}
 
@@ -306,7 +306,7 @@ public:
 	inline colRGB		operator+ () const{
 		return *this;
 	}
-	inline colRGB		operator* (double factor) const{
+	inline colRGB		operator* (float factor) const{
 		return colRGB(red * factor, green * factor, blue*factor);
 	}
 	inline colRGB		operator* (const colRGB& otherRef) const{
@@ -314,7 +314,7 @@ public:
 			((green)*(otherRef.green)),
 			((blue)*(otherRef.blue)));
 	}
-	inline colRGB		operator/ (double divisor) const{
+	inline colRGB		operator/ (float divisor) const{
 		return colRGB(red / divisor, green / divisor, blue / divisor);
 	}
 	inline colRGB&		operator+=(const colRGB& otherRef){
@@ -329,7 +329,7 @@ public:
 		blue -= otherRef.blue;
 		return *this;
 	}
-	inline colRGB&		operator*=(double factor){
+	inline colRGB&		operator*=(float factor){
 		red *= factor;
 		green *= factor;
 		blue *= factor;
@@ -341,7 +341,7 @@ public:
 		blue = ((blue)*(otherRef.blue));
 		return *this;
 	}
-	inline colRGB&		operator/=(double divisor){
+	inline colRGB&		operator/=(float divisor){
 		red /= divisor;
 		green /= divisor;
 		blue /= divisor;

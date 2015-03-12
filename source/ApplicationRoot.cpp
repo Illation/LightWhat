@@ -234,7 +234,7 @@ void ApplicationRoot::updateImage()
 		renderer->setScene(scPtr);
 		renderer->init(m_ResolutionX, m_ResolutionY);
 		isSceneLoaded = true;
-		double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
 		cout << "time for setup: " << duration << " seconds" << endl;
 		cout << endl << "rendering.... " << endl;
 	}
@@ -263,7 +263,7 @@ void ApplicationRoot::updateImage()
 		cout << "postprocessing..." << endl;
 		postPr.updateHighestExposure(*daImage, m_ResolutionX, m_ResolutionY);
 		postPr.controlExposure(*daImage, m_ResolutionX, m_ResolutionY, AUTO);
-		double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
 		cout << endl << "render completed!" << endl << "time: " << duration << " seconds" << endl;
 
 		//Update SDL texture
@@ -287,7 +287,7 @@ void ApplicationRoot::drawTexture(){
 			{
 				for (int j = 0; j < m_TexResolutionY; j++)
 				{
-					setPixel(i + m_TexPosX, j + m_TexPosY, tex.getRGB(((double)i / (double)m_TexResolutionX), ((double)j / (double)m_TexResolutionY)));
+					setPixel(i + m_TexPosX, j + m_TexPosY, tex.getRGB(((float)i / (float)m_TexResolutionX), ((float)j / (float)m_TexResolutionY)));
 				}
 			}
 		}
@@ -302,15 +302,15 @@ void ApplicationRoot::drawTexture(){
 		{
 			for (int y = 0; y < texSizeY; y++)
 			{
-				tex.setRGB(colRGB(x / (double)texSizeX, y / (double)texSizeY, 1), x, y);
+				tex.setRGB(colRGB(x / (float)texSizeX, y / (float)texSizeY, 1), x, y);
 			}
 		}
 		for (int i = 0; i < m_TexResolutionX; i++)
 		{
 			for (int j = 0; j < m_TexResolutionY; j++)
 			{
-				double x = (double)i / (double)m_TexResolutionX;
-				double y = (double)j / (double)m_TexResolutionY;
+				float x = (float)i / (float)m_TexResolutionX;
+				float y = (float)j / (float)m_TexResolutionY;
 				colRGB thisPixel = tex.getRGB(x, y);
 				setPixel(i + m_TexPosX, j + m_TexPosY, thisPixel);
 			}

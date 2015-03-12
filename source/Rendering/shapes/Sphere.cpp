@@ -2,7 +2,7 @@
 
 Sphere::Sphere(){
 }
-Sphere::Sphere(point3 lC, double lR, size_t matIndex){
+Sphere::Sphere(point3 lC, float lR, size_t matIndex){
 	m_Center = lC;
 	m_Radius = lR;
 	m_SqRadius = lR*lR;
@@ -12,32 +12,32 @@ Sphere::Sphere(point3 lC, double lR, size_t matIndex){
 Sphere::~Sphere(){
 }
 
-void Sphere::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void Sphere::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, float minT, bool bfc){
 	vec3 v = ray.ln.orig - m_Center;
-	double b = -(v.Dot(ray.ln.dir.Norm(0.0000000001)));
-	double det = (b*b) - (v.Dot(v)) + m_SqRadius;
+	float b = -(v.Dot(ray.ln.dir.Norm(0.0000000001f)));
+	float det = (b*b) - (v.Dot(v)) + m_SqRadius;
 	if (det > 0){
 		det = sqrt(det);
-		double t = b - det;
+		float t = b - det;
 		if ((t < closest.i.t || closest.i.hit == false) && t > minT)
 		{
 			closest.i.hit = true;
 			closest.i.t = t;
 			closest.i.p = ray.ln.orig + ray.ln.dir*t;
 			closest.mat = m_MatIndex;
-			closest.n = (closest.i.p - m_Center).Norm(0.0000000001);
+			closest.n = (closest.i.p - m_Center).Norm(0.0000000001f);
 		}
 	}
 }
 bool Sphere::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	bool ret = false;
-	double shadowLength = ln.dir.Length();
+	float shadowLength = ln.dir.Length();
 	vec3 v = ln.orig - m_Center;
-	double b = -(v.Dot(ln.dir.Norm(0.0000000001)));
-	double det = (b*b) - (v.Dot(v)) + m_SqRadius;
+	float b = -(v.Dot(ln.dir.Norm(0.0000000001f)));
+	float det = (b*b) - (v.Dot(v)) + m_SqRadius;
 	if (det > 0){
 		det = sqrt(det);
-		double t = b - det;
+		float t = b - det;
 		if (t>0.0000000001 && t < shadowLength)ret = true;
 	}
 	return ret;
@@ -61,7 +61,7 @@ shapeType Sphere::getType(){
 void Sphere::setMaterial(size_t matIndex){
 	m_MatIndex = matIndex;
 }
-void Sphere::setRadius(double lR){
+void Sphere::setRadius(float lR){
 	m_Radius = lR;
 	m_SqRadius = lR*lR;
 	m_RRadius = 1.0f / lR;

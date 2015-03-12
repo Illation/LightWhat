@@ -15,7 +15,7 @@ public:
 	void init(int camWidth, int camHeight);
 
 	colRGB raycast(Ray);
-	void traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, double minT);
+	void traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, float minT);
 	bool shadowRay(line);
 	void shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit);
 	colRGB shade(DifferentialGeometry);

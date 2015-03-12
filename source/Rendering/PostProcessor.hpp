@@ -17,6 +17,6 @@ public:
 	void controlExposure(Texture &image, int resX, int resY, ExposureType);
 	void updateHighestExposure(Texture image, int resX, int reY);
 private:
-	double m_HighestExposure = 0;
+	float m_HighestExposure = 0;
 };
 

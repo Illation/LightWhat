@@ -17,7 +17,7 @@ void ImageExporter::saveBMP(const char *filename, int w, int h, int dpi, Texture
 	int s = 4 * k;
 	int filesize = 54 + s;
 
-	double factor = 39.375;
+	float factor = 39.375;
 	int m = static_cast<int>(factor);
 
 	int ppm = dpi*m;
@@ -62,9 +62,9 @@ void ImageExporter::saveBMP(const char *filename, int w, int h, int dpi, Texture
 	for (int i = 0; i < k; i++)
 	{
 		colRGB rgb = data.getRGB(i%w, h - (i / w));
-		double red = rgb.red * 255;
-		double green = rgb.green * 255;
-		double blue = rgb.blue * 255;
+		float red = rgb.red * 255;
+		float green = rgb.green * 255;
+		float blue = rgb.blue * 255;
 
 		unsigned char color[3] = { (int)floor(blue), (int)floor(green), (int)floor(red) };
 

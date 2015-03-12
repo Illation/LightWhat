@@ -38,8 +38,8 @@ void bvhNode::appendSmallestVolume(bvhNode *node)
 		}
 		else
 		{
-			double volume0 = Child0->bounds.volume();
-			double volume1 = Child1->bounds.volume();
+			float volume0 = Child0->bounds.volume();
+			float volume1 = Child1->bounds.volume();
 			if (volume0<=volume1)
 			{
 				if (volume0 <= node->bounds.volume())
@@ -182,7 +182,7 @@ void BVH::Build(Scene *scPtr){
 //		boxScaleAcc->z /= max->z - min->z;
 //		if (boxScaleAcc->x < boxScaleAcc->y && boxScaleAcc->x < boxScaleAcc->z)
 //		{
-//			double center = min->x + (max->x - min->x) / 2;
+//			float center = min->x + (max->x - min->x) / 2;
 //			for (size_t i = 0; i < unsortedSubs->size(); i++)
 //			{
 //				if (unsortedSubs->at(i)->objectCenter.x < center)
@@ -197,7 +197,7 @@ void BVH::Build(Scene *scPtr){
 //		}
 //		else if (boxScaleAcc->y < boxScaleAcc->x && boxScaleAcc->y < boxScaleAcc->z)
 //		{
-//			double center = min->y + (max->y - min->y) / 2;
+//			float center = min->y + (max->y - min->y) / 2;
 //			for (size_t i = 0; i < unsortedSubs->size(); i++)
 //			{
 //				if (unsortedSubs->at(i)->objectCenter.y < center)
@@ -212,7 +212,7 @@ void BVH::Build(Scene *scPtr){
 //		}
 //		else
 //		{
-//			double center = min->z + (max->z - min->z) / 2;
+//			float center = min->z + (max->z - min->z) / 2;
 //			for (size_t i = 0; i < unsortedSubs->size(); i++)
 //			{
 //				if (unsortedSubs->at(i)->objectCenter.z < center)

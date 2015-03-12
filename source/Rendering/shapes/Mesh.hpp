@@ -18,7 +18,7 @@ struct tri
 
 	plane triPlane;
 	vec3 v0, v1;
-	double dot00, dot01, dot11, invDenom;
+	float dot00, dot01, dot11, invDenom;
 };
 
 struct polylist{
@@ -51,7 +51,7 @@ public:
 	Mesh& operator=( const Mesh& ) = delete;
 
 	//shape methods
-	void getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc);
+	void getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, float minT, bool bfc);
 	point3 getPosition();
 	AABB getBoundingBox(size_t subShapeIdx, size_t subShapeIdx2);
 	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
@@ -69,7 +69,7 @@ public:
 	void createTri(int a, int b, int c, int x, int y, int z, size_t index);
 	void createTri(tri f, size_t index);
 
-	void setPosition(double x, double y, double z);
+	void setPosition(float x, float y, float z);
 	void setPosition(point3 pos);
 	void setMaterial(size_t materialIndex, size_t index);
 	void setUVactive(size_t uvIndex, bool isActive);

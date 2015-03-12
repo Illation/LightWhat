@@ -3,7 +3,7 @@ using namespace std;
 //3D Vector
 vec3::vec3(){
 }
-vec3::vec3(double lx, double ly, double lz){
+vec3::vec3(float lx, float ly, float lz){
 	x = lx;
 	y = ly;
 	z = lz;
@@ -12,7 +12,7 @@ vec3::vec3(double lx, double ly, double lz){
 //2D Vector
 vec2::vec2(){
 }
-vec2::vec2(double lx, double ly){
+vec2::vec2(float lx, float ly){
 	x = lx;
 	y = ly;
 }
@@ -29,12 +29,12 @@ line::line(point3 lOrigin, vec3 lDir){
 //Plane
 plane::plane(){
 }
-plane::plane(vec3 lN, double lD){
+plane::plane(vec3 lN, float lD){
 	n = lN;
 	d = lD;
 }
 plane::plane(point3 A, point3 B, point3 C){
-	n = (B - A).Cross(C - A).Norm(0.001);
+	n = (B - A).Cross(C - A).Norm(0.001f);
 	d = n.Dot(A);
 }
 
@@ -42,7 +42,7 @@ plane::plane(point3 A, point3 B, point3 C){
 //Intersection
 intersection::intersection(){
 }
-intersection::intersection(bool lHit, point3 lP, double lT){
+intersection::intersection(bool lHit, point3 lP, float lT){
 	hit = lHit;
 	p = lP;
 	t = lT;
@@ -52,7 +52,7 @@ intersection::intersection(bool lHit, point3 lP, double lT){
 //Color
 colRGB::colRGB(){
 }
-colRGB::colRGB(double lx, double ly, double lz){
+colRGB::colRGB(float lx, float ly, float lz){
 	red = lx;
 	green = ly;
 	blue = lz;

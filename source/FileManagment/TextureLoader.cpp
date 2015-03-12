@@ -33,10 +33,10 @@ Texture TextureLoader::getTexture(string fileName, bool &lSuccess){
 
 		for (int i = 0; i < size; i+=4)
 		{
-			double red =   (int)(Data[i + 0])/255.0;
-			double green = (int)(Data[i + 1])/255.0;
-			double blue =  (int)(Data[i + 2])/255.0;
-			double alpha = (int)(Data[i + 3])/255.0;
+			float red =   (int)(Data[i + 0])/255.0f;
+			float green = (int)(Data[i + 1])/255.0f;
+			float blue =  (int)(Data[i + 2])/255.0f;
+			float alpha = (int)(Data[i + 3])/255.0f;
 			int pixIdx = i / 4;
 			if (pixIdx < width*height){
 				int x = pixIdx%width;

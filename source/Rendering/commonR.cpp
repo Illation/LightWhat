@@ -12,7 +12,7 @@ Ray::Ray(line lLn, int lBounce, bool lPrimary){
 //Light
 Light::Light(){
 }
-Light::Light(point3 lCenter, colRGB lCol, double lInt){
+Light::Light(point3 lCenter, colRGB lCol, float lInt){
 	center = lCenter;
 	col = lCol;
 	intensity = lInt;
@@ -30,12 +30,12 @@ Camera::Camera(point3 pos, vec3 dir, int Cols, int Rows){
 }
 void Camera::setupImagePlane(){
 	//get linear screen plane info
-	double angleRad = (angle / 180)*PI;
-	double aspectRatio = (double)screenX / (double)screenY;
-	double halfWidth = tan(angleRad / 2)*nearClipPlane;
-	double halfHeight = halfWidth/aspectRatio;
-	double width = halfWidth * 2;
-	double height = halfHeight * 2;
+	float angleRad = (angle / 180.f)*PI;
+	float aspectRatio = (float)screenX / (float)screenY;
+	float halfWidth = tan(angleRad / 2)*nearClipPlane;
+	float halfHeight = halfWidth/aspectRatio;
+	float width = halfWidth * 2;
+	float height = halfHeight * 2;
 	//setup camera cross
 	vec3 up = vec3(0, 1, 0);
 	vec3 right = direction.Cross(up).Norm();
@@ -54,8 +54,8 @@ vector<vector<Ray> > Camera::getRayMap(int maxBounces){
 		vector<Ray> rayColumn;
 		for (int j = 0; j < screenY; j++)
 		{
-			double x = (double)(i + 1) / screenX;
-			double y = (double)(j + 1) / screenY;
+			float x = (float)(i + 1) / screenX;
+			float y = (float)(j + 1) / screenY;
 			vec3 pixelPos = planeO + (planeX*x) + (planeY*y);
 			Ray ray = Ray(line(origin, pixelPos - origin), maxBounces, true);
 			ray.precalculate();
@@ -74,7 +74,7 @@ PhongParameters::PhongParameters(){
 	ks = 0;
 	ke = 0;
 }
-PhongParameters::PhongParameters(double a, double d, double s, double e){
+PhongParameters::PhongParameters(float a, float d, float s, float e){
 	ka = a;
 	kd = d;
 	ks = s;

@@ -221,12 +221,12 @@ void SceneLoader::processMaterials(const aiScene* scene){
 						if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_SHININESS, aiPhongExponent)) {
 							// handle epic failure here
 						}
-						else lShade.param.ke = (double)aiPhongExponent;
+						else lShade.param.ke = (float)aiPhongExponent;
 						float aiSpecularScale;
 						if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, aiSpecularScale)) {
 							// handle epic failure here
 						}
-						else lShade.param.ks = (double)aiSpecularScale;
+						else lShade.param.ks = (float)aiSpecularScale;
 					}
 					lShade.hasNormTex = false;
 					unsigned int normTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_NORMALS);
@@ -274,7 +274,7 @@ bool SceneLoader::processLights(const aiScene* scene){
 			thisLight.col.red = mLights[i]->mColorDiffuse.r;
 			thisLight.col.green = mLights[i]->mColorDiffuse.g;
 			thisLight.col.blue = mLights[i]->mColorDiffuse.b;
-			thisLight.intensity = (double)mLights[i]->mAttenuationConstant;
+			thisLight.intensity = (float)mLights[i]->mAttenuationConstant;
 			lights.push_back(thisLight);
 		}
 		return true;

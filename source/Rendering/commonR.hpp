@@ -28,10 +28,10 @@ struct Ray{
 
 struct Light{
 	Light();
-	Light(point3, colRGB, double);
+	Light(point3, colRGB, float);
 	point3 center;
 	colRGB col;
-	double intensity = 1;
+	float intensity = 1;
 };
 
 struct Camera
@@ -42,7 +42,7 @@ struct Camera
 		direction = (target - origin).Norm();
 	}
 
-	inline void setParameters(double lAngle, double lNearClipPlane, double lFarClipPlane){
+	inline void setParameters(float lAngle, float lNearClipPlane, float lFarClipPlane){
 		angle = lAngle, nearClipPlane = lNearClipPlane, farClipPlane = lFarClipPlane;
 	}
 	void setupImagePlane();
@@ -52,9 +52,9 @@ struct Camera
 	vec3 direction;
 	int screenX;
 	int screenY;
-	double angle;
-	double nearClipPlane;
-	double farClipPlane;
+	float angle;
+	float nearClipPlane;
+	float farClipPlane;
 
 private:
 	point3 planeO;
@@ -76,11 +76,11 @@ enum ShadingModel
 struct PhongParameters
 {
 	PhongParameters();
-	PhongParameters(double ambient, double diffuse, double specular, double exponent);
-	double ka;
-	double kd;
-	double ks;
-	double ke;
+	PhongParameters(float ambient, float diffuse, float specular, float exponent);
+	float ka;
+	float kd;
+	float ks;
+	float ke;
 };
 
 struct Shader

@@ -44,10 +44,9 @@ Mesh::Mesh(){
 Mesh::~Mesh(){
 }
 
-void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, float minT, bool bfc){
 	intersection its;
-	polylist plist = m_TriLists[subShapeIdx];
-	tri thisTri = plist.triangles[subShapeIdx2];
+	tri thisTri = m_TriLists[subShapeIdx].triangles[subShapeIdx2];
 	point3 fVertA = m_VertexList[thisTri.vertA];
 	its = thisTri.triPlane.rayIts(ray.ln, bfc);
 	if (its.hit == true)
@@ -57,26 +56,26 @@ void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, Dif
 			//calculate baryacentric coordinates
 			its.p = ray.ln.orig + ray.ln.dir*its.t;
 			vec3 v2 = its.p - fVertA;
-			double dot02 = thisTri.v0.Dot(v2);
-			double dot12 = thisTri.v1.Dot(v2);
+			float dot02 = thisTri.v0.Dot(v2);
+			float dot12 = thisTri.v1.Dot(v2);
 
-			double u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
+			float u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
 			if (u >= 0)
 			{
-				double v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
+				float v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
 				if (v < 0) its.hit = false;
 				if (u + v > 1) its.hit = false;
 				if (its.hit)
 				{
 					closest.i = its;
-					closest.mat = plist.matIndex;
+					closest.mat = m_TriLists[subShapeIdx].matIndex;
 
 					//smooth normals
 					vec3 n1 = m_NormalList[thisTri.normA];
 					vec3 n2 = m_NormalList[thisTri.normB];
 					vec3 n3 = m_NormalList[thisTri.normC];
 					vec3 N = n1 + (n3 - n1)*u + (n2 - n1)*v;
-					closest.n = N.Norm(0.00001);
+					closest.n = N.Norm(0.00001f);
 					//tangent space for normal maps
 					if (hasTangentSpace)
 					{
@@ -84,13 +83,13 @@ void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, Dif
 						vec3 t2 = m_TangentList[thisTri.normB];
 						vec3 t3 = m_TangentList[thisTri.normC];
 						vec3 T = t1 + (t3 - t1)*u + (t2 - t1)*v;
-						closest.t = T.Norm(0.00001);
+						closest.t = T.Norm(0.00001f);
 
 						vec3 b1 = m_BiTangentList[thisTri.normA];
 						vec3 b2 = m_BiTangentList[thisTri.normB];
 						vec3 b3 = m_BiTangentList[thisTri.normC];
 						vec3 B = b1 + (b3 - b1)*u + (b2 - b1)*v;
-						closest.b = B.Norm(0.00001);
+						closest.b = B.Norm(0.00001f);
 
 						closest.hasTangentSpace = true;
 					}
@@ -98,7 +97,7 @@ void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, Dif
 
 					//uv map
 					closest.uv = point2(u, v);
-					if (plist.hasUV)
+					if (m_TriLists[subShapeIdx].hasUV)
 					{
 						vec2 uv1 = m_UVs[0].coords[thisTri.uvA];
 						vec2 uv2 = m_UVs[0].coords[thisTri.uvB];
@@ -117,26 +116,25 @@ void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, Dif
 bool Mesh::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	intersection its;
 	bool hit = false;
-	double shadowLength = ln.dir.Length();
-	polylist plist = m_TriLists[subShapeIdx];
-	tri thisTri = plist.triangles[subShapeIdx2];
+	tri thisTri = m_TriLists[subShapeIdx].triangles[subShapeIdx2];
 	point3 fVertA = m_VertexList[thisTri.vertA];
 	its = thisTri.triPlane.lineIts(ln);
 	if (its.hit == true)
 	{
+		float shadowLength = ln.dir.Length();
 		if (its.t>0.001 && its.t < shadowLength) // avoid z fighting and objects behind light
 		{
 			//calculate baryacentric coordinates
 			its.p = ln.orig + ln.dir*its.t;
 			vec3 v2 = its.p - fVertA;
 
-			double dot02 = thisTri.v0.Dot(v2);
-			double dot12 = thisTri.v1.Dot(v2);
+			float dot02 = thisTri.v0.Dot(v2);
+			float dot12 = thisTri.v1.Dot(v2);
 
-			double u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
+			float u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
 			if (u >= 0)
 			{
-				double v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
+				float v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
 				if (v < 0) its.hit = false;
 				if (u + v > 1) its.hit = false;
 				if (its.hit)
@@ -232,7 +230,7 @@ void Mesh::createTri(tri f, size_t index){
 	}
 }
 
-void Mesh::setPosition(double x, double y, double z){
+void Mesh::setPosition(float x, float y, float z){
 	m_Origin = point3(x, y, z);
 }
 void Mesh::setPosition(point3 pos){

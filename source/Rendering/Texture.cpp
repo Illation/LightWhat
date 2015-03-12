@@ -11,7 +11,7 @@ Texture::Texture(string lName, int mX, int mY)
 	for (size_t x = 0; x < m_PixelsX; x++)
 	{
 		vector<colRGB> colColumn;
-		vector<double> alphaColumn;
+		vector<float> alphaColumn;
 		for (size_t y = 0; y < m_PixelsY; y++)
 		{
 			colColumn.push_back(colRGB(0.5, 0.5, 0.5));
@@ -28,7 +28,7 @@ Texture::~Texture()
 void Texture::setRGB(colRGB col, int x, int y){
 	m_RGBcolours[x][y] = col;
 }
-void Texture::setAlpha(double alpha, int x, int y){
+void Texture::setAlpha(float alpha, int x, int y){
 	m_AlphaValues[x][y] = alpha;
 }
 void Texture::setName(string lName){
@@ -44,9 +44,9 @@ void Texture::setQuadraticFittingMode(fitMode lFit){
 colRGB Texture::getRGB(int x, int y){
 	return m_RGBcolours[x][y];
 }
-colRGB Texture::getRGB(double x, double y){
-	double texX = 0;
-	double texY = 0;
+colRGB Texture::getRGB(float x, float y){
+	float texX = 0;
+	float texY = 0;
 	switch (m_FitMode)
 	{
 	case FIT_STRETCHXY:
@@ -54,7 +54,7 @@ colRGB Texture::getRGB(double x, double y){
 		texY = y*m_PixelsY;
 		break;
 	}
-	colRGB ret = colRGB(0.4, 0.4, 0.4);
+	colRGB ret = colRGB(0.4f, 0.4f, 0.4f);
 	switch (m_IntPolMode)
 	{
 	case INTPOL_PIXELS:
@@ -62,30 +62,30 @@ colRGB Texture::getRGB(double x, double y){
 		break;
 	case INTPOL_LINEAR:
 		unsigned int idXL = (int)texX;
-		double deltaX = texX - (idXL+0.5);
+		float deltaX = texX - (idXL+0.5f);
 		unsigned int idXR = idXL;
 		if (deltaX>0 && idXL+1 < m_PixelsX)idXR = idXL + 1;
 		else if(idXL >0)idXR = idXL - 1;
 
 		unsigned int idYB = (int)texY;
-		double deltaY = texY - (idYB+0.5);
+		float deltaY = texY - (idYB+0.5f);
 		unsigned int idYT = idYB;
 		if (deltaY>0 && idYB + 1 < m_PixelsY)idYT = idYB + 1;
 		else if(idYB>0)idYT = idYB - 1;
 
-		colRGB bot = m_RGBcolours[idXL][idYB] * (1.0 - abs(deltaX)) + m_RGBcolours[idXR][idYB] * (abs(deltaX));
-		colRGB top = m_RGBcolours[idXL][idYT] * (1.0 - abs(deltaX)) + m_RGBcolours[idXR][idYT] * (abs(deltaX));
-		ret = bot*(1.0 - abs(deltaY)) + top*abs(deltaY);
+		colRGB bot = m_RGBcolours[idXL][idYB] * (1.f - abs(deltaX)) + m_RGBcolours[idXR][idYB] * (abs(deltaX));
+		colRGB top = m_RGBcolours[idXL][idYT] * (1.f - abs(deltaX)) + m_RGBcolours[idXR][idYT] * (abs(deltaX));
+		ret = bot*(1.f - abs(deltaY)) + top*abs(deltaY);
 		break;
 	}
 	return ret;
 }
-double Texture::getAlpha(int x, int y){
+float Texture::getAlpha(int x, int y){
 	return m_AlphaValues[x][y];
 }
-double Texture::getAlpha(double x, double y){
-	double texX = 0;
-	double texY = 0;
+float Texture::getAlpha(float x, float y){
+	float texX = 0;
+	float texY = 0;
 	switch (m_FitMode)
 	{
 	case FIT_STRETCHXY:
@@ -93,7 +93,7 @@ double Texture::getAlpha(double x, double y){
 		texY = y*m_PixelsY;
 		break;
 	}
-	double ret = 1.0;
+	float ret = 1.0;
 	switch (m_IntPolMode)
 	{
 	case INTPOL_PIXELS:
@@ -101,20 +101,20 @@ double Texture::getAlpha(double x, double y){
 		break;
 	case INTPOL_LINEAR:
 		unsigned int idXL = (int)texX;
-		double deltaX = texX - (idXL + 0.5);
+		float deltaX = texX - (idXL + 0.5f);
 		unsigned int idXR = idXL;
 		if (deltaX>0 && idXL + 1 < m_PixelsX)idXR = idXL + 1;
 		else if (idXL >0)idXR = idXL - 1;
 
 		unsigned int idYB = (int)texY;
-		double deltaY = texY - (idYB + 0.5);
+		float deltaY = texY - (idYB + 0.5f);
 		unsigned int idYT = idYB;
 		if (deltaY>0 && idYB + 1 < m_PixelsY)idYT = idYB + 1;
 		else if (idYB>0)idYT = idYB - 1;
 
-		double bot = m_AlphaValues[idXL][idYB] * (1.0 - abs(deltaX)) + m_AlphaValues[idXR][idYB] * (abs(deltaX));
-		double top = m_AlphaValues[idXL][idYT] * (1.0 - abs(deltaX)) + m_AlphaValues[idXR][idYT] * (abs(deltaX));
-		ret = bot*(1.0 - abs(deltaY)) + top*abs(deltaY);
+		float bot = m_AlphaValues[idXL][idYB] * (1.f - abs(deltaX)) + m_AlphaValues[idXR][idYB] * (abs(deltaX));
+		float top = m_AlphaValues[idXL][idYT] * (1.f - abs(deltaX)) + m_AlphaValues[idXR][idYT] * (abs(deltaX));
+		ret = bot*(1.f - abs(deltaY)) + top*abs(deltaY);
 		break;
 	}
 	return ret;

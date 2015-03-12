@@ -9,7 +9,7 @@ Plane::Plane(plane lP, size_t mIndex){
 Plane::~Plane(){
 }
 
-void Plane::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void Plane::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, float minT, bool bfc){
 	intersection i;
 	i = p.rayIts(ray.ln, bfc);
 	if (i.hit){
@@ -26,10 +26,10 @@ void Plane::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, Di
 bool Plane::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	intersection its = p.lineIts(ln);
 	bool ret = false;
-	double shadowLength = ln.dir.Length();
+	float shadowLength = ln.dir.Length();
 	if (its.hit)
 	{
-		if (its.t>0.0000000001 && its.t < shadowLength)ret = true;
+		if (its.t>0.0000000001f && its.t < shadowLength)ret = true;
 	}
 	return ret;
 }
@@ -40,8 +40,8 @@ point3 Plane::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
 	return p.n*p.d;
 }
 point3 Plane::getPosition(){
-	double Distance = p.d / p.n.Length();
-	point3 origin = p.n.Norm(0.000001)*Distance;
+	float Distance = p.d / p.n.Length();
+	point3 origin = p.n.Norm(0.000001f)*Distance;
 	return origin;
 }
 

@@ -10,9 +10,9 @@ public:
 	~AABB();
 
 	bool intersect(Ray ray);
-	bool intersect(Ray ray, double t);
+	bool intersect(Ray ray, float t);
 	point3 center();
-	double volume();
+	float volume();
 
 	point3 m_Min, m_Max;
 };

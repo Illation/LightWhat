@@ -59,7 +59,7 @@ colRGB Renderer::raycast(Ray ray)
 	DifferentialGeometry closest;
 	closest.i.hit = false;
 	bool hasHit=false;
-	double minT = ray.isPrimary ? 1.0 : 0.0001;
+	float minT = ray.isPrimary ? 1.0f : 0.0001f;
 	for (size_t i = 0; i < m_BvhPtr->unsortedIndices.size(); i++)
 	{
 		shapeNodeIdx idxStruct = m_BvhPtr->unsortedIndices[i];
@@ -82,7 +82,7 @@ colRGB Renderer::raycast(Ray ray)
 	}
 	return shade(closest);
 }
-void Renderer::traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, double minT)
+void Renderer::traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, float minT)
 {
 	//intersect with volume and check if its closer than the already found distance
 	bool aabbHit = false;
@@ -190,10 +190,10 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001);
+				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
 				if (!shadowRay(line(dg.i.p, L)))
 				{
-					double intensity = N.Dot(L);
+					float intensity = N.Dot(L);
 					if (intensity > 0)
 					{
 						difComp += dif*m_ScenePtr->lights[i].col*intensity;
@@ -205,29 +205,29 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 		break;
 		case REFLECT:
 		{
-			vec3 V = dg.dir.Norm(0.0001);
-			colRGB acc = colRGB(0, 0, 0);
+			vec3 V = dg.dir.Norm(0.0001f);
+			colRGB acc = colRGB(0.f, 0.f, 0.f);
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001);
+				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
 				if (!shadowRay(line(dg.i.p, L)))
 				{
-					double intensity = N.Dot(L);
+					float intensity = N.Dot(L);
 					if (intensity > 0)
 					{
 						acc += dif*m_ScenePtr->lights[i].col*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
-					double dot = V.Dot(R);
+					float dot = V.Dot(R);
 					if (dot > 0)
 					{
-						double specI = pow(dot, mat.param.ke)*mat.param.ks;
+						float specI = pow(dot, mat.param.ke)*mat.param.ks;
 						acc += spec*m_ScenePtr->lights[i].col*specI;
 					}
 				}
 			}
-			double refl = mat.param.ks;
+			float refl = mat.param.ks;
 			if (refl > 0){
 				vec3 R = V - (N*V.Dot(N)) * 2;
 				if (dg.bounces > 0)
@@ -243,24 +243,24 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 		break;
 		case PHONG:
 		{
-			vec3 V = dg.dir.Norm(0.0001);
-			colRGB acc = colRGB(0, 0, 0);
+			vec3 V = dg.dir.Norm(0.0001f);
+			colRGB acc = colRGB(0.f, 0.f, 0.f);
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001);
+				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
 				if (!shadowRay(line(dg.i.p, L)))
 				{
-					double intensity = N.Dot(L);
+					float intensity = N.Dot(L);
 					if (intensity > 0)
 					{
 						acc += dif*m_ScenePtr->lights[i].col*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
-					double dot = V.Dot(R);
+					float dot = V.Dot(R);
 					if (dot > 0)
 					{
-						double specI = pow(dot, mat.param.ke)*mat.param.ks;
+						float specI = pow(dot, mat.param.ke)*mat.param.ks;
 						acc += spec*m_ScenePtr->lights[i].col*specI;
 					}
 				}

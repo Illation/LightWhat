@@ -12,7 +12,7 @@ PostProcessor::~PostProcessor()
 
 void PostProcessor::controlExposure(Texture &image, int resX, int resY, ExposureType expT){
 
-	double dHighest = 0;
+	float dHighest = 0;
 	switch (expT)
 	{
 	case AUTO:

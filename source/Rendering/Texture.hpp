@@ -18,15 +18,15 @@ public:
 	~Texture();
 
 	void setRGB(colRGB col, int x, int y);
-	void setAlpha(double alpha, int x, int y);
+	void setAlpha(float alpha, int x, int y);
 	void setName(string lName);
 	void setInterpolationMode(interpolationMode lIPM);
 	void setQuadraticFittingMode(fitMode lFit);
 
 	colRGB getRGB(int x, int y);
-	colRGB getRGB(double x, double y);
-	double getAlpha(int x, int y);
-	double getAlpha(double x, double y);
+	colRGB getRGB(float x, float y);
+	float getAlpha(int x, int y);
+	float getAlpha(float x, float y);
 
 	size_t getWidth();
 	size_t getHeight();
@@ -36,7 +36,7 @@ public:
 private:
 	string m_Name;
 	vector<vector<colRGB> > m_RGBcolours;
-	vector<vector<double> > m_AlphaValues;
+	vector<vector<float> > m_AlphaValues;
 	size_t m_PixelsX;
 	size_t m_PixelsY;
 	interpolationMode m_IntPolMode;
