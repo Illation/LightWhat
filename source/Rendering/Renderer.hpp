@@ -2,6 +2,7 @@
 #include "Scene.hpp"
 #include "commonR.hpp"
 #include "BVH.hpp"
+#include <ctime>
 class Renderer
 {
 public:				
@@ -14,7 +15,9 @@ public:
 	void init(int camWidth, int camHeight);
 
 	colRGB raycast(Ray);
+	void traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, double minT);
 	bool shadowRay(line);
+	void shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit);
 	colRGB shade(DifferentialGeometry);
 
 	const int p_MaxBounces = 8;
@@ -28,6 +31,7 @@ private:
 
 	int m_currentRow = 0;
 	int m_samplesRendered = 0;
+
 
 	Renderer(const Renderer& tRef);
 	Renderer& operator=(const Renderer& tRef);

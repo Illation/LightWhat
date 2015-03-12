@@ -9,7 +9,7 @@ Plane::Plane(plane lP, size_t mIndex){
 Plane::~Plane(){
 }
 
-void Plane::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void Plane::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
 	intersection i;
 	i = p.rayIts(ray.ln, bfc);
 	if (i.hit){
@@ -23,7 +23,7 @@ void Plane::getIntersection(Ray ray, DifferentialGeometry &closest, double minT,
 		}
 	}
 }
-bool Plane::shadowIntersection(line ln){
+bool Plane::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	intersection its = p.lineIts(ln);
 	bool ret = false;
 	double shadowLength = ln.dir.Length();

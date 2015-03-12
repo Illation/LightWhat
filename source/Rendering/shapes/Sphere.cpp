@@ -12,7 +12,7 @@ Sphere::Sphere(point3 lC, double lR, size_t matIndex){
 Sphere::~Sphere(){
 }
 
-void Sphere::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void Sphere::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
 	vec3 v = ray.ln.orig - m_Center;
 	double b = -(v.Dot(ray.ln.dir.Norm(0.0000000001)));
 	double det = (b*b) - (v.Dot(v)) + m_SqRadius;
@@ -29,7 +29,7 @@ void Sphere::getIntersection(Ray ray, DifferentialGeometry &closest, double minT
 		}
 	}
 }
-bool Sphere::shadowIntersection(line ln){
+bool Sphere::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	bool ret = false;
 	double shadowLength = ln.dir.Length();
 	vec3 v = ln.orig - m_Center;

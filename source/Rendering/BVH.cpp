@@ -295,9 +295,9 @@ void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSu
 		{
 			//find longest axis for box
 			vec3 deltaBounds = node->bounds.m_Max - node->bounds.m_Min;
-			bool xGreatest = abs(deltaBounds.x) > abs(deltaBounds.y) && abs(deltaBounds.x) > abs(deltaBounds.z);
-			bool yGreatest = abs(deltaBounds.y) > abs(deltaBounds.x) && abs(deltaBounds.y) > abs(deltaBounds.z);
-			bool zGreatest = abs(deltaBounds.z) > abs(deltaBounds.y) && abs(deltaBounds.z) > abs(deltaBounds.x);
+			bool xGreatest = abs(deltaBounds.x) >= abs(deltaBounds.y) && abs(deltaBounds.x) >= abs(deltaBounds.z);
+			bool yGreatest = abs(deltaBounds.y) >= abs(deltaBounds.x) && abs(deltaBounds.y) >= abs(deltaBounds.z) && !xGreatest;
+			bool zGreatest = abs(deltaBounds.z) >= abs(deltaBounds.y) && abs(deltaBounds.z) >= abs(deltaBounds.x) && !xGreatest && ! yGreatest;
 			//find average triangle midpoint
 			point3 nodesMid=point3(0,0,0);
 			for (size_t i = 0; i < unsortedSubs->size(); i++){
@@ -388,8 +388,11 @@ void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSu
 }
 
 void BVH::clear(){
-	outerNode->clearNode();
-	delete outerNode;
-	outerNode = nullptr;
+	if (!(outerNode == nullptr))
+	{
+		outerNode->clearNode();
+		delete outerNode;
+		outerNode = nullptr;
+	}
 	unsortedIndices.clear();
 }

@@ -10,6 +10,7 @@ public:
 	~AABB();
 
 	bool intersect(Ray ray);
+	bool intersect(Ray ray, double t);
 	point3 center();
 	double volume();
 

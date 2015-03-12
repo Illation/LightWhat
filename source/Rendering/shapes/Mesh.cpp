@@ -44,116 +44,104 @@ Mesh::Mesh(){
 Mesh::~Mesh(){
 }
 
-void Mesh::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void Mesh::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
 	intersection its;
-	for (size_t i = 0; i < m_TriLists.size(); i++)
+	polylist plist = m_TriLists[subShapeIdx];
+	tri thisTri = plist.triangles[subShapeIdx2];
+	point3 fVertA = m_VertexList[thisTri.vertA];
+	its = thisTri.triPlane.rayIts(ray.ln, bfc);
+	if (its.hit == true)
 	{
-		polylist plist = m_TriLists[i];
-		for (size_t j = 0; j < plist.triangles.size(); j++)
+		if ((its.t < closest.i.t || closest.i.hit == false) && its.t>minT) // check if its is closest intersection
 		{
-			tri thisTri = plist.triangles[j];
-			point3 fVertA = m_VertexList[thisTri.vertA];
-			its = thisTri.triPlane.rayIts(ray.ln, bfc);
-			if (its.hit == true)
+			//calculate baryacentric coordinates
+			its.p = ray.ln.orig + ray.ln.dir*its.t;
+			vec3 v2 = its.p - fVertA;
+			double dot02 = thisTri.v0.Dot(v2);
+			double dot12 = thisTri.v1.Dot(v2);
+
+			double u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
+			if (u >= 0)
 			{
-				if ((its.t < closest.i.t || closest.i.hit == false) && its.t>minT) // check if its is closest intersection
+				double v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
+				if (v < 0) its.hit = false;
+				if (u + v > 1) its.hit = false;
+				if (its.hit)
 				{
-					//calculate baryacentric coordinates
-					its.p = ray.ln.orig + ray.ln.dir*its.t;
-					vec3 v2 = its.p - fVertA;
-					double dot02 = thisTri.v0.Dot(v2);
-					double dot12 = thisTri.v1.Dot(v2);
+					closest.i = its;
+					closest.mat = plist.matIndex;
 
-					double u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
-					if (u >= 0)
+					//smooth normals
+					vec3 n1 = m_NormalList[thisTri.normA];
+					vec3 n2 = m_NormalList[thisTri.normB];
+					vec3 n3 = m_NormalList[thisTri.normC];
+					vec3 N = n1 + (n3 - n1)*u + (n2 - n1)*v;
+					closest.n = N.Norm(0.00001);
+					//tangent space for normal maps
+					if (hasTangentSpace)
 					{
-						double v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
-						if (v < 0) its.hit = false;
-						if (u + v > 1) its.hit = false;
-						if (its.hit)
-						{
-							closest.i = its;
-							closest.mat = plist.matIndex;
+						vec3 t1 = m_TangentList[thisTri.normA];
+						vec3 t2 = m_TangentList[thisTri.normB];
+						vec3 t3 = m_TangentList[thisTri.normC];
+						vec3 T = t1 + (t3 - t1)*u + (t2 - t1)*v;
+						closest.t = T.Norm(0.00001);
 
-							//smooth normals
-							vec3 n1 = m_NormalList[thisTri.normA];
-							vec3 n2 = m_NormalList[thisTri.normB];
-							vec3 n3 = m_NormalList[thisTri.normC];
-							vec3 N = n1 + (n3 - n1)*u + (n2 - n1)*v;
-							closest.n = N.Norm(0.00001);
-							//tangent space for normal maps
-							if (hasTangentSpace)
-							{
-								vec3 t1 = m_TangentList[thisTri.normA];
-								vec3 t2 = m_TangentList[thisTri.normB];
-								vec3 t3 = m_TangentList[thisTri.normC];
-								vec3 T = t1 + (t3 - t1)*u + (t2 - t1)*v;
-								closest.t = T.Norm(0.00001);
+						vec3 b1 = m_BiTangentList[thisTri.normA];
+						vec3 b2 = m_BiTangentList[thisTri.normB];
+						vec3 b3 = m_BiTangentList[thisTri.normC];
+						vec3 B = b1 + (b3 - b1)*u + (b2 - b1)*v;
+						closest.b = B.Norm(0.00001);
 
-								vec3 b1 = m_BiTangentList[thisTri.normA];
-								vec3 b2 = m_BiTangentList[thisTri.normB];
-								vec3 b3 = m_BiTangentList[thisTri.normC];
-								vec3 B = b1 + (b3 - b1)*u + (b2 - b1)*v;
-								closest.b = B.Norm(0.00001);
-
-								closest.hasTangentSpace = true;
-							}
-							else closest.hasTangentSpace = false;
-
-							//uv map
-							closest.uv = point2(u, v);
-							if (plist.hasUV)
-							{
-								vec2 uv1 = m_UVs[0].coords[thisTri.uvA];
-								vec2 uv2 = m_UVs[0].coords[thisTri.uvB];
-								vec2 uv3 = m_UVs[0].coords[thisTri.uvC];
-								closest.uv = uv1 + (uv3 - uv1)*u + (uv2 - uv1)*v;
-								closest.uv = closest.uv.correctUV();
-								closest.uv.y = 1 - closest.uv.y;
-							}
-						}
+						closest.hasTangentSpace = true;
 					}
-					else its.hit = false;
+					else closest.hasTangentSpace = false;
+
+					//uv map
+					closest.uv = point2(u, v);
+					if (plist.hasUV)
+					{
+						vec2 uv1 = m_UVs[0].coords[thisTri.uvA];
+						vec2 uv2 = m_UVs[0].coords[thisTri.uvB];
+						vec2 uv3 = m_UVs[0].coords[thisTri.uvC];
+						closest.uv = uv1 + (uv3 - uv1)*u + (uv2 - uv1)*v;
+						closest.uv = closest.uv.correctUV();
+						closest.uv.y = 1 - closest.uv.y;
+					}
 				}
-				else its.hit = false;
 			}
+			else its.hit = false;
 		}
+		else its.hit = false;
 	}
 }
-bool Mesh::shadowIntersection(line ln){
+bool Mesh::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	intersection its;
 	bool hit = false;
 	double shadowLength = ln.dir.Length();
-	for (size_t i = 0; i < m_TriLists.size(); i++)
+	polylist plist = m_TriLists[subShapeIdx];
+	tri thisTri = plist.triangles[subShapeIdx2];
+	point3 fVertA = m_VertexList[thisTri.vertA];
+	its = thisTri.triPlane.lineIts(ln);
+	if (its.hit == true)
 	{
-		polylist plist = m_TriLists[i];
-		for (size_t j = 0; j < plist.triangles.size(); j++)
+		if (its.t>0.001 && its.t < shadowLength) // avoid z fighting and objects behind light
 		{
-			tri thisTri = plist.triangles[j];
-			point3 fVertA = m_VertexList[thisTri.vertA];
-			its = thisTri.triPlane.lineIts(ln);
-			if (its.hit == true)
+			//calculate baryacentric coordinates
+			its.p = ln.orig + ln.dir*its.t;
+			vec3 v2 = its.p - fVertA;
+
+			double dot02 = thisTri.v0.Dot(v2);
+			double dot12 = thisTri.v1.Dot(v2);
+
+			double u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
+			if (u >= 0)
 			{
-				if (its.t>0.001 && its.t < shadowLength) // avoid z fighting and objects behind light
+				double v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
+				if (v < 0) its.hit = false;
+				if (u + v > 1) its.hit = false;
+				if (its.hit)
 				{
-					//calculate baryacentric coordinates
-					its.p = ln.orig + ln.dir*its.t;
-					vec3 v2 = its.p - fVertA;
-
-					double dot02 = thisTri.v0.Dot(v2);
-					double dot12 = thisTri.v1.Dot(v2);
-
-					double u = (thisTri.dot11 * dot02 - thisTri.dot01 * dot12) / thisTri.invDenom;
-					if (u >= 0)
-					{
-						double v = (thisTri.dot00 * dot12 - thisTri.dot01 * dot02) / thisTri.invDenom;
-						if (v < 0) its.hit = false;
-						if (u + v > 1) its.hit = false;
-						if (its.hit)
-						{
-							hit = true;
-						}
-					}
+					hit = true;
 				}
 			}
 		}

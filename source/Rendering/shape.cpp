@@ -15,11 +15,11 @@ point3 shape::getPosition(){
 	return point3(0, 0, 0);
 }
 
-void shape::getIntersection(Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
+void shape::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, DifferentialGeometry &closest, double minT, bool bfc){
 	cout << "unimplemented method: getIntersection() called!" << endl;
 }
 
-bool shape::shadowIntersection(line ln){
+bool shape::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln){
 	cout << "unimplemented method: shadowIntersection() called!" << endl;
 	return false;
 }

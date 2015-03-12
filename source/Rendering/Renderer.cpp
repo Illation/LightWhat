@@ -29,7 +29,6 @@ void Renderer::init(int camWidth, int camHeight){
 	m_BvhPtr = new BVH();
 	m_BvhPtr->Build(m_ScenePtr);
 	cout << "bvh built!" << endl;
-	//m_BvhPtr->clear();
 }
 
 Texture *Renderer::getImage()
@@ -61,32 +60,101 @@ colRGB Renderer::raycast(Ray ray)
 	closest.i.hit = false;
 	bool hasHit=false;
 	double minT = ray.isPrimary ? 1.0 : 0.0001;
-	for (size_t i = 0; i < m_ScenePtr->shapes.size(); i++)
+	for (size_t i = 0; i < m_BvhPtr->unsortedIndices.size(); i++)
 	{
-		m_ScenePtr->shapes[i]->getIntersection(ray, closest, minT, m_BackfaceCulling);
+		shapeNodeIdx idxStruct = m_BvhPtr->unsortedIndices[i];
+		m_ScenePtr->shapes[idxStruct.shapeIdx]->getIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ray, closest, minT, m_BackfaceCulling);
+		
 		if (closest.i.hit)
 		{
 			hasHit = true;
 		}
 	}
+	traverseBVH(ray, m_BvhPtr->outerNode, closest, hasHit, minT);
+
 	closest.dir = ray.ln.dir;
 	closest.bounces = ray.bounces;
+
+	//shade closest intersection
 	if (hasHit == false)
 	{
 		closest.mat = materialPointer::BACKGROUND_MATERIAL;
 	}
 	return shade(closest);
 }
+void Renderer::traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, double minT)
+{
+	//intersect with volume and check if its closer than the already found distance
+	bool aabbHit = false;
+	if (hasHit)
+	{
+		aabbHit = node->bounds.intersect(ray, dg.i.t);
+	}
+	else
+	{
+		aabbHit = node->bounds.intersect(ray);
+	}
+	if (aabbHit)
+	{
+		//solve this nodes assigned shapes intersections
+		for (size_t i = 0; i < node->Indices.size(); i++)
+		{
+			shapeNodeIdx idxStruct = node->Indices[i];
+			m_ScenePtr->shapes[idxStruct.shapeIdx]->getIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ray, dg, minT, m_BackfaceCulling);
+			if (dg.i.hit)
+			{
+				hasHit = true;
+			}
+		}
+		//traverse hierachy for existing child nodes
+		if (!(node->Child0 == nullptr))
+		{
+			traverseBVH(ray, node->Child0, dg, hasHit, minT);
+		}
+		if (!(node->Child1 == nullptr))
+		{
+			traverseBVH(ray, node->Child1, dg, hasHit, minT);
+		}
+	}
+}
 bool Renderer::shadowRay(line ln)
 {
-	intersection its;
 	bool hasHit = false;
-	double shadowLength = ln.dir.Length();
-	for (size_t i = 0; i < m_ScenePtr->shapes.size(); i++)
+	for (size_t i = 0; i < m_BvhPtr->unsortedIndices.size(); i++)
 	{
-		if (m_ScenePtr->shapes[i]->shadowIntersection(ln))hasHit = true;
+		shapeNodeIdx idxStruct = m_BvhPtr->unsortedIndices[i];
+		if (m_ScenePtr->shapes[idxStruct.shapeIdx]->shadowIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ln))
+			hasHit = true;
+	}
+	if (!hasHit)
+	{
+		Ray ray;
+		ray.ln = ln;
+		ray.precalculate();
+		shadowTraverseBVH(ray, m_BvhPtr->outerNode, hasHit);
 	}
 	return hasHit;
+}
+void Renderer::shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit)
+{
+	if (node->bounds.intersect(ray))
+	{
+		for (size_t i = 0; i < node->Indices.size(); i++)
+		{
+			shapeNodeIdx idxStruct = node->Indices[i];
+			if (m_ScenePtr->shapes[idxStruct.shapeIdx]->shadowIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ray.ln))
+				hasHit = true;
+		}
+		//traverse hierachy for existing child nodes
+		if (!(node->Child0 == nullptr) && !hasHit)
+		{
+			shadowTraverseBVH(ray, node->Child0, hasHit);
+		}										 
+		if (!(node->Child1 == nullptr) && !hasHit)
+		{										 
+			shadowTraverseBVH(ray, node->Child1, hasHit);
+		}
+	}
 }
 
 colRGB Renderer::shade(DifferentialGeometry dg)
@@ -165,6 +233,7 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 				if (dg.bounces > 0)
 				{
 					Ray ray = Ray(line(dg.i.p, R), dg.bounces - 1, false);
+					ray.precalculate();
 					colRGB rcol = raycast(ray);
 					acc += rcol*refl*mat.specular;
 				}
