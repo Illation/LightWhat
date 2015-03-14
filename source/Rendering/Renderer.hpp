@@ -2,6 +2,7 @@
 #include "Scene.hpp"
 #include "commonR.hpp"
 #include "BVH.hpp"
+#include <thread>
 #include <ctime>
 class Renderer
 {
@@ -9,7 +10,7 @@ public:
 	Renderer();
 	virtual ~Renderer();
 
-	bool renderNextTile();
+	bool renderNextChunk();
 	Texture *getImage();
 	void setScene(Scene *sc);
 	void init(int camWidth, int camHeight);

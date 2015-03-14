@@ -40,10 +40,31 @@ Texture *Renderer::getImage()
 	return &m_Image;
 }
 
-bool Renderer::renderNextTile()
+bool Renderer::renderNextChunk()
 {
-	renderTile(m_currentTile);
-	m_currentTile++;
+	vector<thread> tileThreads;
+
+	int availableThreads = thread::hardware_concurrency();
+
+	for (int i = 0; i < availableThreads; i++)
+	{
+		if (m_currentTile < tiles.size())
+			tileThreads.push_back(std::thread(&Renderer::renderTile, this, m_currentTile));
+		m_currentTile++;
+	}
+	int activeThreads = tileThreads.size();
+	while (activeThreads>0)
+	{
+		for (size_t i = 0; i < tileThreads.size(); i++)
+		{
+			if (tileThreads[i].joinable())
+			{
+				tileThreads[i].join();
+				activeThreads--;
+			}
+		}
+	}
+
 	if (m_currentTile >= tiles.size())
 	{
 		m_currentTile = 0;

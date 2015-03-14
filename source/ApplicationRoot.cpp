@@ -242,7 +242,7 @@ void ApplicationRoot::updateImage()
 		cout << endl << "rendering.... " << endl;
 	}
 	//render
-	if (renderer->renderNextTile())
+	if (renderer->renderNextChunk())
 	{
 		_state = RenderingState::SETUP;
 		isSceneLoaded = false;
