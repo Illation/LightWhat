@@ -80,7 +80,7 @@ void ApplicationRoot::initSystems()
 	_mode = PerformanceMode::VIEW;
 
 
-	cout << "loading fonts..." << endl;
+	cout << "loading fonts...";
 	char ownPth[MAX_PATH];
 	HMODULE hModule = GetModuleHandle(NULL);
 	if (hModule != NULL)
@@ -99,8 +99,11 @@ void ApplicationRoot::initSystems()
 
 		m_ConsoleFontRegularPtr = TTF_OpenFont((exeDirectory + string("fonts/Inconsolata-Regular.ttf")).c_str(), 20);
 		m_ConsoleFontBoldPtr = TTF_OpenFont((exeDirectory + string("fonts/Inconsolata-Bold.ttf")).c_str(), 20);
-	}
 
+		cout << "    fonts loaded!" << endl;
+	}
+	else cout << "    font loading failed!" << endl;
+	cout << "backface culling enabled" << endl;
 }
 
 void ApplicationRoot::functionLoop()
@@ -239,7 +242,7 @@ void ApplicationRoot::updateImage()
 		cout << endl << "rendering.... " << endl;
 	}
 	//render
-	if (renderer->renderNextRow())
+	if (renderer->renderNextTile())
 	{
 		_state = RenderingState::SETUP;
 		isSceneLoaded = false;
@@ -339,6 +342,8 @@ void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
 	texture_rect.h = fontSize;
 
 	SDL_RenderCopy(sdlRenderer, texture, NULL, &texture_rect);
+
+	SDL_DestroyTexture(texture);
 }
 
 void ApplicationRoot::displaySceneInfo(){
@@ -354,7 +359,6 @@ void ApplicationRoot::drawImage()
 {
 	SDL_UpdateTexture(renderTex, NULL, pixels, _screenWidth *sizeof(Uint32));
 
-	SDL_Color color = { 255, 255, 255, 255 };
 	SDL_RenderClear(sdlRenderer);
 	SDL_RenderCopy(sdlRenderer, renderTex, NULL, NULL);
 

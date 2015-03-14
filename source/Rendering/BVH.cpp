@@ -154,124 +154,6 @@ void BVH::Build(Scene *scPtr){
 	//recursivly generate tree
 	scaleAndSplit(outerNode, &unsortedNodes, 4096);
 }
-
-//void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSubTreeDeph){
-//	if (unsortedSubs->size() >0 && maxSubTreeDeph>0)
-//	{
-//		//Get Nodes AABB
-//		vec3 *min = new vec3(unsortedSubs->at(0)->bounds.m_Min), *max = new vec3(unsortedSubs->at(0)->bounds.m_Max);
-//		vec3 *boxScaleAcc = new vec3();
-//		for (size_t i = 0; i < unsortedSubs->size(); i++){
-//			if (unsortedSubs->at(i)->bounds.m_Min.x < min->x)min->x = unsortedSubs->at(i)->bounds.m_Min.x;
-//			if (unsortedSubs->at(i)->bounds.m_Min.y < min->y)min->y = unsortedSubs->at(i)->bounds.m_Min.y;
-//			if (unsortedSubs->at(i)->bounds.m_Min.z < min->z)min->z = unsortedSubs->at(i)->bounds.m_Min.z;
-//
-//			if (unsortedSubs->at(i)->bounds.m_Max.x > max->x)max->x = unsortedSubs->at(i)->bounds.m_Max.x;
-//			if (unsortedSubs->at(i)->bounds.m_Max.y > max->y)max->y = unsortedSubs->at(i)->bounds.m_Max.y;
-//			if (unsortedSubs->at(i)->bounds.m_Max.z > max->z)max->z = unsortedSubs->at(i)->bounds.m_Max.z;
-//
-//			boxScaleAcc->operator+=( unsortedSubs->at(i)->bounds.m_Max - unsortedSubs->at(i)->bounds.m_Min);
-//		}
-//		node->bounds = AABB(vec3(min->x, min->y, min->z), vec3(max->x, max->y, max->z));
-//
-//		vector<bvhNode*> *subs0 = new vector<bvhNode*>();
-//		vector<bvhNode*> *subs1 = new vector<bvhNode*>();
-//
-//		boxScaleAcc->x /= max->x - min->x;
-//		boxScaleAcc->y /= max->y - min->y;
-//		boxScaleAcc->z /= max->z - min->z;
-//		if (boxScaleAcc->x < boxScaleAcc->y && boxScaleAcc->x < boxScaleAcc->z)
-//		{
-//			float center = min->x + (max->x - min->x) / 2;
-//			for (size_t i = 0; i < unsortedSubs->size(); i++)
-//			{
-//				if (unsortedSubs->at(i)->objectCenter.x < center)
-//				{
-//					subs0->push_back(unsortedSubs->at(i));
-//				}
-//				else
-//				{
-//					subs1->push_back(unsortedSubs->at(i));
-//				}
-//			}
-//		}
-//		else if (boxScaleAcc->y < boxScaleAcc->x && boxScaleAcc->y < boxScaleAcc->z)
-//		{
-//			float center = min->y + (max->y - min->y) / 2;
-//			for (size_t i = 0; i < unsortedSubs->size(); i++)
-//			{
-//				if (unsortedSubs->at(i)->objectCenter.y < center)
-//				{
-//					subs0->push_back(unsortedSubs->at(i));
-//				}
-//				else
-//				{
-//					subs1->push_back(unsortedSubs->at(i));
-//				}
-//			}
-//		}
-//		else
-//		{
-//			float center = min->z + (max->z - min->z) / 2;
-//			for (size_t i = 0; i < unsortedSubs->size(); i++)
-//			{
-//				if (unsortedSubs->at(i)->objectCenter.z < center)
-//				{
-//					subs0->push_back(unsortedSubs->at(i));
-//				}
-//				else
-//				{
-//					subs1->push_back(unsortedSubs->at(i));
-//				}
-//			}
-//		}
-//		delete boxScaleAcc;
-//		boxScaleAcc = nullptr;
-//		delete min;
-//		min = nullptr;
-//		delete max;
-//		max = nullptr;
-//		if (subs0->size() + subs1->size() <= 2)
-//		{
-//			node->isLeaf = true;
-//		}
-//
-//		if (subs0->size() <= 1)
-//		{
-//			if (subs0->size() == 1)node->Indices.push_back(subs0->at(0)->Indices[0]);
-//		}
-//		else
-//		{
-//			node->Child0 = new bvhNode();
-//			scaleAndSplit(node->Child0, subs0, maxSubTreeDeph-1);
-//		}
-//		if (subs1->size() <= 1)
-//		{
-//			if (subs1->size() == 1)node->Indices.push_back(subs1->at(0)->Indices[0]);
-//		}
-//		else
-//		{
-//			node->Child1 = new bvhNode();
-//			scaleAndSplit(node->Child1, subs1, maxSubTreeDeph - 1);
-//		}
-//		delete subs1;
-//		subs1 = nullptr;
-//		delete subs0;
-//		subs0 = nullptr;
-//	}
-//	else
-//	{
-//		node->isLeaf = true;
-//		for (size_t i = 0; i < unsortedSubs->size(); i++)
-//		{
-//			for (size_t j = 0; j < unsortedSubs->at(i)->Indices.size(); j++)
-//			{
-//				node->Indices.push_back(unsortedSubs->at(i)->Indices[j]);
-//			}
-//		}
-//	}
-//}
-
 void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSubTreeDeph)
 {
 	if (unsortedSubs->size() > 0)
@@ -299,11 +181,14 @@ void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSu
 			bool yGreatest = abs(deltaBounds.y) >= abs(deltaBounds.x) && abs(deltaBounds.y) >= abs(deltaBounds.z) && !xGreatest;
 			bool zGreatest = abs(deltaBounds.z) >= abs(deltaBounds.y) && abs(deltaBounds.z) >= abs(deltaBounds.x) && !xGreatest && ! yGreatest;
 			//find average triangle midpoint
-			point3 nodesMid=point3(0,0,0);
-			for (size_t i = 0; i < unsortedSubs->size(); i++){
-				nodesMid += unsortedSubs->at(i)->objectCenter;
-			}
-			nodesMid /= unsortedSubs->size();
+			double nodesMid = 0.0;
+			if (xGreatest)for (size_t i = 0; i < unsortedSubs->size(); i++)
+				nodesMid += (double)unsortedSubs->at(i)->objectCenter.x;
+			if (yGreatest)for (size_t i = 0; i < unsortedSubs->size(); i++)
+				nodesMid += (double)unsortedSubs->at(i)->objectCenter.y;
+			if (zGreatest)for (size_t i = 0; i < unsortedSubs->size(); i++)
+				nodesMid += (double)unsortedSubs->at(i)->objectCenter.z;
+			nodesMid /= (double)unsortedSubs->size();
 
 			//create 2 new triangle lists
 			vector<bvhNode*> subs0;
@@ -316,12 +201,12 @@ void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSu
 			// average point in the longest axis 
 				if (xGreatest)
 				{
-					if (unsortedSubs->at(i)->objectCenter.x == nodesMid.x)
+					if (unsortedSubs->at(i)->objectCenter.x == (float)nodesMid)
 					{
 						if (subs0.size() <= subs1.size())subs0.push_back(unsortedSubs->at(i));
 						else subs1.push_back(unsortedSubs->at(i));
 					}
-					else if (unsortedSubs->at(i)->objectCenter.x <= nodesMid.x)
+					else if (unsortedSubs->at(i)->objectCenter.x <= (float)nodesMid)
 					{
 						subs0.push_back(unsortedSubs->at(i));
 					}
@@ -333,12 +218,12 @@ void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSu
 				}
 				if (yGreatest)
 				{
-					if (unsortedSubs->at(i)->objectCenter.y == nodesMid.y)
+					if (unsortedSubs->at(i)->objectCenter.y == (float)nodesMid)
 					{
 						if (subs0.size() <= subs1.size())subs0.push_back(unsortedSubs->at(i));
 						else subs1.push_back(unsortedSubs->at(i));
 					}
-					else if (unsortedSubs->at(i)->objectCenter.y <= nodesMid.y)
+					else if (unsortedSubs->at(i)->objectCenter.y <= (float)nodesMid)
 					{
 						subs0.push_back(unsortedSubs->at(i));
 					}
@@ -349,12 +234,12 @@ void BVH::scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSu
 				}
 				if (zGreatest)
 				{
-					if (unsortedSubs->at(i)->objectCenter.z == nodesMid.z)
+					if (unsortedSubs->at(i)->objectCenter.z == (float)nodesMid)
 					{
 						if (subs0.size() <= subs1.size())subs0.push_back(unsortedSubs->at(i));
 						else subs1.push_back(unsortedSubs->at(i));
 					}
-					else if (unsortedSubs->at(i)->objectCenter.z <= nodesMid.z)
+					else if (unsortedSubs->at(i)->objectCenter.z <= (float)nodesMid)
 					{
 						subs0.push_back(unsortedSubs->at(i));
 					}

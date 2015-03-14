@@ -123,3 +123,9 @@ struct DifferentialGeometry{
 	int bounces;
 	bool hasTangentSpace = false;
 };
+
+struct tile{
+	int posX, posY;
+	int scaleX, scaleY;
+	bool isRendered = false;
+};
