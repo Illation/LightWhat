@@ -4,19 +4,6 @@
 ApplicationRoot::ApplicationRoot()
 {
 	_window = nullptr;
-	_screenWidth = 1280;
-	_screenHeight = 720;
-	_state = RenderingState::SETUP;
-
-	m_ResolutionX = 640;
-	m_ResolutionY = 360;
-	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
-	m_ImagePosY = 100;
-
-	m_TexResolutionX = 400;
-	m_TexResolutionY = 400;
-	m_TexPosX = 50;
-	m_TexPosY = _screenHeight - (m_TexResolutionX + 50);
 }
 
 
@@ -64,8 +51,21 @@ void ApplicationRoot::initSystems()
 	ilutRenderer(ILUT_DIRECT3D9);
 
 	_window = SDL_CreateWindow("LightWhat - Robert Lindner", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED
-		, _screenWidth, _screenHeight, 
+		, 1900, 980, 
 		0);
+
+	SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
+	_state = RenderingState::SETUP;
+
+	m_ResolutionX = 640;// 1280;
+	m_ResolutionY = 360;// 720;
+	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
+	m_ImagePosY = 50;
+
+	m_TexResolutionX = 400;
+	m_TexResolutionY = 400;
+	m_TexPosX = 50;
+	m_TexPosY = _screenHeight - (m_TexResolutionX + 50);
 
 	sdlRenderer = SDL_CreateRenderer(_window, -1, 0);
 	renderTex = SDL_CreateTexture(sdlRenderer,

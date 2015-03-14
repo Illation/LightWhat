@@ -62,7 +62,7 @@ extern "C" {
  *  Maximum number of indices per face (polygon). */
 
 #ifndef AI_MAX_FACE_INDICES 
-#	define AI_MAX_FACE_INDICES 0x7fff
+#	define AI_MAX_FACE_INDICES 0x7fffffff
 #endif
 
 /** @def AI_MAX_BONE_WEIGHTS
@@ -76,14 +76,14 @@ extern "C" {
  *  Maximum number of vertices per mesh.  */
 
 #ifndef AI_MAX_VERTICES
-#	define AI_MAX_VERTICES 0x7fffffff
+#	define AI_MAX_VERTICES 0x7fffffffff
 #endif
 
 /** @def AI_MAX_FACES
  *  Maximum number of faces per mesh. */
 
 #ifndef AI_MAX_FACES
-#	define AI_MAX_FACES 0x7fffffff
+#	define AI_MAX_FACES 0x7fffffffff
 #endif
 
 /** @def AI_MAX_NUMBER_OF_COLOR_SETS

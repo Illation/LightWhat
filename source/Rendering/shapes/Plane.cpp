@@ -34,7 +34,7 @@ bool Plane::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln)
 	return ret;
 }
 AABB Plane::getBoundingBox(size_t i1, size_t i2){
-	return AABB(point3(-INFINITY, -INFINITY, -INFINITY), point3(INFINITY, INFINITY, INFINITY));
+	return AABB(point3(-0.f, -0.f, -0.f), point3(0.f, 0.f, 0.f));
 }
 point3 Plane::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
 	return p.n*p.d;

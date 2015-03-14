@@ -21,7 +21,7 @@ public:
 	AABB bounds;
 	point3 objectCenter;
 	bool isLeaf = false;
-	bvhNode *Child0 = nullptr, *Child1 = nullptr;
+	bvhNode *Child0 = nullptr, *Child1 = nullptr , *Child2 = nullptr, *Child3 = nullptr;
 	vector<shapeNodeIdx> Indices;
 };
 class BVH{
@@ -36,6 +36,8 @@ public:
 	vector<shapeNodeIdx> unsortedIndices;
 
 private:
-	void scaleAndSplit(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSubTreeDeph);
+	void buildSubTree(bvhNode *node, vector<bvhNode*> *unsortedSubs, int maxSubTreeDeph);
+	AABB nodeListBounds(vector<bvhNode*> *unsortedSubs);
+	void Split(vec3 deltaBounds, vector<bvhNode*> *unsortedSubs, vector<bvhNode*> &subs0, vector<bvhNode*> &subs1);
 	Scene *m_ScenePtr;
 };

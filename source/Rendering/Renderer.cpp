@@ -29,10 +29,10 @@ void Renderer::init(int camWidth, int camHeight){
 	tiles =	setupTiles(camWidth, camHeight, tileSizeX, tileSizeY);
 
 	//setup BVH
-	cout << "building bvh...." << endl;
+	cout << "building QBVH tree...." << endl;
 	m_BvhPtr = new BVH();
 	m_BvhPtr->Build(m_ScenePtr);
-	cout << "bvh built!" << endl;
+	cout << "QBVH tree built!" << endl;
 }
 
 Texture *Renderer::getImage()
@@ -48,7 +48,7 @@ bool Renderer::renderNextChunk()
 
 	for (int i = 0; i < availableThreads; i++)
 	{
-		if (m_currentTile < tiles.size())
+		if (m_currentTile < (signed int)tiles.size())
 			tileThreads.push_back(std::thread(&Renderer::renderTile, this, m_currentTile));
 		m_currentTile++;
 	}
@@ -65,7 +65,7 @@ bool Renderer::renderNextChunk()
 		}
 	}
 
-	if (m_currentTile >= tiles.size())
+	if (m_currentTile >= (signed int)tiles.size())
 	{
 		m_currentTile = 0;
 		m_samplesRendered++;
@@ -147,6 +147,14 @@ void Renderer::traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bo
 		{
 			traverseBVH(ray, node->Child1, dg, hasHit, minT);
 		}
+		if (!(node->Child2 == nullptr))
+		{
+			traverseBVH(ray, node->Child2, dg, hasHit, minT);
+		}
+		if (!(node->Child3 == nullptr))
+		{
+			traverseBVH(ray, node->Child3, dg, hasHit, minT);
+		}
 	}
 }
 bool Renderer::shadowRay(line ln)
@@ -185,6 +193,14 @@ void Renderer::shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit)
 		if (!(node->Child1 == nullptr) && !hasHit)
 		{										 
 			shadowTraverseBVH(ray, node->Child1, hasHit);
+		}
+		if (!(node->Child2 == nullptr) && !hasHit)
+		{
+			shadowTraverseBVH(ray, node->Child2, hasHit);
+		}
+		if (!(node->Child3 == nullptr) && !hasHit)
+		{
+			shadowTraverseBVH(ray, node->Child3, hasHit);
 		}
 	}
 }
