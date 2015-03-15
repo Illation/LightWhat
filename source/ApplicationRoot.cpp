@@ -268,6 +268,7 @@ void ApplicationRoot::updateImage()
 		postPr.controlExposure(*daImage, m_ResolutionX, m_ResolutionY, AUTO);
 		float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
 		cout << endl << "render completed!" << endl << "time: " << duration << " seconds" << endl;
+		renderTime = string("Render time: ") + to_string(duration) + string(" seconds");
 
 		//Update SDL texture
 		for (int i = 0; i < m_ResolutionX; i++)
@@ -349,6 +350,7 @@ void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
 void ApplicationRoot::displaySceneInfo(){
 	SDL_Color color = { 255, 255, 255, 255 };
 	int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY + m_ResolutionY + dy;
+	renderText(renderTime, m_ConsoleFontRegularPtr, color, fSize, x+300, y);
 	for (size_t i = 0; i < sceneInfo.size(); i++){
 		renderText(sceneInfo[i], m_ConsoleFontRegularPtr, color, fSize, x, y);
 		y += dy;

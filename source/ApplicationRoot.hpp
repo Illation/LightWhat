@@ -82,5 +82,6 @@ private:
 	TTF_Font *m_ConsoleFontRegularPtr = nullptr;
 	TTF_Font *m_ConsoleFontBoldPtr = nullptr;
 	vector<string> sceneInfo;
+	string renderTime = string("Render time: - seconds");
 };
 
