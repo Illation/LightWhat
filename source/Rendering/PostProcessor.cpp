@@ -31,6 +31,17 @@ void PostProcessor::controlExposure(Texture &image, int resX, int resY, Exposure
 		}
 		break;
 	case CLIP:
+		for (int i = 0; i < resX; i++)
+		{
+			for (int j = 0; j < resY; j++)
+			{
+				colRGB col = image.getRGB(i, j);
+				if (col.red>1.f)col.red = 1.f;
+				if (col.green>1.f)col.green = 1.f;
+				if (col.blue>1.f)col.blue = 1.f;
+				image.setRGB(col, i, j);
+			}
+		}
 		break;
 	default:
 		break;

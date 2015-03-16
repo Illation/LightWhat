@@ -17,13 +17,9 @@ void Renderer::setScene(Scene *sc){
 
 void Renderer::init(int camWidth, int camHeight){
 	//setup blank image
-	m_Image = Texture("Render result", camWidth, camHeight);
-	m_Image.setInterpolationMode(INTPOL_PIXELS);
-	m_Image.setQuadraticFittingMode(FIT_STRETCHXY);
-
+	clearImage(camWidth, camHeight);
 	//setup Ray Map
-	rayMap = m_ScenePtr->cam.getRayMap(p_MaxBounces);
-
+	updateRayMap();
 	//setup tiles
 	int tileSizeX = 64, tileSizeY = 64;
 	tiles =	setupTiles(camWidth, camHeight, tileSizeX, tileSizeY);
@@ -33,6 +29,18 @@ void Renderer::init(int camWidth, int camHeight){
 	m_BvhPtr = new BVH();
 	m_BvhPtr->Build(m_ScenePtr);
 	cout << "QBVH tree built!" << endl;
+}
+
+void Renderer::clearImage(int camWidth, int camHeight)
+{
+	m_Image = Texture("Render result", camWidth, camHeight);
+	m_Image.setInterpolationMode(INTPOL_PIXELS);
+	m_Image.setQuadraticFittingMode(FIT_STRETCHXY);
+}
+
+void Renderer::updateRayMap()
+{
+	rayMap = m_ScenePtr->cam.getRayMap(p_MaxBounces);
 }
 
 Texture *Renderer::getImage()
@@ -81,12 +89,15 @@ void Renderer::renderTile(int tileIndex)
 	{
 		for (int y = thisTile.posY; y < thisTile.posY + thisTile.scaleY; y++)
 		{
-			m_Image.setRGB(raycast(rayMap[x][y]), x, y);
+			colRGB current = m_Image.getRGB(x, y);
+			float t;
+			colRGB next = ((current*(float)m_samplesRendered) + raycast(rayMap[x][y], t)) / (float)(m_samplesRendered + 1);
+			m_Image.setRGB(next, x, y);
 		}
 	}
 }
 
-colRGB Renderer::raycast(Ray ray)
+colRGB Renderer::raycast(Ray ray, float &t)
 {
 	DifferentialGeometry closest;
 	closest.i.hit = false;
@@ -111,6 +122,10 @@ colRGB Renderer::raycast(Ray ray)
 	if (hasHit == false)
 	{
 		closest.mat = materialPointer::BACKGROUND_MATERIAL;
+	}
+	else
+	{
+		t = closest.i.t / closest.dir.Length();
 	}
 	return shade(closest);
 }
@@ -282,7 +297,8 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 				{
 					Ray ray = Ray(line(dg.i.p, R), dg.bounces - 1, false);
 					ray.precalculate();
-					colRGB rcol = raycast(ray);
+					float t;
+					colRGB rcol = raycast(ray, t);
 					acc += rcol*refl*mat.specular;
 				}
 			}
@@ -316,6 +332,70 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 			ret = acc;
 		}
 		break;
+		case GLASS:
+		{
+			vec3 V = dg.dir.Norm(0.0001f);
+			colRGB acc = colRGB(0.f, 0.f, 0.f);
+			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
+			{
+				//L inncoming light direction
+				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
+				if (!shadowRay(line(dg.i.p, L)))
+				{
+					float intensity = N.Dot(L);
+					if (intensity > 0)
+					{
+						acc += dif*m_ScenePtr->lights[i].col*intensity;
+					}
+					vec3 R = L - (N*L.Dot(N)) * 2;
+					float dot = V.Dot(R);
+					if (dot > 0)
+					{
+						float specI = pow(dot, mat.param.ke)*mat.param.ks;
+						acc += spec*m_ScenePtr->lights[i].col*specI;
+					}
+				}
+			}
+			float refl = mat.param.refl;
+			if (refl > 0){
+				if (dg.bounces > 0)
+				{
+					vec3 R = V - (N*V.Dot(N)) * 2;
+					Ray ray = Ray(line(dg.i.p, R), dg.bounces - 1, false);
+					ray.precalculate();
+					float t;
+					colRGB rcol = raycast(ray, t);
+					acc += rcol*refl*mat.specular;
+				}
+			}
+			float refr = mat.param.refr;
+			if (refr > 0.f)
+			{
+				if (dg.bounces > 0)
+				{
+					float ior = mat.param.ior;
+					float n = 1 / ior;
+					float cosI = -(dg.n.Dot(V));
+					if (cosI < 0)
+						N = -N;
+					float cosT2 = 1.f - n*n*(1.f - cosI*cosI);
+					if (cosT2 > 0)
+					{
+						vec3 T = (n*V) + (n*cosI - sqrtf(cosT2)) * N;
+						Ray ray = Ray(line(dg.i.p, T), dg.bounces - 1, false);
+						ray.precalculate();
+						float t;
+						colRGB rcol = raycast(ray, t);
+						colRGB absorbance = dif*(0.15f*-t);
+						colRGB transparency = colRGB(expf(absorbance.red), expf(absorbance.green), expf(absorbance.blue));
+						acc += (rcol*transparency);// *refr;
+					}
+
+				}
+			}
+			ret = acc;
+		}
+			break;
 		case GLOSSY:
 		case EMISSION:
 		case BACKGROUND:

@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "common.hpp"
+#include <random>
 
 using namespace std;
 
@@ -67,6 +68,7 @@ enum ShadingModel
 	DIFFUSE,
 	REFLECT,
 	PHONG,
+	GLASS,
 	GLOSSY,
 	EMISSION,
 	BACKGROUND,
@@ -81,6 +83,9 @@ struct PhongParameters
 	float kd;
 	float ks;
 	float ke;
+	float refl = 1.f;
+	float ior = 1.3f;
+	float refr = 0.f;
 };
 
 struct Shader

@@ -49,13 +49,16 @@ void Camera::setupImagePlane(){
 vector<vector<Ray> > Camera::getRayMap(int maxBounces){
 	Camera::setupImagePlane();
 	vector<vector<Ray> > ret;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0, 1);
 	for (int i = 0; i < screenX; i++)
 	{
 		vector<Ray> rayColumn;
 		for (int j = 0; j < screenY; j++)
 		{
-			float x = (float)(i + 1) / screenX;
-			float y = (float)(j + 1) / screenY;
+			float x = (float)(i + dis(gen)) / screenX;
+			float y = (float)(j + dis(gen)) / screenY;
 			vec3 pixelPos = planeO + (planeX*x) + (planeY*y);
 			Ray ray = Ray(line(origin, pixelPos - origin), maxBounces, true);
 			ray.precalculate();

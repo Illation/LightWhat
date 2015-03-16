@@ -217,6 +217,7 @@ void SceneLoader::processMaterials(const aiScene* scene){
 						lShade.specular.green = aiSpec.g;
 						lShade.specular.blue = aiSpec.b;
 						lShade.param = PhongParameters(1, 1, 1, 50);
+						lShade.param.refr = 1.f;
 						float aiPhongExponent;
 						if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_SHININESS, aiPhongExponent)) {
 							// handle epic failure here
@@ -227,6 +228,7 @@ void SceneLoader::processMaterials(const aiScene* scene){
 							// handle epic failure here
 						}
 						else lShade.param.ks = (float)aiSpecularScale;
+						lShade.param.refl = lShade.param.ks;
 					}
 					lShade.hasNormTex = false;
 					unsigned int normTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_NORMALS);

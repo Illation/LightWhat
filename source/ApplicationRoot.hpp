@@ -54,6 +54,7 @@ private:
 	RenderingState _state;
 	PerformanceMode _mode;
 	int m_ColsRendered = 0;
+	int maxSamples = 32;
 	bool isSceneLoaded = false;
 	size_t dispTexIdx=0;
 
@@ -83,5 +84,6 @@ private:
 	TTF_Font *m_ConsoleFontBoldPtr = nullptr;
 	vector<string> sceneInfo;
 	string renderTime = string("Render time: - seconds");
+	string renderSamples = string("Samples rendered: - ");
 };
 

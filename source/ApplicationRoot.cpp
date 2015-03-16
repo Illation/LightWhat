@@ -57,8 +57,8 @@ void ApplicationRoot::initSystems()
 	SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
 	_state = RenderingState::SETUP;
 
-	m_ResolutionX = 640;// 1280;
-	m_ResolutionY = 360;// 720;
+	m_ResolutionX = 1280;//640;//1920;//  
+	m_ResolutionY = 720; //360;//1080;//  
 	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
 	m_ImagePosY = 50;
 
@@ -77,7 +77,7 @@ void ApplicationRoot::initSystems()
 	renderer = new Renderer();
 	guiFunctions = new winmain(_screenWidth, _screenHeight); 
 	imgExp = new ImageExporter();
-	_mode = PerformanceMode::VIEW;
+	_mode = PerformanceMode::HIGH;
 
 
 	cout << "loading fonts...";
@@ -103,6 +103,7 @@ void ApplicationRoot::initSystems()
 		cout << "    fonts loaded!" << endl;
 	}
 	else cout << "    font loading failed!" << endl;
+	cout << "high performance mode" << endl;
 	cout << "backface culling enabled" << endl;
 }
 
@@ -244,8 +245,28 @@ void ApplicationRoot::updateImage()
 	//render
 	if (renderer->renderNextChunk())
 	{
-		_state = RenderingState::SETUP;
-		isSceneLoaded = false;
+		if (renderer->m_samplesRendered >= maxSamples)
+		{
+			_state = RenderingState::SETUP;
+			isSceneLoaded = false;
+			renderSamples = string("Samples rendered: ") + to_string(renderer->m_samplesRendered);
+			renderer->m_samplesRendered = 0;
+		}
+		else
+		{
+			renderer->updateRayMap();
+			daImage = renderer->getImage();
+			for (int i = 0; i < m_ResolutionX; i++)
+			{
+				for (int j = 0; j < m_ResolutionY; j++)
+				{
+					setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage->getRGB(i, j));
+				}
+			}
+			float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
+			renderTime = string("Render time: ") + to_string(duration) + string(" seconds");
+			renderSamples = string("Samples rendered: ") + to_string(renderer->m_samplesRendered);
+		}
 	}
 	if (_mode == PerformanceMode::VIEW)
 	{
@@ -350,7 +371,8 @@ void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
 void ApplicationRoot::displaySceneInfo(){
 	SDL_Color color = { 255, 255, 255, 255 };
 	int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY + m_ResolutionY + dy;
-	renderText(renderTime, m_ConsoleFontRegularPtr, color, fSize, x+300, y);
+	renderText(renderTime, m_ConsoleFontRegularPtr, color, fSize, x + 300, y);
+	renderText(renderSamples, m_ConsoleFontRegularPtr, color, fSize, x + 300, y+dy);
 	for (size_t i = 0; i < sceneInfo.size(); i++){
 		renderText(sceneInfo[i], m_ConsoleFontRegularPtr, color, fSize, x, y);
 		y += dy;
