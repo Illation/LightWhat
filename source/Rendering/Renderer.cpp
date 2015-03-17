@@ -407,6 +407,60 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 		}
 			break;
 		case GLOSSY:
+			{
+				vec3 V = dg.dir.Norm(0.0001f);
+				colRGB acc = colRGB(0.f, 0.f, 0.f);
+				for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
+				{
+					//L inncoming light direction
+					vec3 L = (m_ScenePtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
+					float LightIntensity = getLightIntensity(m_ScenePtr->lights[i], dg.i.p);
+					if (LightIntensity>0)
+					{
+						float intensity = N.Dot(L)*LightIntensity;
+						if (intensity > 0)
+						{
+							acc += dif*m_ScenePtr->lights[i]->getColor()*intensity;
+						}
+						vec3 R = L - (N*L.Dot(N)) * 2;
+						float dot = V.Dot(R);
+						if (dot > 0)
+						{
+							float specI = pow(dot, mat.param.ke)*mat.param.ks*LightIntensity;
+							acc += spec*m_ScenePtr->lights[i]->getColor()*specI;
+						}
+					}
+				}
+				float refl = mat.param.refl;
+				if (refl > 0){
+					if (dg.bounces > 0)
+					{
+						vec3 R = V - (N*V.Dot(N)) * 2;
+						if (mat.param.glossMaxDelta > 0)
+						{
+							vec3 RU;
+							if (R.x || R.z)RU = vec3(0, 1, 0);
+							else RU = vec3(0, 0, 1);
+							vec3 RN = R.Cross(RU).Norm();
+							vec3 RB = R.Cross(RN).Norm();
+							std::random_device rd;
+							std::mt19937 gen(rd());
+							std::uniform_real_distribution<> dis(-1, 1);
+							std::uniform_real_distribution<> disDelta(0, mat.param.glossMaxDelta);
+							std::uniform_real_distribution<> disR(0, mat.param.glossMaxR);
+							vec3 rDelta = (dis(gen)*RN + dis(gen)*RB).Norm()*disDelta(gen);
+							R = ((R.Norm())*(1 - disR(gen))) + rDelta;
+						}
+						Ray ray = Ray(line(dg.i.p, R), dg.bounces - 1, false);
+						ray.precalculate();
+						float t;
+						colRGB rcol = raycast(ray, t);
+						acc += rcol*refl*mat.specular;
+					}
+				}
+				ret = acc;
+			}
+			break;
 		case FLAT:
 			ret = dif;
 			break;
@@ -434,7 +488,7 @@ float Renderer::getLightIntensity(light *L, point3 P)
 		
 	if (L->getType() == LightType::LIGHT_AREA)
 	{
-		float sampleDifferential = (1.0 / (float)((AreaLight*)L)->samplesSq);
+		float sampleDifferential = (1.0f / (float)((AreaLight*)L)->samplesSq);
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_real_distribution<> dis(0, sampleDifferential);

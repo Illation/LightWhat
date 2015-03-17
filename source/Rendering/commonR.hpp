@@ -70,6 +70,8 @@ struct PhongParameters
 	float ks;
 	float ke;
 	float refl = 1.f;
+	float glossMaxR = 0.f;
+	float glossMaxDelta = 0.f;
 	float ior = 1.3f;
 	float refr = 0.f;
 };

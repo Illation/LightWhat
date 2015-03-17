@@ -44,7 +44,12 @@ void Scene::loadTestScene(){
 	materials.push_back(Shader(DIFFUSE, colRGB(1.0f, 1.0f, 1.0f), colRGB(1.f, 1.f, 1.f), PhongParameters(1.f, 1.f, 0.6f, 50.f)));
 	materials.push_back(Shader(DIFFUSE, colRGB(0.1f, 0.9f, 0.1f), colRGB(1.f, 1.f, 1.f), PhongParameters(1.f, 1.f, 0.6f, 50.f)));
 
-	materials.push_back(Shader(REFLECT, colRGB(0.8f, 0.8f, 0.8f), colRGB(1.f, 1.f, 1.f), PhongParameters(1.f, 1.f, 0.7f, 50.f)));
+	PhongParameters parGloss = PhongParameters(1.f, 1.f, 0.7f, 50.f);
+	parGloss.refl = 0.5f;
+	float angle = 20 * (PI / 180.f);
+	parGloss.glossMaxR = 1 - cosf(angle);
+	parGloss.glossMaxDelta = sinf(angle);
+	materials.push_back(Shader(GLOSSY, colRGB(0.5f, 0.5f, 0.7f), colRGB(1.f, 1.f, 1.f), parGloss));
 	PhongParameters par = PhongParameters(1.f, 0.05f, 0.5f, 50.f);
 	par.refl = 0.18f;
 	par.refr = 0.9f;
