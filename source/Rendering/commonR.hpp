@@ -8,13 +8,6 @@
 
 using namespace std;
 
-enum shapeType{
-	MESH,
-	SPHERE,
-	PLANE,
-	UNDEFINED
-};
-
 struct Ray{
 	Ray();
 	Ray(line, int, bool);
@@ -25,14 +18,6 @@ struct Ray{
 	vec3 invDir;
 	int bounces;
 	bool isPrimary;
-};
-
-struct Light{
-	Light();
-	Light(point3, colRGB, float);
-	point3 center;
-	colRGB col;
-	float intensity = 1;
 };
 
 struct Camera
@@ -70,6 +55,7 @@ enum ShadingModel
 	PHONG,
 	GLASS,
 	GLOSSY,
+	FLAT,
 	EMISSION,
 	BACKGROUND,
 	MIX

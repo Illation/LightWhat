@@ -33,6 +33,7 @@ private:
 	void shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit);
 
 	colRGB shade(DifferentialGeometry);
+	float getLightIntensity(light *L, point3 P);
 
 	Texture m_Image;
 	vector<vector<Ray> > rayMap;

@@ -269,14 +269,14 @@ bool SceneLoader::processLights(const aiScene* scene){
 		aiLight** mLights = scene->mLights;
 		for (unsigned int i = 0; i < scene->mNumLights; i++)
 		{
-			Light thisLight;
-			thisLight.center.x = mLights[i]->mPosition.x;
-			thisLight.center.y = mLights[i]->mPosition.y;
-			thisLight.center.z = -(mLights[i]->mPosition.z);
-			thisLight.col.red = mLights[i]->mColorDiffuse.r;
-			thisLight.col.green = mLights[i]->mColorDiffuse.g;
-			thisLight.col.blue = mLights[i]->mColorDiffuse.b;
-			thisLight.intensity = (float)mLights[i]->mAttenuationConstant;
+			PointLight *thisLight=new PointLight();
+			thisLight->center.x = mLights[i]->mPosition.x;
+			thisLight->center.y = mLights[i]->mPosition.y;
+			thisLight->center.z = -(mLights[i]->mPosition.z);
+			thisLight->col.red = mLights[i]->mColorDiffuse.r;
+			thisLight->col.green = mLights[i]->mColorDiffuse.g;
+			thisLight->col.blue = mLights[i]->mColorDiffuse.b;
+			thisLight->intensity = (float)mLights[i]->mAttenuationConstant;
 			lights.push_back(thisLight);
 		}
 		return true;

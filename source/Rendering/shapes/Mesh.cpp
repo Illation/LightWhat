@@ -166,6 +166,10 @@ point3 Mesh::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
 shapeType Mesh::getType(){
 	return MESH;
 }
+bool Mesh::castsShadow()
+{
+	return shadowCast;
+}
 
 void Mesh::addVertex(point3 vert){
 	m_VertexList.push_back(vert);

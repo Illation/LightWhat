@@ -80,3 +80,8 @@ void Sphere::setRadius(float lR){
 void Sphere::setPosition(point3 pos){
 	m_Center = pos;
 }
+
+bool Sphere::castsShadow()
+{
+	return shadowCast;
+}

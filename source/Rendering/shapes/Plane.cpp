@@ -52,3 +52,9 @@ void Plane::setMaterial(size_t mIndex){
 shapeType Plane::getType(){
 	return PLANE;
 }
+
+
+bool Plane::castsShadow()
+{
+	return shadowCast;
+}

@@ -21,7 +21,7 @@ void Renderer::init(int camWidth, int camHeight){
 	//setup Ray Map
 	updateRayMap();
 	//setup tiles
-	int tileSizeX = 64, tileSizeY = 64;
+	int tileSizeX = 128, tileSizeY = 128;
 	tiles =	setupTiles(camWidth, camHeight, tileSizeX, tileSizeY);
 
 	//setup BVH
@@ -178,8 +178,11 @@ bool Renderer::shadowRay(line ln)
 	for (size_t i = 0; i < m_BvhPtr->unsortedIndices.size(); i++)
 	{
 		shapeNodeIdx idxStruct = m_BvhPtr->unsortedIndices[i];
-		if (m_ScenePtr->shapes[idxStruct.shapeIdx]->shadowIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ln))
-			hasHit = true;
+		if (m_ScenePtr->shapes[idxStruct.shapeIdx]->castsShadow())
+		{
+			if (m_ScenePtr->shapes[idxStruct.shapeIdx]->shadowIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ln))
+				hasHit = true;
+		}
 	}
 	if (!hasHit)
 	{
@@ -197,8 +200,11 @@ void Renderer::shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit)
 		for (size_t i = 0; i < node->Indices.size(); i++)
 		{
 			shapeNodeIdx idxStruct = node->Indices[i];
-			if (m_ScenePtr->shapes[idxStruct.shapeIdx]->shadowIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ray.ln))
-				hasHit = true;
+			if (m_ScenePtr->shapes[idxStruct.shapeIdx]->castsShadow())
+			{
+				if (m_ScenePtr->shapes[idxStruct.shapeIdx]->shadowIntersection(idxStruct.subIdx1, idxStruct.subIdx2, ray.ln))
+					hasHit = true;
+			}
 		}
 		//traverse hierachy for existing child nodes
 		if (!(node->Child0 == nullptr) && !hasHit)
@@ -253,13 +259,14 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
-				if (!shadowRay(line(dg.i.p, L)))
+				vec3 L = (m_ScenePtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
+				float LightIntensity = getLightIntensity(m_ScenePtr->lights[i], dg.i.p);
+				if (LightIntensity>0)
 				{
-					float intensity = N.Dot(L);
+					float intensity = N.Dot(L) * LightIntensity;
 					if (intensity > 0)
 					{
-						difComp += dif*m_ScenePtr->lights[i].col*intensity;
+						difComp += dif*m_ScenePtr->lights[i]->getColor()*intensity;
 					}
 				}
 			}
@@ -273,20 +280,21 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
-				if (!shadowRay(line(dg.i.p, L)))
+				vec3 L = (m_ScenePtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
+				float LightIntensity = getLightIntensity(m_ScenePtr->lights[i], dg.i.p);
+				if (LightIntensity>0)
 				{
-					float intensity = N.Dot(L);
+					float intensity = N.Dot(L)*LightIntensity;
 					if (intensity > 0)
 					{
-						acc += dif*m_ScenePtr->lights[i].col*intensity;
+						acc += dif*m_ScenePtr->lights[i]->getColor()*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
 					float dot = V.Dot(R);
 					if (dot > 0)
 					{
-						float specI = pow(dot, mat.param.ke)*mat.param.ks;
-						acc += spec*m_ScenePtr->lights[i].col*specI;
+						float specI = pow(dot, mat.param.ke)*mat.param.ks*LightIntensity;
+						acc += spec*m_ScenePtr->lights[i]->getColor()*specI;
 					}
 				}
 			}
@@ -312,20 +320,21 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
-				if (!shadowRay(line(dg.i.p, L)))
+				vec3 L = (m_ScenePtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
+				float LightIntensity = getLightIntensity(m_ScenePtr->lights[i], dg.i.p);
+				if (LightIntensity>0)
 				{
-					float intensity = N.Dot(L);
+					float intensity = N.Dot(L)*LightIntensity;
 					if (intensity > 0)
 					{
-						acc += dif*m_ScenePtr->lights[i].col*intensity;
+						acc += dif*m_ScenePtr->lights[i]->getColor()*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
 					float dot = V.Dot(R);
 					if (dot > 0)
 					{
-						float specI = pow(dot, mat.param.ke)*mat.param.ks;
-						acc += spec*m_ScenePtr->lights[i].col*specI;
+						float specI = pow(dot, mat.param.ke)*mat.param.ks*LightIntensity;
+						acc += spec*m_ScenePtr->lights[i]->getColor()*specI;
 					}
 				}
 			}
@@ -339,20 +348,21 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 			for (size_t i = 0; i < m_ScenePtr->lights.size(); i++)
 			{
 				//L inncoming light direction
-				vec3 L = (m_ScenePtr->lights[i].center - dg.i.p).Norm(0.00001f);
-				if (!shadowRay(line(dg.i.p, L)))
+				vec3 L = (m_ScenePtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
+				float LightIntensity = getLightIntensity(m_ScenePtr->lights[i], dg.i.p);
+				if (LightIntensity>0)
 				{
-					float intensity = N.Dot(L);
+					float intensity = N.Dot(L)*LightIntensity;
 					if (intensity > 0)
 					{
-						acc += dif*m_ScenePtr->lights[i].col*intensity;
+						acc += dif*m_ScenePtr->lights[i]->getColor()*intensity;
 					}
 					vec3 R = L - (N*L.Dot(N)) * 2;
 					float dot = V.Dot(R);
 					if (dot > 0)
 					{
-						float specI = pow(dot, mat.param.ke)*mat.param.ks;
-						acc += spec*m_ScenePtr->lights[i].col*specI;
+						float specI = pow(dot, mat.param.ke)*mat.param.ks*LightIntensity;
+						acc += spec*m_ScenePtr->lights[i]->getColor()*specI;
 					}
 				}
 			}
@@ -397,6 +407,9 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 		}
 			break;
 		case GLOSSY:
+		case FLAT:
+			ret = dif;
+			break;
 		case EMISSION:
 		case BACKGROUND:
 			ret = m_ScenePtr->background;
@@ -407,6 +420,40 @@ colRGB Renderer::shade(DifferentialGeometry dg)
 	return ret;
 }
 
+float Renderer::getLightIntensity(light *L, point3 P)
+{
+	float ret = 0.f;
+
+	if (L->getType() == LightType::LIGHT_POINT)
+	{
+		if (!shadowRay(line(P, (L->getPosition() - P).Norm(0.00001f))))
+		{
+			ret = 1.f;
+		}
+	}
+		
+	if (L->getType() == LightType::LIGHT_AREA)
+	{
+		float sampleDifferential = (1.0 / (float)((AreaLight*)L)->samplesSq);
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<> dis(0, sampleDifferential);
+		for (float x = 0.f; x < 1.f; x += sampleDifferential)
+		{
+			for (float y = 0.f; y < 1.f; y += sampleDifferential)
+			{
+				point3 pos = ((AreaLight*)L)->pos + (x + dis(gen))*((AreaLight*)L)->dir1 + (y+dis(gen))*((AreaLight*)L)->dir2;
+				float hitValue = 1.f / (float)(((AreaLight*)L)->samplesSq*((AreaLight*)L)->samplesSq);
+				if (!shadowRay(line(P, (pos - P).Norm(0.00001f))))
+				{
+					ret += hitValue;
+				}
+			}
+		}
+	}
+	ret *= L->getIntensity();
+	return ret;
+}
 
 
 vector<tile> Renderer::setupTiles(int camWidth, int camHeight, int tileSizeX, int tileSizeY)

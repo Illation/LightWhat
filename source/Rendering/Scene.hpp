@@ -4,6 +4,9 @@
 #include "shape.hpp"
 #include "shapes/Sphere.hpp"
 #include "shapes/Plane.hpp"
+#include "light.hpp"
+#include "lights/PointLight.hpp"
+#include "lights/AreaLight.hpp"
 #include "../Rendering/Texture.hpp"
 
 enum materialPointer{
@@ -21,11 +24,12 @@ public:
 
 	void loadFile(string fileName);
 	void loadTestScene();
+	void solidifyLights();
 	void clearScene();
 
 	Camera cam;
 	vector  <shape*>shapes;
-	vector  <Light>lights;
+	vector  <light*>lights;
 	vector  <Shader>materials;
 	vector  <Texture>textures;
 	colRGB background = colRGB(132, 149, 139) / 255;

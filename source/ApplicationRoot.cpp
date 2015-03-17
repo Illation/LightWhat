@@ -286,7 +286,7 @@ void ApplicationRoot::updateImage()
 		daImage = renderer->getImage();
 		cout << "postprocessing..." << endl;
 		postPr.updateHighestExposure(*daImage, m_ResolutionX, m_ResolutionY);
-		postPr.controlExposure(*daImage, m_ResolutionX, m_ResolutionY, AUTO);
+		postPr.controlExposure(*daImage, m_ResolutionX, m_ResolutionY, CLIP);
 		float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
 		cout << endl << "render completed!" << endl << "time: " << duration << " seconds" << endl;
 		renderTime = string("Render time: ") + to_string(duration) + string(" seconds");

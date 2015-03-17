@@ -2,6 +2,14 @@
 #include "commonR.hpp"
 #include "AABB.hpp"
 #include <iostream>
+
+enum shapeType{
+	MESH,
+	SPHERE,
+	PLANE,
+	UNDEFINED
+};
+
 class shape
 {
 public:
@@ -13,5 +21,6 @@ public:
 	virtual point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
 	virtual point3 getPosition();
 	virtual shapeType getType();
+	virtual bool castsShadow();
 };
 

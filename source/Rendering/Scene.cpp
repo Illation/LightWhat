@@ -29,13 +29,12 @@ void Scene::loadFile(string fileName)
 	materials = import->materials;
 	textures = import->textures;
 		//setup Lights
-		Light light;
-		light.center = point3(1, 8, 4);
-		light.col = colRGB(1, 1, 1);
-		light.intensity = 3;
-		lights.push_back(light);
+	PointLight *light = new PointLight(point3(1, 8, 4), colRGB(1, 1, 1), 3.f);
+	lights.push_back(light);
 	delete import;
 	import = nullptr;
+
+	solidifyLights();
 }
 
 void Scene::loadTestScene(){
@@ -69,11 +68,12 @@ void Scene::loadTestScene(){
 	shapes.push_back(sp1);
 	Sphere *sp2 = new Sphere(point3(0.3f, -1.7f, 1.f), 0.8f, materialPointer::CUSTOM_BEGIN + 4);
 	shapes.push_back(sp2);
-	Light light;
-	light.center = point3(0.f, 2.3f, 0.f);
-	light.col = colRGB(0.9f, 0.9f, 0.9f);
-	light.intensity = 1;
+
+	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(vec3(0.f, -1.f, 0.f), -2.3f), 2.f, 1, colRGB(1.f, 1.f, 1.f), 1.f);
 	lights.push_back(light);
+
+
+	solidifyLights();
 }
 
 void Scene::clearScene(){
@@ -81,6 +81,29 @@ void Scene::clearScene(){
 	lights.clear();
 	materials.clear();
 	textures.clear();
+}
+
+void Scene::solidifyLights()
+{
+	for (size_t i = 0; i < lights.size(); i++)
+	{
+		if (lights[i]->getType() == LightType::LIGHT_POINT)
+		{
+			size_t matIdx = materials.size();
+			colRGB lightCol;
+			Sphere *sp = ((PointLight*)lights[i])->solidify(matIdx, lightCol);
+			materials.push_back(Shader(FLAT, lightCol, colRGB(0.f, 0.f, 0.f), PhongParameters(1.f, 1.f, 0.f, 0.f)));
+			shapes.push_back(sp);
+		}
+		if (lights[i]->getType() == LightType::LIGHT_AREA)
+		{
+			size_t matIdx = materials.size();
+			colRGB lightCol;
+			Mesh *lMesh = ((AreaLight*)lights[i])->solidify(matIdx, lightCol);
+			materials.push_back(Shader(FLAT, lightCol, colRGB(0.f, 0.f, 0.f), PhongParameters(1.f, 1.f, 0.f, 0.f)));
+			shapes.push_back(lMesh);
+		}
+	}
 }
 
 void Scene::updateSceneInfo(){

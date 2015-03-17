@@ -57,6 +57,7 @@ public:
 	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
 	bool shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln);
 	shapeType getType();
+	bool castsShadow();
 
 	//methods
 	void addVertex(point3 vert);
@@ -84,6 +85,7 @@ public:
 	int getTriCount();
 	int getPListCount();
 
+	bool shadowCast = true;
 	bool hasTangentSpace = false;
 	vector <polylist>m_TriLists;
 private: 

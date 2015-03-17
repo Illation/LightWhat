@@ -23,11 +23,14 @@ public:
 	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
 	bool shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln);
 	shapeType getType();
+	bool castsShadow();
 
 	//methods
 	void setPosition(point3 pos);
 	void setRadius(float lR);
 	void setMaterial(size_t matIndex);
+
+	bool shadowCast = true;
 private: 
 	point3 m_Center;
 	float m_Radius, m_SqRadius, m_RRadius;

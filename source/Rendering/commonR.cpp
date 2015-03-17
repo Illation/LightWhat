@@ -9,15 +9,6 @@ Ray::Ray(line lLn, int lBounce, bool lPrimary){
 	isPrimary = lPrimary;
 }
 
-//Light
-Light::Light(){
-}
-Light::Light(point3 lCenter, colRGB lCol, float lInt){
-	center = lCenter;
-	col = lCol;
-	intensity = lInt;
-}
-
 
 //Camera
 Camera::Camera(){

@@ -23,9 +23,12 @@ public:
 	point3 getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2);
 	bool shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln);
 	shapeType getType();
+	bool castsShadow();
 
 	//methods
 	void setMaterial(size_t materialIndex);
+
+	bool shadowCast = true;
 private: 
 	plane p;
 	size_t m_MatIndex;

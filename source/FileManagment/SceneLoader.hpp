@@ -20,6 +20,8 @@
 #include "../Rendering/shapes/Mesh.hpp"
 #include "../Rendering/Scene.hpp"
 #include "../Rendering/Texture.hpp"
+#include "../Rendering/light.hpp"
+#include "../Rendering/lights/PointLight.hpp"
 #include "TextureLoader.hpp"
 using namespace std;
 class SceneLoader
@@ -33,7 +35,7 @@ public:
 
 	Camera cam;
 	vector  <shape*>shapes;
-	vector  <Light>lights;
+	vector  <light*>lights;
 	vector  <Shader>materials;
 	vector  <Texture>textures;
 private:

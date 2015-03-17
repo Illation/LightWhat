@@ -26,7 +26,7 @@ bool shape::shadowIntersection(size_t subShapeIdx, size_t subShapeIdx2, line ln)
 
 shapeType shape::getType(){
 	cout << "unimplemented method: getType() called!" << endl;
-	return UNDEFINED;
+	return shapeType::UNDEFINED;
 }
 
 AABB shape::getBoundingBox(size_t subShapeIdx, size_t subShapeIdx2){
@@ -37,4 +37,10 @@ AABB shape::getBoundingBox(size_t subShapeIdx, size_t subShapeIdx2){
 point3 shape::getObjectCenter(size_t subShapeIdx, size_t subShapeIdx2){
 	cout << "unimplemented method: getObjectCenter() called!" << endl;
 	return point3(0,0,0);
+}
+
+bool shape::castsShadow()
+{
+	cout << "unimplemented method: castsShadow() called!" << endl;
+	return false;
 }
