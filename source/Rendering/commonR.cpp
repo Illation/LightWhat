@@ -60,37 +60,6 @@ vector<vector<Ray> > Camera::getRayMap(int maxBounces){
 	return ret;
 }
 
-
-//PhongParameters
-PhongParameters::PhongParameters(){
-	ka = 0;
-	kd = 0;
-	ks = 0;
-	ke = 0;
-}
-PhongParameters::PhongParameters(float a, float d, float s, float e){
-	ka = a;
-	kd = d;
-	ks = s;
-	ke = e;
-}
-
-
-//Shader
-Shader::Shader(){
-	shade = PHONG;
-	diffuse = colRGB(0, 0, 0);
-	specular = colRGB(0, 0, 0);
-	param = PhongParameters(0, 0, 0, 0);
-}
-Shader::Shader(ShadingModel lshade, colRGB ldif, colRGB lspec, PhongParameters lParam){
-	shade = lshade;
-	diffuse = ldif;
-	specular = lspec;
-	param = lParam;
-}
-
-
 //Differential geometry
 DifferentialGeometry::DifferentialGeometry(){
 }

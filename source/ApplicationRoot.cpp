@@ -57,8 +57,8 @@ void ApplicationRoot::initSystems()
 	SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
 	_state = RenderingState::SETUP;
 
-	m_ResolutionX = 1280;//640;//1920;//  
-	m_ResolutionY = 720; //360;//1080;//  
+	m_ResolutionX = 640;//1280;//1920;//  
+	m_ResolutionY = 360;//720; //1080;//  
 	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
 	m_ImagePosY = 50;
 

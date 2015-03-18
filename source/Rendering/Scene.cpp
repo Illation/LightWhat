@@ -3,8 +3,7 @@
 
 Scene::Scene()
 {
-	Shader bgs = Shader(BACKGROUND, colRGB(132, 149, 139) / 255, colRGB(0, 0, 0), PhongParameters());
-	bgs.hasDifTex = false;
+	Background *bgs = new Background();
 	materials.push_back(bgs);
 }
 
@@ -29,7 +28,9 @@ void Scene::loadFile(string fileName)
 	materials = import->materials;
 	textures = import->textures;
 		//setup Lights
-	PointLight *light = new PointLight(point3(1, 8, 4), colRGB(1, 1, 1), 3.f);
+	//PointLight *light = new PointLight(point3(1, 8, 4), colRGB(1, 1, 1), 1.f);
+	//lights.push_back(light);
+	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(-vec3(1, 8, 4).Norm(),-( vec3(1, 8, 4).Length())), 4.f, 1, colRGB(1.f, 1.f, 1.f), 0.85f);
 	lights.push_back(light);
 	delete import;
 	import = nullptr;
@@ -40,21 +41,16 @@ void Scene::loadFile(string fileName)
 void Scene::loadTestScene(){
 	//Cornell box
 	background = colRGB(0, 0, 0);
-	materials.push_back(Shader(DIFFUSE, colRGB(0.9f, 0.1f, 0.1f), colRGB(1.f, 1.f, 1.f), PhongParameters(1.f, 0.1f, 1.f, 50.f)));
-	materials.push_back(Shader(DIFFUSE, colRGB(1.0f, 1.0f, 1.0f), colRGB(1.f, 1.f, 1.f), PhongParameters(1.f, 1.f, 0.6f, 50.f)));
-	materials.push_back(Shader(DIFFUSE, colRGB(0.1f, 0.9f, 0.1f), colRGB(1.f, 1.f, 1.f), PhongParameters(1.f, 1.f, 0.6f, 50.f)));
-
-	PhongParameters parGloss = PhongParameters(1.f, 1.f, 0.7f, 50.f);
-	parGloss.refl = 0.5f;
-	float angle = 20 * (PI / 180.f);
-	parGloss.glossMaxR = 1 - cosf(angle);
-	parGloss.glossMaxDelta = sinf(angle);
-	materials.push_back(Shader(GLOSSY, colRGB(0.5f, 0.5f, 0.7f), colRGB(1.f, 1.f, 1.f), parGloss));
-	PhongParameters par = PhongParameters(1.f, 0.05f, 0.5f, 50.f);
-	par.refl = 0.18f;
-	par.refr = 0.9f;
-	par.ior = 1.33f;
-	materials.push_back(Shader(GLASS, colRGB(0.6f, 0.6f, 1.f), colRGB(1.f, 1.f, 1.f), par));
+	DiffuseBRDF *dif1Ptr = new DiffuseBRDF(colRGB(0.9f, 0.1f, 0.1f), 1.0f, false, 0);
+	materials.push_back(dif1Ptr);
+	DiffuseBRDF *dif2Ptr = new DiffuseBRDF(colRGB(1.0f, 1.0f, 1.0f), 1.0f, false, 0);
+	materials.push_back(dif2Ptr);
+	DiffuseBRDF *dif3Ptr = new DiffuseBRDF(colRGB(0.1f, 0.9f, 0.1f), 1.0f, false, 0);
+	materials.push_back(dif3Ptr);
+	GlossyBRDF *gloss1Ptr = new GlossyBRDF(colRGB(0.5f, 0.5f, 0.7f), 1.f, false, 0, colRGB(1.f, 1.f, 1.f), 0.7f, false, 0, 50, 0.5, 20.f);
+	materials.push_back(gloss1Ptr);
+	GlassBRDF *glass1Ptr = new GlassBRDF(colRGB(0.5f, 0.5f, 0.7f), 0.05f, false, 0, colRGB(1.f, 1.f, 1.f), 0.5f, false, 0, 50, 0.18f, 0.9f, 1.33f);
+	materials.push_back(glass1Ptr);
 
 	Plane *pl0 = new Plane(plane(vec3(1.f, 0.f, 0.f), -2.5f), materialPointer::CUSTOM_BEGIN + 0);
 	shapes.push_back(pl0);
@@ -97,7 +93,8 @@ void Scene::solidifyLights()
 			size_t matIdx = materials.size();
 			colRGB lightCol;
 			Sphere *sp = ((PointLight*)lights[i])->solidify(matIdx, lightCol);
-			materials.push_back(Shader(FLAT, lightCol, colRGB(0.f, 0.f, 0.f), PhongParameters(1.f, 1.f, 0.f, 0.f)));
+			EmissionBRDF *emPtr = new EmissionBRDF(lightCol, 1.f, false, 0);
+			materials.push_back(emPtr);
 			shapes.push_back(sp);
 		}
 		if (lights[i]->getType() == LightType::LIGHT_AREA)
@@ -105,7 +102,8 @@ void Scene::solidifyLights()
 			size_t matIdx = materials.size();
 			colRGB lightCol;
 			Mesh *lMesh = ((AreaLight*)lights[i])->solidify(matIdx, lightCol);
-			materials.push_back(Shader(FLAT, lightCol, colRGB(0.f, 0.f, 0.f), PhongParameters(1.f, 1.f, 0.f, 0.f)));
+			EmissionBRDF *emPtr = new EmissionBRDF(lightCol, 1.f, false, 0);
+			materials.push_back(emPtr);
 			shapes.push_back(lMesh);
 		}
 	}

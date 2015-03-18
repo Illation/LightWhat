@@ -48,61 +48,6 @@ private:
 	vec3 planeY;
 };
 
-enum ShadingModel
-{
-	DIFFUSE,
-	REFLECT,
-	PHONG,
-	GLASS,
-	GLOSSY,
-	FLAT,
-	EMISSION,
-	BACKGROUND,
-	MIX
-};
-
-struct PhongParameters
-{
-	PhongParameters();
-	PhongParameters(float ambient, float diffuse, float specular, float exponent);
-	float ka;
-	float kd;
-	float ks;
-	float ke;
-	float refl = 1.f;
-	float glossMaxR = 0.f;
-	float glossMaxDelta = 0.f;
-	float ior = 1.3f;
-	float refr = 0.f;
-};
-
-struct Shader
-{
-	Shader();
-	Shader(ShadingModel, colRGB, colRGB, PhongParameters);
-	inline string printShader(){
-		return to_string(shade) + string(", Spec: ")
-			+ to_string(specular.red) + string(", ") + to_string(specular.green) + string(", ") + to_string(specular.blue)
-			+ string(", Diff: ") + to_string(diffuse.red) + string(", ") + to_string(diffuse.green) + string(", ") + to_string(diffuse.blue)
-			+ string(", param: ") + to_string(param.ka) + string(", ") + to_string(param.kd) + string(", ") + to_string(param.ks) + string(", ") + to_string(param.ke);
-	}
-	
-	ShadingModel shade;
-
-	colRGB diffuse;
-	bool hasDifTex = false;
-	size_t difTexIdx;
-
-	colRGB specular;
-	bool hasSpecTex = false;
-	size_t specTexIdx;
-
-	bool hasNormTex = false;
-	size_t normTexIdx;
-
-	PhongParameters param;
-};
-
 struct DifferentialGeometry{
 	DifferentialGeometry();
 	DifferentialGeometry(intersection, vec3, vec3, point2, size_t, int);

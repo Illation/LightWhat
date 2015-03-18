@@ -73,6 +73,18 @@
     <Filter Include="Source Files\Graphics\Geometry\lights">
       <UniqueIdentifier>{ffaca84d-d68b-4d86-ab00-e22435062fcf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\Shading">
+      <UniqueIdentifier>{501c980f-d0ca-4a2e-9b2a-a8b09a501827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shading">
+      <UniqueIdentifier>{a7dcd104-3268-4504-9b25-c2a0220aaafc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Shading\shaders">
+      <UniqueIdentifier>{e04ca612-2b76-4f6b-8dd1-d68a8f3ef784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shading\shaders">
+      <UniqueIdentifier>{25e9b251-b9d3-4bab-8f3d-3e964dbf7a01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,8 +150,29 @@
     <ClCompile Include="Rendering\lights\PointLight.cpp">
       <Filter>Source Files\Graphics\Geometry\lights</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\shader.cpp">
+      <Filter>Source Files\Graphics\Shading</Filter>
+    </ClCompile>
     <ClCompile Include="Rendering\lights\AreaLight.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\Geometry\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shaders\DiffuseBRDF.cpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shaders\Background.cpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shaders\EmissionBRDF.cpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shaders\GlassBRDF.cpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shaders\GlossyBRDF.cpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shaders\Mix.cpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,8 +239,29 @@
     <ClInclude Include="Rendering\lights\PointLight.hpp">
       <Filter>Header Files\Graphics\Geometry\lights</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\shader.hpp">
+      <Filter>Header Files\Graphics\Shading</Filter>
+    </ClInclude>
     <ClInclude Include="Rendering\lights\AreaLight.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Graphics\Geometry\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\DiffuseBRDF.hpp">
+      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\Background.hpp">
+      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\EmissionBRDF.hpp">
+      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\GlassBRDF.hpp">
+      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\GlossyBRDF.hpp">
+      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\Mix.hpp">
+      <Filter>Header Files\Graphics\Shading\shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

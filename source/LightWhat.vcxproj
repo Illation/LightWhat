@@ -102,6 +102,13 @@
     <ClCompile Include="Rendering\PostProcessor.cpp" />
     <ClCompile Include="Rendering\Renderer.cpp" />
     <ClCompile Include="Rendering\Scene.cpp" />
+    <ClCompile Include="Rendering\shader.cpp" />
+    <ClCompile Include="Rendering\shaders\Background.cpp" />
+    <ClCompile Include="Rendering\shaders\DiffuseBRDF.cpp" />
+    <ClCompile Include="Rendering\shaders\EmissionBRDF.cpp" />
+    <ClCompile Include="Rendering\shaders\GlassBRDF.cpp" />
+    <ClCompile Include="Rendering\shaders\GlossyBRDF.cpp" />
+    <ClCompile Include="Rendering\shaders\Mix.cpp" />
     <ClCompile Include="Rendering\shape.cpp" />
     <ClCompile Include="Rendering\shapes\Mesh.cpp" />
     <ClCompile Include="Rendering\shapes\Plane.cpp" />
@@ -125,6 +132,13 @@
     <ClInclude Include="Rendering\PostProcessor.hpp" />
     <ClInclude Include="Rendering\Renderer.hpp" />
     <ClInclude Include="Rendering\Scene.hpp" />
+    <ClInclude Include="Rendering\shader.hpp" />
+    <ClInclude Include="Rendering\shaders\Background.hpp" />
+    <ClInclude Include="Rendering\shaders\DiffuseBRDF.hpp" />
+    <ClInclude Include="Rendering\shaders\EmissionBRDF.hpp" />
+    <ClInclude Include="Rendering\shaders\GlassBRDF.hpp" />
+    <ClInclude Include="Rendering\shaders\GlossyBRDF.hpp" />
+    <ClInclude Include="Rendering\shaders\Mix.hpp" />
     <ClInclude Include="Rendering\shape.hpp" />
     <ClInclude Include="Rendering\shapes\Mesh.hpp" />
     <ClInclude Include="Rendering\shapes\Plane.hpp" />

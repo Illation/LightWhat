@@ -132,27 +132,24 @@ void SceneLoader::processModels(const aiScene* scene){
 }
 
 void SceneLoader::processMaterials(const aiScene* scene){
-	materials.push_back(Shader(BACKGROUND, colRGB(132, 149, 139) / 255, colRGB(0, 0, 0), PhongParameters()));
+	Background *bgs = new Background();
+	materials.push_back(bgs);
 	if (scene->HasMaterials())
 	{
 		aiMaterial** aiMaterials = scene->mMaterials;
 		for (unsigned int i = 0; i < scene->mNumMaterials; i++)
 		{
-			Shader lShade;
-			lShade.shade = DIFFUSE;
+			ShadingFunction lShade = ShadingFunction::SHADER_DIFFUSE_BRDF;
 			aiShadingMode aiModel = aiShadingMode_Gouraud;
 			aiMaterials[i]->Get(AI_MATKEY_SHADING_MODEL, aiModel);
-			if (aiModel = aiShadingMode_Phong)
+			if ((aiModel = aiShadingMode_Phong) || (aiModel = aiShadingMode_Blinn))
 			{
-				lShade.shade = PHONG;
+				lShade = ShadingFunction::SHADER_GLOSSY_BRDF;
 			}
-			if (aiModel = aiShadingMode_Blinn)
-			{
-				lShade.shade = REFLECT;
-			}
-			lShade.diffuse = colRGB(0.5, 0.5, 0.5);
+			colRGB diffuse = colRGB(0.5, 0.5, 0.5);
 			//Texture loading
-			lShade.hasDifTex = false;
+			bool hasDifTex = false;
+			size_t difTexIdx = 0;
 			unsigned int difTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE);
 			if (difTexCount > 0)
 			{
@@ -167,8 +164,8 @@ void SceneLoader::processMaterials(const aiScene* scene){
 					if (loadSuccess){
 						size_t texIndex = textures.size();
 						textures.push_back(tex);
-						lShade.difTexIdx = texIndex;
-						lShade.hasDifTex = true;
+						difTexIdx = texIndex;
+						hasDifTex = true;
 						cout << "texture loaded!" << endl;
 					}
 					else cout << "loading texture failed" << endl;
@@ -180,13 +177,19 @@ void SceneLoader::processMaterials(const aiScene* scene){
 				// handle epic failure here
 			}
 			else{
-				lShade.diffuse.red = aiDif.r;
-				lShade.diffuse.green = aiDif.g;
-				lShade.diffuse.blue = aiDif.b;
-				if (!lShade.shade == DIFFUSE)
+				diffuse.red = aiDif.r;
+				diffuse.green = aiDif.g;
+				diffuse.blue = aiDif.b;
+				if (lShade == ShadingFunction::SHADER_GLOSSY_BRDF)
 				{
-					lShade.specular = colRGB(0.5, 0.5, 0.5);
-					lShade.hasSpecTex = false;
+					GlossyBRDF *glossPtr = new GlossyBRDF();
+					glossPtr->diffuse = diffuse;
+					glossPtr->hasDifTexture = hasDifTex;
+					glossPtr->difTexIdx = difTexIdx; 
+					glossPtr->difIntensity = 1.f;
+					glossPtr->specular = colRGB(0.5, 0.5, 0.5);
+					glossPtr->hasSpecTex = false;
+					glossPtr->specTexIdx = 0;
 					unsigned int specTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_SPECULAR);
 					if (specTexCount > 0)
 					{
@@ -201,8 +204,8 @@ void SceneLoader::processMaterials(const aiScene* scene){
 							if (loadSuccess){
 								size_t texIndex = textures.size();
 								textures.push_back(tex);
-								lShade.specTexIdx = texIndex;
-								lShade.hasSpecTex = true;
+								glossPtr->specTexIdx = texIndex;
+								glossPtr->hasSpecTex = true;
 								cout << "texture loaded!" << endl;
 							}
 							else cout << "loading texture failed" << endl;
@@ -213,24 +216,28 @@ void SceneLoader::processMaterials(const aiScene* scene){
 						// handle epic failure here
 					}
 					else{
-						lShade.specular.red = aiSpec.r;
-						lShade.specular.green = aiSpec.g;
-						lShade.specular.blue = aiSpec.b;
-						lShade.param = PhongParameters(1, 1, 1, 50);
-						lShade.param.refr = 1.f;
+						glossPtr->specular.red = aiSpec.r;
+						glossPtr->specular.green = aiSpec.g;
+						glossPtr->specular.blue = aiSpec.b;
+						glossPtr->difIntensity = 0.1;
+						glossPtr->specIntensity = 1.0;
+						glossPtr->specExponent = 50;
+						glossPtr->reflIntensity = 1.f;
+						float angle = 3 * (PI / 180.f);
+						glossPtr->glossMaxR = 1 - cosf(angle);
+						glossPtr->glossMaxDelta = sinf(angle);
 						float aiPhongExponent;
 						if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_SHININESS, aiPhongExponent)) {
 							// handle epic failure here
 						}
-						else lShade.param.ke = (float)aiPhongExponent;
+						else glossPtr->specExponent = (float)aiPhongExponent;
 						float aiSpecularScale;
 						if (AI_SUCCESS != aiMaterials[i]->Get(AI_MATKEY_SHININESS_STRENGTH, aiSpecularScale)) {
 							// handle epic failure here
 						}
-						else lShade.param.ks = (float)aiSpecularScale;
-						lShade.param.refl = lShade.param.ks;
+						else glossPtr->specIntensity = (float)aiSpecularScale;
 					}
-					lShade.hasNormTex = false;
+					glossPtr->hasNormTex = false;
 					unsigned int normTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_NORMALS);
 					if (normTexCount > 0)
 					{
@@ -245,16 +252,43 @@ void SceneLoader::processMaterials(const aiScene* scene){
 							if (loadSuccess){
 								size_t texIndex = textures.size();
 								textures.push_back(tex);
-								lShade.normTexIdx = texIndex;
-								lShade.hasNormTex = true;
+								glossPtr->normTexIdx = texIndex;
+								glossPtr->hasNormTex = true;
 								cout << "texture loaded!" << endl;
 							}
 							else cout << "loading texture failed" << endl;
 						}
 					}
+					materials.push_back(glossPtr);
+				}
+				else
+				{
+					DiffuseBRDF *difPtr = new DiffuseBRDF(diffuse, 1.f, hasDifTex, difTexIdx);
+					difPtr->hasNormTex = false;
+					unsigned int normTexCount = aiMaterials[i]->GetTextureCount(aiTextureType_NORMALS);
+					if (normTexCount > 0)
+					{
+						aiString path;
+						if (aiMaterials[i]->GetTexture(aiTextureType_NORMALS, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+							string FullPath = directoryName + string("\\") + path.data;
+							cout << "loading texture: " << path.data << " ..." << endl;
+							TextureLoader  texLoader = TextureLoader();
+
+							bool loadSuccess = false;
+							Texture tex = texLoader.getTexture(FullPath, loadSuccess);
+							if (loadSuccess){
+								size_t texIndex = textures.size();
+								textures.push_back(tex);
+								difPtr->normTexIdx = texIndex;
+								difPtr->hasNormTex = true;
+								cout << "texture loaded!" << endl;
+							}
+							else cout << "loading texture failed" << endl;
+						}
+					}
+					materials.push_back(difPtr);
 				}
 			}
-			materials.push_back(lShade);
 		}
 	}
 }

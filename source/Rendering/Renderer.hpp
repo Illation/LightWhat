@@ -1,10 +1,18 @@
 #pragma once
 #include "Scene.hpp"
 #include "commonR.hpp"
+#include "shader.hpp"
+#include "shaders/Background.hpp"
+#include "shaders/DiffuseBRDF.hpp"
+#include "shaders/EmissionBRDF.hpp"
+#include "shaders/GlassBRDF.hpp"
+#include "shaders/GlossyBRDF.hpp"
+#include "shaders/Mix.hpp"
 #include "BVH.hpp"
 #include <thread>
 #include <ctime>
 #include <random>
+
 class Renderer
 {
 public:				
@@ -18,6 +26,9 @@ public:
 	void clearImage(int camWidth, int camHeight);
 	void updateRayMap();
 
+	float getLightIntensity(light *L, point3 P);
+	colRGB raycast(Ray, float &t);
+
 	const int p_MaxBounces = 8;
 	bool m_BackfaceCulling = true;
 
@@ -27,13 +38,11 @@ private:
 
 	void renderTile(int tileIndex);
 
-	colRGB raycast(Ray, float &t);
 	void traverseBVH(Ray &ray, bvhNode *node, DifferentialGeometry &dg, bool &hasHit, float minT);
 	bool shadowRay(line);
 	void shadowTraverseBVH(Ray &ray, bvhNode *node, bool &hasHit);
 
 	colRGB shade(DifferentialGeometry);
-	float getLightIntensity(light *L, point3 P);
 
 	Texture m_Image;
 	vector<vector<Ray> > rayMap;

@@ -23,4 +23,3 @@ public:
 	virtual shapeType getType();
 	virtual bool castsShadow();
 };
-

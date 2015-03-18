@@ -23,6 +23,8 @@
 #include "../Rendering/light.hpp"
 #include "../Rendering/lights/PointLight.hpp"
 #include "TextureLoader.hpp"
+#include "../Rendering/shaders/DiffuseBRDF.hpp"
+#include "../Rendering/shaders/GlossyBRDF.hpp"
 using namespace std;
 class SceneLoader
 {
@@ -36,7 +38,7 @@ public:
 	Camera cam;
 	vector  <shape*>shapes;
 	vector  <light*>lights;
-	vector  <Shader>materials;
+	vector  <shader*>materials;
 	vector  <Texture>textures;
 private:
 	string directoryName;
