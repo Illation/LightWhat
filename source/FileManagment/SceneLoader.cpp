@@ -182,6 +182,8 @@ void SceneLoader::processMaterials(const aiScene* scene){
 				diffuse.blue = aiDif.b;
 				if (lShade == ShadingFunction::SHADER_GLOSSY_BRDF)
 				{
+					DiffuseBRDF *difPtr = new DiffuseBRDF(diffuse, 1.f, hasDifTex, difTexIdx);
+					difPtr->hasNormTex = false;
 					GlossyBRDF *glossPtr = new GlossyBRDF();
 					glossPtr->diffuse = diffuse;
 					glossPtr->hasDifTexture = hasDifTex;
@@ -219,9 +221,9 @@ void SceneLoader::processMaterials(const aiScene* scene){
 						glossPtr->specular.red = aiSpec.r;
 						glossPtr->specular.green = aiSpec.g;
 						glossPtr->specular.blue = aiSpec.b;
-						glossPtr->difIntensity = 0.1;
-						glossPtr->specIntensity = 1.0;
-						glossPtr->specExponent = 50;
+						glossPtr->difIntensity = 0.1f;
+						glossPtr->specIntensity = 1.f;
+						glossPtr->specExponent = 50.f;
 						glossPtr->reflIntensity = 1.f;
 						float angle = 3 * (PI / 180.f);
 						glossPtr->glossMaxR = 1 - cosf(angle);
@@ -254,12 +256,15 @@ void SceneLoader::processMaterials(const aiScene* scene){
 								textures.push_back(tex);
 								glossPtr->normTexIdx = texIndex;
 								glossPtr->hasNormTex = true;
+								difPtr->normTexIdx = texIndex;
+								difPtr->hasNormTex = true;
 								cout << "texture loaded!" << endl;
 							}
 							else cout << "loading texture failed" << endl;
 						}
 					}
-					materials.push_back(glossPtr);
+					Mix *mixPtr = new Mix(difPtr, glossPtr, 0.5);
+					materials.push_back(mixPtr);
 				}
 				else
 				{

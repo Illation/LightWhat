@@ -55,27 +55,27 @@ colRGB GlassBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPt
 
 	vec3 V = dg.dir.Norm(0.0001f);
 	colRGB acc = colRGB(0.f, 0.f, 0.f);
-	for (size_t i = 0; i < lScPtr->lights.size(); i++)
-	{
-		//L inncoming light direction
-		vec3 L = (lScPtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
-		float LightIntensity = lRenPtr->getLightIntensity(lScPtr->lights[i], dg.i.p);
-		if (LightIntensity>0)
-		{
-			float intensity = N.Dot(L)*LightIntensity;
-			if (intensity > 0)
-			{
-				acc += dif*lScPtr->lights[i]->getColor()*intensity;
-			}
-			vec3 R = L - (N*L.Dot(N)) * 2;
-			float dot = V.Dot(R);
-			if (dot > 0)
-			{
-				float specI = pow(dot, specExponent)*specIntensity*LightIntensity;
-				acc += spec*lScPtr->lights[i]->getColor()*specI;
-			}
-		}
-	}
+	//for (size_t i = 0; i < lScPtr->lights.size(); i++)
+	//{
+	//	//L inncoming light direction
+	//	vec3 L = (lScPtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
+	//	float LightIntensity = lRenPtr->getLightIntensity(lScPtr->lights[i], dg.i.p);
+	//	if (LightIntensity>0)
+	//	{
+	//		float intensity = N.Dot(L)*LightIntensity;
+	//		if (intensity > 0)
+	//		{
+	//			acc += dif*lScPtr->lights[i]->getColor()*intensity;
+	//		}
+	//		vec3 R = L - (N*L.Dot(N)) * 2;
+	//		float dot = V.Dot(R);
+	//		if (dot > 0)
+	//		{
+	//			float specI = pow(dot, specExponent)*specIntensity*LightIntensity;
+	//			acc += spec*lScPtr->lights[i]->getColor()*specI;
+	//		}
+	//	}
+	//}
 	if (reflIntensity > 0){
 		if (dg.bounces > 0)
 		{
@@ -110,7 +110,7 @@ colRGB GlassBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPt
 
 		}
 	}
-	ret = acc;
+	ret = acc/(reflIntensity+refrIntensity);
 	return ret;
 }
 

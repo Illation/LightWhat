@@ -57,8 +57,8 @@ void ApplicationRoot::initSystems()
 	SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
 	_state = RenderingState::SETUP;
 
-	m_ResolutionX = 640;//1280;//1920;//  
-	m_ResolutionY = 360;//720; //1080;//  
+	m_ResolutionX = 1280;//640;//1920;//  
+	m_ResolutionY = 720; //360;//1080;//  
 	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
 	m_ImagePosY = 50;
 
@@ -104,7 +104,12 @@ void ApplicationRoot::initSystems()
 	}
 	else cout << "    font loading failed!" << endl;
 	cout << "high performance mode" << endl;
-	cout << "backface culling enabled" << endl;
+	if (renderer->m_BackfaceCulling == false){
+		cout << "backface culling disabled" << endl;
+	}
+	else{
+		cout << "backface culling enabled" << endl;
+	}
 }
 
 void ApplicationRoot::functionLoop()

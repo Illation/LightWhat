@@ -54,7 +54,7 @@ private:
 	RenderingState _state;
 	PerformanceMode _mode;
 	int m_ColsRendered = 0;
-	int maxSamples = 128;
+	int maxSamples = 2048;//10;// 
 	bool isSceneLoaded = false;
 	size_t dispTexIdx=0;
 

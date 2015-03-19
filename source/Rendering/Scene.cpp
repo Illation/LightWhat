@@ -30,7 +30,7 @@ void Scene::loadFile(string fileName)
 		//setup Lights
 	//PointLight *light = new PointLight(point3(1, 8, 4), colRGB(1, 1, 1), 1.f);
 	//lights.push_back(light);
-	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(-vec3(1, 8, 4).Norm(),-( vec3(1, 8, 4).Length())), 4.f, 1, colRGB(1.f, 1.f, 1.f), 0.85f);
+	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(-vec3(1, 8, 4).Norm(),-( vec3(1, 8, 4).Length())), 4.f, 1, colRGB(1.f, 1.f, 1.f), 10.f);
 	lights.push_back(light);
 	delete import;
 	import = nullptr;
@@ -58,7 +58,7 @@ void Scene::loadTestScene(){
 	shapes.push_back(pl1);
 	Plane *pl2 = new Plane(plane(vec3(0.f, 0.f, 1.f), -2.5f), materialPointer::CUSTOM_BEGIN + 1);
 	shapes.push_back(pl2);
-	Plane *pl3 = new Plane(plane(vec3(0.f, 0.f, -1.f), -5.f), materialPointer::CUSTOM_BEGIN + 1);
+	Plane *pl3 = new Plane(plane(vec3(0.f, 0.f, -1.f), -9.f), materialPointer::CUSTOM_BEGIN + 1);
 	shapes.push_back(pl3);
 	Plane *pl4 = new Plane(plane(vec3(0.f, -1.f, 0.f), -2.7f), materialPointer::CUSTOM_BEGIN + 1);
 	shapes.push_back(pl4);
@@ -70,7 +70,7 @@ void Scene::loadTestScene(){
 	Sphere *sp2 = new Sphere(point3(0.3f, -1.7f, 1.f), 0.8f, materialPointer::CUSTOM_BEGIN + 4);
 	shapes.push_back(sp2);
 
-	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(vec3(0.f, -1.f, 0.f), -2.3f), 2.f, 1, colRGB(1.f, 1.f, 1.f), 1.f);
+	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(vec3(0.f, -1.f, 0.f), -2.3f), 2.f, 1, colRGB(1.f, 1.f, 1.f), 50.f);
 	lights.push_back(light);
 
 

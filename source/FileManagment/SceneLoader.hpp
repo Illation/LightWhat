@@ -25,6 +25,7 @@
 #include "TextureLoader.hpp"
 #include "../Rendering/shaders/DiffuseBRDF.hpp"
 #include "../Rendering/shaders/GlossyBRDF.hpp"
+#include "../Rendering/shaders/Mix.hpp"
 using namespace std;
 class SceneLoader
 {

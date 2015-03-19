@@ -30,7 +30,7 @@ public:
 	colRGB raycast(Ray, float &t);
 
 	const int p_MaxBounces = 8;
-	bool m_BackfaceCulling = true;
+	bool m_BackfaceCulling = false;
 
 	int m_samplesRendered = 0;
 private:
