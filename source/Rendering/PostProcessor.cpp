@@ -10,7 +10,7 @@ PostProcessor::~PostProcessor()
 {
 }
 
-void PostProcessor::controlExposure(Texture &image, int resX, int resY, ExposureType expT){
+void PostProcessor::controlExposure(Texture &imageIn, Texture &imageOut, int resX, int resY, ExposureType expT){
 
 	float dHighest = 0;
 	switch (expT)
@@ -23,9 +23,9 @@ void PostProcessor::controlExposure(Texture &image, int resX, int resY, Exposure
 			{
 				for (int j = 0; j < resY; j++)
 				{
-					colRGB col = image.getRGB(i,j);
+					colRGB col = imageIn.getRGB(i, j);
 					col *= dHighest;
-					image.setRGB(col, i, j);
+					imageOut.setRGB(col, i, j);
 				}
 			}
 		}
@@ -35,11 +35,11 @@ void PostProcessor::controlExposure(Texture &image, int resX, int resY, Exposure
 		{
 			for (int j = 0; j < resY; j++)
 			{
-				colRGB col = image.getRGB(i, j);
+				colRGB col = imageIn.getRGB(i, j);
 				if (col.red>1.f)col.red = 1.f;
 				if (col.green>1.f)col.green = 1.f;
 				if (col.blue>1.f)col.blue = 1.f;
-				image.setRGB(col, i, j);
+				imageOut.setRGB(col, i, j);
 			}
 		}
 		break;
@@ -48,7 +48,7 @@ void PostProcessor::controlExposure(Texture &image, int resX, int resY, Exposure
 	}
 }
 
-void PostProcessor::updateHighestExposure(Texture image, int resX, int resY){
+void PostProcessor::updateHighestExposure(Texture &image, int resX, int resY){
 	m_HighestExposure = 0;
 	for (int i = 0; i < resX; i++)
 	{

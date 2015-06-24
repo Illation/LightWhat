@@ -23,6 +23,8 @@ Texture::Texture(string lName, int mX, int mY)
 }
 Texture::~Texture()
 {
+	m_AlphaValues.clear();
+	m_RGBcolours.clear();
 }
 
 void Texture::setRGB(colRGB col, int x, int y){

@@ -5,27 +5,17 @@ class GlossyBRDF :
 {
 public:
 	GlossyBRDF();
-	GlossyBRDF(colRGB Dif, float DifIntensity, bool HasDifTex, bool DifTexIdx,
-		colRGB Spec, float SpecIntensity, bool HasSpecTex, size_t SpecTexIdx,
-		float SpecExponent, float ReflIntensity, float ConeAngle);
+	GlossyBRDF(colRGB Col,  bool HasTex, bool TexIdx, float ReflIntensity, float ConeAngle);
 	virtual ~GlossyBRDF();
-	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr);
+	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr);
 	ShadingFunction getType();
 
-	colRGB diffuse;
-	bool hasDifTexture = false;
-	size_t difTexIdx;
-	float difIntensity;
-
-	colRGB specular;
-	bool hasSpecTex = false;
-	size_t specTexIdx;
-	float specIntensity;
-	float specExponent;
+	colRGB col;
+	bool hasTex = false;
+	size_t texIdx;
 
 	float reflIntensity = 1.f;
-	float glossMaxR = 0.f;
-	float glossMaxDelta = 0.f;
+	float glossAngle = 0.f;
 
 	bool hasNormTex = false;
 	size_t normTexIdx;

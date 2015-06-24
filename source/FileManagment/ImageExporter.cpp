@@ -62,9 +62,9 @@ void ImageExporter::saveBMP(const char *filename, int w, int h, int dpi, Texture
 	for (int i = 0; i < k; i++)
 	{
 		colRGB rgb = data.getRGB(i%w, h - (i / w));
-		float red = rgb.red * 255;
-		float green = rgb.green * 255;
-		float blue = rgb.blue * 255;
+		float red = min(powf(rgb.red, (1.f / 2.2f)), 1.f) * 255;
+		float green = min(powf(rgb.green, (1.f / 2.2f)), 1.f) * 255;
+		float blue = min(powf(rgb.blue, (1.f / 2.2f)), 1.f) * 255;
 
 		unsigned char color[3] = { (int)floor(blue), (int)floor(green), (int)floor(red) };
 

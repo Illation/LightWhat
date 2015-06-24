@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -25,65 +21,32 @@
     <Filter Include="Source Files\FileManagment\Import">
       <UniqueIdentifier>{667cc4b4-6e69-4b65-b8e7-bba3099dd868}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{e3662eea-d9f5-47dc-997e-47af9d64431c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Geometry">
-      <UniqueIdentifier>{89cb6001-3b53-413f-84aa-8455c85f32ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FileManagment">
-      <UniqueIdentifier>{ce36099d-9375-44e8-8fbd-bb62241dee5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FileManagment\Import">
-      <UniqueIdentifier>{113584f0-afc3-4e23-8434-4affdc5c3942}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{017e90cb-045c-4668-9562-9c655e126932}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\GUI">
-      <UniqueIdentifier>{d30e43b1-3874-42f6-94c2-b1b9d427ebd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\FileManagment\Export">
       <UniqueIdentifier>{9881ab5d-da04-49f1-bfc5-8d2fc499823d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\FileManagment\Export">
-      <UniqueIdentifier>{6e2f8651-d276-4417-8c4a-e789289cc728}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics\Geometry\shapes">
       <UniqueIdentifier>{ba4388e8-ceab-4970-b49c-a2c081745329}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Geometry\shapes">
-      <UniqueIdentifier>{2e0b786f-827e-4db3-8844-79216dbbfe50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Geometry\Acceleration">
-      <UniqueIdentifier>{cd9c57db-9458-4f29-973d-e500812c4a47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Helper">
-      <UniqueIdentifier>{7e4786d0-2350-4c98-be27-a738521e1e9b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics\Geometry\Acceleration">
       <UniqueIdentifier>{569912ba-fc5a-49fc-8ad0-d3784dade02d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Helper">
-      <UniqueIdentifier>{07458230-3c55-41f6-86da-8a31421ded72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Geometry\lights">
-      <UniqueIdentifier>{eacbf47d-73f3-4b52-82b1-a5476986934c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics\Geometry\lights">
       <UniqueIdentifier>{ffaca84d-d68b-4d86-ab00-e22435062fcf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Shading">
-      <UniqueIdentifier>{501c980f-d0ca-4a2e-9b2a-a8b09a501827}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics\Shading">
       <UniqueIdentifier>{a7dcd104-3268-4504-9b25-c2a0220aaafc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics\Shading\shaders">
-      <UniqueIdentifier>{e04ca612-2b76-4f6b-8dd1-d68a8f3ef784}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics\Shading\shaders">
       <UniqueIdentifier>{25e9b251-b9d3-4bab-8f3d-3e964dbf7a01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Utility">
+      <UniqueIdentifier>{07458230-3c55-41f6-86da-8a31421ded72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Kernel">
+      <UniqueIdentifier>{2e98bf76-0a5f-4c22-890e-165cb771ec2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -92,12 +55,6 @@
     </ClCompile>
     <ClCompile Include="ApplicationRoot.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileManagment\tinyxml2.cpp">
-      <Filter>Source Files\FileManagment\Import</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Renderer.cpp">
-      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GUI\winmain.cpp">
       <Filter>Source Files\GUI</Filter>
@@ -117,18 +74,6 @@
     <ClCompile Include="Rendering\shapes\Plane.cpp">
       <Filter>Source Files\Graphics\Geometry\shapes</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\PostProcessor.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Scene.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="FileManagment\SceneLoader.cpp">
-      <Filter>Source Files\FileManagment\Import</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Texture.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="FileManagment\TextureLoader.cpp">
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClCompile>
@@ -136,10 +81,10 @@
       <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\commonR.cpp">
-      <Filter>Source Files\Graphics\Helper</Filter>
+      <Filter>Source Files\Graphics\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\common.cpp">
-      <Filter>Source Files\Graphics\Helper</Filter>
+      <Filter>Source Files\Graphics\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\BVH.cpp">
       <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
@@ -174,94 +119,133 @@
     <ClCompile Include="Rendering\shaders\Mix.cpp">
       <Filter>Source Files\Graphics\Shading\shaders</Filter>
     </ClCompile>
+    <ClCompile Include="FileManagment\XMLParser.cpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\XMLdom.cpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\SceneImporter.cpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\SceneDescriptionLoader.cpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\PostProcessor.cpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Scene.cpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Texture.cpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\TraceUnit.cpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\LWRenderer.cpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileManagment\tinyxml2.h">
-      <Filter>Header Files\FileManagment\Import</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileManagment\ImageExporter.hpp">
-      <Filter>Header Files\FileManagment\Export</Filter>
+      <Filter>Source Files\FileManagment\Export</Filter>
     </ClInclude>
-    <ClInclude Include="FileManagment\SceneLoader.hpp">
-      <Filter>Header Files\FileManagment\Import</Filter>
+    <ClInclude Include="FileManagment\XMLParser.hpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\SceneDescriptionLoader.hpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\SceneImporter.hpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
     </ClInclude>
     <ClInclude Include="FileManagment\TextureLoader.hpp">
-      <Filter>Header Files\FileManagment\Import</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shapes\Mesh.hpp">
-      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shapes\Plane.hpp">
-      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shapes\Sphere.hpp">
-      <Filter>Header Files\Graphics\Geometry\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shape.hpp">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\PostProcessor.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Renderer.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Scene.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Texture.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\winmain.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationRoot.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\FileManagment\Import</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\AABB.hpp">
-      <Filter>Header Files\Graphics\Geometry\Acceleration</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\commonR.hpp">
-      <Filter>Header Files\Graphics\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\common.hpp">
-      <Filter>Header Files\Graphics\Helper</Filter>
+      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\BVH.hpp">
-      <Filter>Header Files\Graphics\Geometry\Acceleration</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\light.hpp">
-      <Filter>Header Files\Graphics\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\lights\PointLight.hpp">
-      <Filter>Header Files\Graphics\Geometry\lights</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\shader.hpp">
-      <Filter>Header Files\Graphics\Shading</Filter>
+      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\lights\AreaLight.hpp">
-      <Filter>Header Files\Graphics\Geometry\lights</Filter>
+      <Filter>Source Files\Graphics\Geometry\lights</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\shaders\DiffuseBRDF.hpp">
-      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+    <ClInclude Include="Rendering\lights\PointLight.hpp">
+      <Filter>Source Files\Graphics\Geometry\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Mesh.hpp">
+      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Plane.hpp">
+      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shapes\Sphere.hpp">
+      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shape.hpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\light.hpp">
+      <Filter>Source Files\Graphics\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\Background.hpp">
-      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shaders\DiffuseBRDF.hpp">
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\EmissionBRDF.hpp">
-      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\GlassBRDF.hpp">
-      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\GlossyBRDF.hpp">
-      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\Mix.hpp">
-      <Filter>Header Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shader.hpp">
+      <Filter>Source Files\Graphics\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\common.hpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\commonR.hpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\MonteCarlo.hpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManagment\XMLdom.hpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\winmain.hpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationRoot.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PostProcessor.hpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Scene.hpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.hpp">
+      <Filter>Source Files\Graphics\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\TraceUnit.hpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\LWRenderer.hpp">
+      <Filter>Source Files\Graphics\Kernel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

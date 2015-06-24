@@ -6,7 +6,7 @@ class Background :
 public:
 	Background();
 	virtual ~Background();
-	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr);
+	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr);
 	ShadingFunction getType();
 };
 

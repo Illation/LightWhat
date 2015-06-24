@@ -17,9 +17,11 @@ void Plane::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, Di
 		{
 			closest.i.hit = true;
 			closest.i.t = i.t;
+			closest.i.backfacing = i.backfacing;
 			closest.i.p = ray.ln.orig + ray.ln.dir*i.t;
 			closest.n = p.n;
 			closest.mat = m_MatIndex;
+			closest.hasTangentSpace = false;
 		}
 	}
 }

@@ -5,6 +5,7 @@
 //using namespace std;
 
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062f
+#define PI2 PI*2.f; 
 
 struct vec3;
 typedef vec3 point3;
@@ -233,6 +234,7 @@ struct intersection{
 	bool hit;
 	point3 p;
 	float t;
+	bool backfacing = false;
 };
 
 struct plane{
@@ -258,10 +260,12 @@ struct plane{
 		if (nd<0){
 			ret.t = (d - n.Dot(ln.orig)) / nd;
 			ret.hit = true;
+			ret.backfacing = false;
 		}
 		else if (nd>0 && bfc == false){
 			ret.t = (d - n.Dot(ln.orig)) / nd;
 			ret.hit = true;
+			ret.backfacing = true;
 		}
 		return ret;
 	}
@@ -354,3 +358,23 @@ public:
 		return !(*this == otherRef);
 	}
 };
+
+namespace LW_Util{
+	using namespace std;
+	inline std::string getTimeFromFloat(float time)
+	{
+		int seconds = (int)time;
+		int minutes = (int)(time / 60.f);
+		seconds -= minutes * 60;
+		int hours = (int)(time / 3600.f);
+		minutes -= hours * 60;
+		string hoursString = hours > 9 ? to_string(hours) : '0' + to_string(hours);
+		string minutesString = minutes > 9 ? to_string(minutes) : '0' + to_string(minutes);
+		string secondsString = seconds > 9 ? to_string(seconds) : '0' + to_string(seconds);
+		if (hours > 0)
+		{
+			return hoursString + ":" + minutesString + ":" + secondsString;
+		}
+		else return minutesString + ":" + secondsString;
+	}
+}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../FileManagment/SceneLoader.hpp"
+#include "../FileManagment/SceneImporter.hpp"
 #include "Texture.hpp"
 #include "shape.hpp"
 #include "shapes/Sphere.hpp"

@@ -1,5 +1,5 @@
 #include "Mix.hpp"
-#include "../Renderer.hpp"
+#include "../TraceUnit.hpp"
 #include "../Scene.hpp"
 
 
@@ -15,7 +15,7 @@ Mix::~Mix()
 {
 }
 
-colRGB Mix::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr)
+colRGB Mix::shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr)
 {
 	colRGB ret = colRGB(0,0,0);
 	colRGB c1 = shade1Ptr->shade(dg, lScPtr, lRenPtr);

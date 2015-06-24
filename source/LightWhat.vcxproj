@@ -86,9 +86,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileManagment\ImageExporter.cpp" />
-    <ClCompile Include="FileManagment\SceneLoader.cpp" />
+    <ClCompile Include="FileManagment\SceneDescriptionLoader.cpp" />
+    <ClCompile Include="FileManagment\SceneImporter.cpp" />
     <ClCompile Include="FileManagment\TextureLoader.cpp" />
-    <ClCompile Include="FileManagment\tinyxml2.cpp" />
+    <ClCompile Include="FileManagment\XMLdom.cpp" />
+    <ClCompile Include="FileManagment\XMLParser.cpp" />
     <ClCompile Include="GUI\winmain.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ApplicationRoot.cpp" />
@@ -99,8 +101,9 @@
     <ClCompile Include="Rendering\light.cpp" />
     <ClCompile Include="Rendering\lights\AreaLight.cpp" />
     <ClCompile Include="Rendering\lights\PointLight.cpp" />
+    <ClCompile Include="Rendering\LWRenderer.cpp" />
     <ClCompile Include="Rendering\PostProcessor.cpp" />
-    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Rendering\TraceUnit.cpp" />
     <ClCompile Include="Rendering\Scene.cpp" />
     <ClCompile Include="Rendering\shader.cpp" />
     <ClCompile Include="Rendering\shaders\Background.cpp" />
@@ -118,9 +121,11 @@
   <ItemGroup>
     <ClInclude Include="ApplicationRoot.hpp" />
     <ClInclude Include="FileManagment\ImageExporter.hpp" />
-    <ClInclude Include="FileManagment\SceneLoader.hpp" />
+    <ClInclude Include="FileManagment\SceneDescriptionLoader.hpp" />
+    <ClInclude Include="FileManagment\SceneImporter.hpp" />
     <ClInclude Include="FileManagment\TextureLoader.hpp" />
-    <ClInclude Include="FileManagment\tinyxml2.h" />
+    <ClInclude Include="FileManagment\XMLdom.hpp" />
+    <ClInclude Include="FileManagment\XMLParser.hpp" />
     <ClInclude Include="GUI\winmain.hpp" />
     <ClInclude Include="Rendering\AABB.hpp" />
     <ClInclude Include="Rendering\BVH.hpp" />
@@ -129,8 +134,10 @@
     <ClInclude Include="Rendering\light.hpp" />
     <ClInclude Include="Rendering\lights\AreaLight.hpp" />
     <ClInclude Include="Rendering\lights\PointLight.hpp" />
+    <ClInclude Include="Rendering\LWRenderer.hpp" />
+    <ClInclude Include="Rendering\MonteCarlo.hpp" />
     <ClInclude Include="Rendering\PostProcessor.hpp" />
-    <ClInclude Include="Rendering\Renderer.hpp" />
+    <ClInclude Include="Rendering\TraceUnit.hpp" />
     <ClInclude Include="Rendering\Scene.hpp" />
     <ClInclude Include="Rendering\shader.hpp" />
     <ClInclude Include="Rendering\shaders\Background.hpp" />

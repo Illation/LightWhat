@@ -14,8 +14,8 @@ public:
 	PostProcessor();
 	~PostProcessor();
 
-	void controlExposure(Texture &image, int resX, int resY, ExposureType);
-	void updateHighestExposure(Texture image, int resX, int reY);
+	void controlExposure(Texture &imageIn, Texture &imageOut, int resX, int resY, ExposureType);
+	void updateHighestExposure(Texture &image, int resX, int reY);
 private:
 	float m_HighestExposure = 0;
 };

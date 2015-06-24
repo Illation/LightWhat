@@ -2,7 +2,7 @@
 
 A small raytracing project that might one day render beautiful images :3
 
-LightWhat version 0.4.2
+LightWhat version 0.6
 
 by Robert Lindner 
 
@@ -23,7 +23,7 @@ note: scenes do not clear automatically, so before you load a different scene or
 
 * you can try the models from the TestFiles folder.
 * you can also try rendering your own models by exporting them in collada or 3Ds format.  
-* You might want to position your models so that they are visible from the camera as there is no way of changing its position at the moment 
+* you can edit the *.lwtf file in any text editor to change render settings and camera position
 
 if you find any bugs tell me about them please
 

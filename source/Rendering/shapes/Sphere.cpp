@@ -24,18 +24,22 @@ void Sphere::getIntersection(size_t subShapeIdx, size_t subShapeIdx2, Ray ray, D
 		if ((t1 < closest.i.t || closest.i.hit == false) && (t1 > minT))
 		{
 			closest.i.hit = true;
+			closest.i.backfacing = false;
 			closest.i.t = t1;
 			closest.i.p = ray.ln.orig + ray.ln.dir*t1;
 			closest.mat = m_MatIndex;
 			closest.n = (closest.i.p - m_Center).Norm(0.0000000001f);
+			closest.hasTangentSpace = false;
 		}
 		else if ((t2 < closest.i.t || closest.i.hit == false) && (t2 > minT))
 		{
 			closest.i.hit = true;
+			closest.i.backfacing = true;
 			closest.i.t = t2;
 			closest.i.p = ray.ln.orig + ray.ln.dir*t2;
 			closest.mat = m_MatIndex;
 			closest.n = (closest.i.p - m_Center).Norm(0.0000000001f);
+			closest.hasTangentSpace = false;
 		}
 	}
 }

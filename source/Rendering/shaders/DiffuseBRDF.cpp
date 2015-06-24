@@ -1,5 +1,5 @@
 #include "DiffuseBRDF.hpp"
-#include "../Renderer.hpp"
+#include "../TraceUnit.hpp"
 #include "../Scene.hpp"
 
 
@@ -20,7 +20,7 @@ DiffuseBRDF::DiffuseBRDF(colRGB col, float Intensity, bool lHasTexture, size_t t
 	TexIdx = texIdx;
 }
 
-colRGB DiffuseBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr)
+colRGB DiffuseBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr)
 {
 	//Header
 	colRGB ret = colRGB(0,0,0);
@@ -40,45 +40,49 @@ colRGB DiffuseBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRen
 		vec3 tSpaceN = dg.t*texN.x + dg.b*texN.y + N*texN.z;
 		N = tSpaceN.Norm();
 	}
+	if (N.Dot(dg.dir) > 0)
+	{
+		N = -N;
+	}
 	//Actual Shader
 	if (dg.bounces > 0)
 	{	
-		//generate random hemisphere vector to surface normal
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_real_distribution<> dis(-1, 1);
-		vec3 R = vec3(dis(gen), dis(gen), dis(gen)).Norm();
-		float cosT = N.Dot(R);
-		if (cosT < 0)
-		{
-			R = -R;
-			cosT = -cosT;
-		}
+		//generate cosine weighted hemisphere vector to surface normal
+		vec3 T, B;
+		if (dg.hasTangentSpace){T = dg.t, B = dg.b;}
+		else MonteCarlo::tangentBitangent(N, T, B);
+		vec3 R = MonteCarlo::cosineSampleHemisphere(N, T, B);
 		//Recursivly Bounce
 		Ray ray = Ray(line(dg.i.p, R), dg.bounces - 1, false);
 		ray.precalculate();
 		float t;
 		colRGB rcol = lRenPtr->raycast(ray, t);
 
-		ret = rcol*dif*intensity*cosT;
+		ret = rcol*dif*intensity;
 	}
-	//else //Ignore Lighs for now
-	//{
-	//	for (size_t i = 0; i < lScPtr->lights.size(); i++)
-	//	{
-	//		//L inncoming light direction
-	//		vec3 L = (lScPtr->lights[i]->getPosition() - dg.i.p).Norm(0.00001f);
-	//		float LightIntensity = lRenPtr->getLightIntensity(lScPtr->lights[i], dg.i.p);
-	//		if (LightIntensity>0)
-	//		{
-	//			float intensity = N.Dot(L) * LightIntensity;
-	//			if (intensity > 0)
-	//			{
-	//				ret += dif*lScPtr->lights[i]->getColor()*intensity;
-	//			}
-	//		}
-	//	}
-	//}
+	else //calculate direct illumination
+	{
+		for (size_t i = 0; i < lScPtr->lights.size(); i++)
+		{
+			//L inncoming light direction
+			vec3 L = (lScPtr->lights[i]->getPosition() - dg.i.p);
+			float distance = L.Length();
+			L /= distance;
+			float LightIntensity = lRenPtr->getLightIntensity(lScPtr->lights[i], dg.i.p);
+			if (LightIntensity>0)
+			{
+				float r = 1.f;
+				float d = max(distance - r, 0);
+				float denom = d / r + 1;
+				float attenuation = 1 / (denom*denom);
+				float intensity = N.Dot(L) * LightIntensity * attenuation;
+				if (intensity > 0.f)
+				{
+					ret += dif*lScPtr->lights[i]->getColor()*intensity;
+				}
+			}
+		}
+	}
 	return ret;
 }
 

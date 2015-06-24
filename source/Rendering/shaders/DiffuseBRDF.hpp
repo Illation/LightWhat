@@ -1,5 +1,6 @@
 #pragma once
-#include "..\shader.hpp"
+#include "../shader.hpp"
+#include "../MonteCarlo.hpp"
 class DiffuseBRDF :
 	public shader
 {
@@ -7,7 +8,7 @@ public:
 	DiffuseBRDF();
 	DiffuseBRDF(colRGB, float Intensity, bool hasTexture, size_t texIdx);
 	virtual ~DiffuseBRDF();
-	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr);
+	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr);
 	ShadingFunction getType();
 
 	colRGB diffuse;
@@ -17,5 +18,7 @@ public:
 
 	bool hasNormTex = false;
 	size_t normTexIdx;
+private:
+	//vec3 cosineSampleHemisphere(float u1, float u2);
 };
 

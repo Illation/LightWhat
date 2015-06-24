@@ -7,7 +7,7 @@ public:
 	Mix();
 	Mix(shader *Shader1, shader *Shader2, float Factor);
 	virtual ~Mix();
-	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr);
+	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr);
 	ShadingFunction getType();
 
 	shader *shade1Ptr = nullptr, *shade2Ptr = nullptr;

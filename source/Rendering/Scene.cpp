@@ -15,42 +15,50 @@ Scene::~Scene()
 
 void Scene::setupCamera(int camWidth, int camHeight)
 {
-	cam = Camera(point3(0.3f, -0.3f, 8.f), vec3(0.f, 0.f, -1.f), camWidth, camHeight);//(point3(5.3f, 16.f, -8.f), vec3(0.f, 0.f, -1.f), camWidth, camHeight); //
+	cam = Camera(point3(0.3f, -0.3f, 8.f), vec3(0.f, 0.f, -1.f), camWidth, camHeight);
 	cam.setTarget(point3(0.f, -0.15f, 0.f));
 	cam.setParameters(65.f, 1.f, 50.f);
 }
 
-void Scene::loadFile(string fileName)
+void Scene::loadFile(string fileName)//in future, pass the lists as references to directly add the shapes to avoid messing up the indices
 {
-	SceneLoader *import = new SceneLoader();
+	SceneImporter *import = new SceneImporter();
 	import->loadScene(fileName);
-	shapes = import->shapes;
-	materials = import->materials;
-	textures = import->textures;
-		//setup Lights
-	//PointLight *light = new PointLight(point3(1, 8, 4), colRGB(1, 1, 1), 1.f);
-	//lights.push_back(light);
-	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(-vec3(1, 8, 4).Norm(),-( vec3(1, 8, 4).Length())), 4.f, 1, colRGB(1.f, 1.f, 1.f), 10.f);
-	lights.push_back(light);
+	size_t materialIndex = materials.size();
+	size_t textureIndex = textures.size();
+	for (size_t i = 0; i < import->materials.size(); i++)
+	{
+		materials.push_back(import->materials[i]);
+	}
+	for (size_t i = 0; i < import->textures.size(); i++)
+	{
+		textures.push_back(import->textures[i]);
+	}
+	for (size_t i = 0; i < import->shapes.size(); i++)
+	{
+		shapes.push_back(import->shapes[i]);
+	}
 	delete import;
 	import = nullptr;
-
-	solidifyLights();
 }
 
 void Scene::loadTestScene(){
 	//Cornell box
 	background = colRGB(0, 0, 0);
-	DiffuseBRDF *dif1Ptr = new DiffuseBRDF(colRGB(0.9f, 0.1f, 0.1f), 1.0f, false, 0);
+	DiffuseBRDF *dif1Ptr = new DiffuseBRDF(colRGB(0.9f, 0.1f, 0.1f), 1.0f, false, 0);//Red
 	materials.push_back(dif1Ptr);
-	DiffuseBRDF *dif2Ptr = new DiffuseBRDF(colRGB(1.0f, 1.0f, 1.0f), 1.0f, false, 0);
+	DiffuseBRDF *dif2Ptr = new DiffuseBRDF(colRGB(1.0f, 1.0f, 1.0f), 1.0f, false, 0);//White
 	materials.push_back(dif2Ptr);
-	DiffuseBRDF *dif3Ptr = new DiffuseBRDF(colRGB(0.1f, 0.9f, 0.1f), 1.0f, false, 0);
+	DiffuseBRDF *dif3Ptr = new DiffuseBRDF(colRGB(0.1f, 0.9f, 0.1f), 1.0f, false, 0);//Green
 	materials.push_back(dif3Ptr);
-	GlossyBRDF *gloss1Ptr = new GlossyBRDF(colRGB(0.5f, 0.5f, 0.7f), 1.f, false, 0, colRGB(1.f, 1.f, 1.f), 0.7f, false, 0, 50, 0.5, 20.f);
-	materials.push_back(gloss1Ptr);
-	GlassBRDF *glass1Ptr = new GlassBRDF(colRGB(0.5f, 0.5f, 0.7f), 0.05f, false, 0, colRGB(1.f, 1.f, 1.f), 0.5f, false, 0, 50, 0.18f, 0.9f, 1.33f);
-	materials.push_back(glass1Ptr);
+	GlossyBRDF *gloss1Ptr = new GlossyBRDF(colRGB(0.256f, 0.375f, 0.59f), false, 0, 1.f, 13.5f);
+	DiffuseBRDF *dif5Ptr = new DiffuseBRDF(colRGB(0.8f, 0.8f, 0.8f), 1.f, false, 0);
+	Mix *mix1Ptr = new Mix(dif5Ptr, gloss1Ptr, 0.789f);//Glossy
+	materials.push_back(mix1Ptr);
+	GlassBRDF *glass1Ptr = new GlassBRDF(colRGB(1.f, 1.f, 1.f), false, 0, 0.1f, 1.3f, (0.3f*(PI/180.f)));
+	materials.push_back(glass1Ptr);//Glass
+	DiffuseBRDF *dif4Ptr = new DiffuseBRDF(colRGB(0.1f, 0.1f, 0.9f), 1.0f, false, 0);//Blues
+	materials.push_back(dif4Ptr);
 
 	Plane *pl0 = new Plane(plane(vec3(1.f, 0.f, 0.f), -2.5f), materialPointer::CUSTOM_BEGIN + 0);
 	shapes.push_back(pl0);
@@ -70,7 +78,7 @@ void Scene::loadTestScene(){
 	Sphere *sp2 = new Sphere(point3(0.3f, -1.7f, 1.f), 0.8f, materialPointer::CUSTOM_BEGIN + 4);
 	shapes.push_back(sp2);
 
-	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(vec3(0.f, -1.f, 0.f), -2.3f), 2.f, 1, colRGB(1.f, 1.f, 1.f), 50.f);
+	AreaLight *light = new AreaLight(vec3(0.f, 0.f, 1.f), plane(vec3(0.f, -1.f, 0.f), -2.3f), 2.f, 1, colRGB(0.8f, 0.8f, 0.8f), 8.f);
 	lights.push_back(light);
 
 

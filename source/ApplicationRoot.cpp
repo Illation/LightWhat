@@ -26,10 +26,8 @@ void ApplicationRoot::end()
 	TTF_CloseFont(m_ConsoleFontRegularPtr);
 	TTF_CloseFont(m_ConsoleFontBoldPtr);
 	delete[] pixels;
-	delete scPtr;
-	scPtr = nullptr;
-	delete renderer;
-	renderer = nullptr;
+	delete m_Renderer;
+	m_Renderer = nullptr;
 	delete guiFunctions;
 	guiFunctions = nullptr;
 	delete ofWnd;
@@ -55,29 +53,15 @@ void ApplicationRoot::initSystems()
 		0);
 
 	SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
-	_state = RenderingState::SETUP;
-
-	m_ResolutionX = 1280;//640;//1920;//  
-	m_ResolutionY = 720; //360;//1080;//  
-	m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
-	m_ImagePosY = 50;
-
-	m_TexResolutionX = 400;
-	m_TexResolutionY = 400;
-	m_TexPosX = 50;
-	m_TexPosY = _screenHeight - (m_TexResolutionX + 50);
-
 	sdlRenderer = SDL_CreateRenderer(_window, -1, 0);
 	renderTex = SDL_CreateTexture(sdlRenderer,
 		SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, _screenWidth, _screenHeight);
 	pixels = new Uint32[_screenWidth * _screenHeight];
 	memset(pixels, 30, _screenWidth * _screenHeight * sizeof(Uint32));
 
-	scPtr = new Scene();
-	renderer = new Renderer();
+	m_Renderer = new LWRenderer();
 	guiFunctions = new winmain(_screenWidth, _screenHeight); 
 	imgExp = new ImageExporter();
-	_mode = PerformanceMode::HIGH;
 
 
 	cout << "loading fonts...";
@@ -97,14 +81,24 @@ void ApplicationRoot::initSystems()
 
 		exeDirectory = t;
 
-		m_ConsoleFontRegularPtr = TTF_OpenFont((exeDirectory + string("fonts/Inconsolata-Regular.ttf")).c_str(), 20);
-		m_ConsoleFontBoldPtr = TTF_OpenFont((exeDirectory + string("fonts/Inconsolata-Bold.ttf")).c_str(), 20);
+		m_Renderer->init((exeDirectory + string("Resources/sceneDescriptionFiles/sceneCornell.lwtf")).c_str());
+		m_ResolutionX = m_Renderer->m_Settings.resolutionX;
+		m_ResolutionY = m_Renderer->m_Settings.resolutionY;
+		m_ImagePosX = _screenWidth - (m_ResolutionX + 50);
+		m_ImagePosY = 50;
+		m_TexResolutionX = 400;
+		m_TexResolutionY = 400;
+		m_TexPosX = 50;
+		m_TexPosY = _screenHeight - (m_TexResolutionX + 50);
+
+		m_ConsoleFontRegularPtr = TTF_OpenFont((exeDirectory + string("Resources/fonts/Inconsolata-Regular.ttf")).c_str(), 20);
+		m_ConsoleFontBoldPtr = TTF_OpenFont((exeDirectory + string("Resources/fonts/Inconsolata-Bold.ttf")).c_str(), 20);
 
 		cout << "    fonts loaded!" << endl;
 	}
 	else cout << "    font loading failed!" << endl;
 	cout << "high performance mode" << endl;
-	if (renderer->m_BackfaceCulling == false){
+	if (m_Renderer->m_Settings.backfaceCulling == false){
 		cout << "backface culling disabled" << endl;
 	}
 	else{
@@ -114,17 +108,29 @@ void ApplicationRoot::initSystems()
 
 void ApplicationRoot::functionLoop()
 {
-	while(_state != RenderingState::EXIT)
+	while(exit == false)
 	{
-		switch (_state)
+		switch (m_Renderer->m_RenderStatus)
 		{
-		case RenderingState::SETUP:
+		case LW_SETUP:
 			processInput();
 			drawImage();
 			break;
-		case RenderingState::RENDER:
+		case LW_PREPROCESS:
+			processInput();
+			drawImage();
+			break;
+		case LW_RUNNING:
 			processInput();
 			updateImage();
+			drawImage();
+			break;
+		case LW_PAUSED:
+			processInput();
+			drawImage();
+			break;
+		case LW_COMPLETE:
+			processInput();
 			drawImage();
 			break;
 		}
@@ -138,21 +144,19 @@ void ApplicationRoot::processInput()
 	while (SDL_PollEvent(&evnt)){
 		switch (evnt.type) {
 		case SDL_QUIT:
-			_state = RenderingState::EXIT;
+			exit = true;
 			cout << "quitting.... " << endl;
 			break; 
 		case SDL_KEYDOWN:
 			switch (evnt.key.keysym.sym)
 			{
 			case SDLK_KP_ENTER:
-				_state = RenderingState::RENDER;
 				cout << endl << "starting render.... " << endl;
-				start = clock();
+				m_Renderer->preprocess();
 				break;
 			case SDLK_RETURN:
-				_state = RenderingState::RENDER;
 				cout << endl << "starting render.... " << endl;
-				start = clock();
+				m_Renderer->preprocess();
 				break;
 			case SDLK_l:
 				fileName = guiFunctions->getFileName(ofWnd);
@@ -163,32 +167,30 @@ void ApplicationRoot::processInput()
 				else
 				{
 					cout << "loading file: " << fileName.c_str() << endl;
-					scPtr->loadFile(fileName);
+					m_Renderer->importExternal(fileName.c_str());
 					cout << "file loaded! " << endl;
-					scPtr->updateSceneInfo();
 					sceneInfo.clear();
 					sceneInfo.push_back(string("Scene info:\n"));
-					sceneInfo.push_back(string("Vertices: ") + to_string(scPtr->vertCount) + string("\n"));
-					sceneInfo.push_back(string("Triangles: ") + to_string(scPtr->triCount) + string("\n"));
-					sceneInfo.push_back(string("Objects: ") + to_string(scPtr->objCount) + string("\n"));
-					sceneInfo.push_back(string("Lights: ") + to_string(scPtr->lightCount) + string("\n"));
+					sceneInfo.push_back(string("Vertices: ") + to_string(m_Renderer->m_Scene->vertCount) + string("\n"));
+					sceneInfo.push_back(string("Triangles: ") + to_string(m_Renderer->m_Scene->triCount) + string("\n"));
+					sceneInfo.push_back(string("Objects: ") + to_string(m_Renderer->m_Scene->objCount) + string("\n"));
+					sceneInfo.push_back(string("Lights: ") + to_string(m_Renderer->m_Scene->lightCount) + string("\n"));
 				}
 				break;
 			case SDLK_t:
 				cout << "loading test scene..." << endl;
-				scPtr->loadTestScene();
+				m_Renderer->loadLWTF((exeDirectory + string("Resources/sceneDescriptionFiles/sceneCornell.lwtf")).c_str());
 				cout << "scene loaded! " << endl;
-				scPtr->updateSceneInfo();
 				sceneInfo.clear();
 				sceneInfo.push_back(string("Scene info:\n"));
-				sceneInfo.push_back(string("Vertices: ") + to_string(scPtr->vertCount)+string("\n"));
-				sceneInfo.push_back(string("Triangles: ") + to_string(scPtr->triCount) + string("\n"));
-				sceneInfo.push_back(string("Objects: ") + to_string(scPtr->objCount) + string("\n"));
-				sceneInfo.push_back(string("Lights: ") + to_string(scPtr->lightCount) + string("\n"));
+				sceneInfo.push_back(string("Vertices: ") + to_string(m_Renderer->m_Scene->vertCount) + string("\n"));
+				sceneInfo.push_back(string("Triangles: ") + to_string(m_Renderer->m_Scene->triCount) + string("\n"));
+				sceneInfo.push_back(string("Objects: ") + to_string(m_Renderer->m_Scene->objCount) + string("\n"));
+				sceneInfo.push_back(string("Lights: ") + to_string(m_Renderer->m_Scene->lightCount) + string("\n"));
 				break;
 			case SDLK_c:
 				cout << "clearing scene..." << endl;
-				scPtr->clearScene();
+				m_Renderer->clear();
 				cout << "scene cleared! " << endl;
 				break;
 			case SDLK_s:
@@ -200,28 +202,18 @@ void ApplicationRoot::processInput()
 				else
 				{
 					cout << "saving file: " << (fileName+string(".bmp")).c_str() << endl;
-					imgExp->saveBMP((fileName + string(".bmp")).c_str(), m_ResolutionX, m_ResolutionY, 72, *daImage);
+					imgExp->saveBMP((fileName + string(".bmp")).c_str(), m_Renderer->m_Settings.resolutionX, m_Renderer->m_Settings.resolutionY, 72, *m_Renderer->m_TonemappedImage);
 					cout << "file saved! " << endl;
 				}
 				break;
-			case SDLK_p:
-				if (_mode == PerformanceMode::VIEW){
-					cout << "high performance mode"<< endl;
-					_mode = PerformanceMode::HIGH;
-				}
-				else{
-					cout << "progress viewing mode" << endl;
-					_mode = PerformanceMode::VIEW;
-				}
-				break;
 			case SDLK_b:
-				if (renderer->m_BackfaceCulling==false){
+				if (m_Renderer->m_Settings.backfaceCulling == false){
 					cout << "backface culling enabled" << endl;
-					renderer->m_BackfaceCulling = true;
+					m_Renderer->m_Settings.backfaceCulling = true;
 				}
 				else{
 					cout << "backface culling disabled" << endl;
-					renderer->m_BackfaceCulling = false;
+					m_Renderer->m_Settings.backfaceCulling = false;
 				}
 				break;
 			case SDLK_d:
@@ -236,82 +228,24 @@ void ApplicationRoot::processInput()
 
 void ApplicationRoot::updateImage()
 {
-	//setup scene
-	if (!isSceneLoaded)
-	{
-		scPtr->setupCamera(m_ResolutionX, m_ResolutionY);
-		renderer->setScene(scPtr);
-		renderer->init(m_ResolutionX, m_ResolutionY);
-		isSceneLoaded = true;
-		float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
-		cout << "time for setup: " << duration << " seconds" << endl;
-		cout << endl << "rendering.... " << endl;
-	}
 	//render
-	if (renderer->renderNextChunk())
+	if (m_Renderer->updateRender())
 	{
-		if (renderer->m_samplesRendered >= maxSamples)
-		{
-			_state = RenderingState::SETUP;
-			isSceneLoaded = false;
-			renderSamples = string("Samples rendered: ") + to_string(renderer->m_samplesRendered);
-			renderer->m_samplesRendered = 0;
-		}
-		else
-		{
-			renderer->updateRayMap();
-			daImage = renderer->getImage();
-			for (int i = 0; i < m_ResolutionX; i++)
-			{
-				for (int j = 0; j < m_ResolutionY; j++)
-				{
-					setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage->getRGB(i, j));
-				}
-			}
-			float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
-			renderTime = string("Render time: ") + to_string(duration) + string(" seconds");
-			renderSamples = string("Samples rendered: ") + to_string(renderer->m_samplesRendered);
-		}
-	}
-	if (_mode == PerformanceMode::VIEW)
-	{
-		daImage = renderer->getImage();
+		m_Renderer->postProcessRender();
 		for (int i = 0; i < m_ResolutionX; i++)
 		{
 			for (int j = 0; j < m_ResolutionY; j++)
 			{
-				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage->getRGB(i, j));
+				setPixel(i + m_ImagePosX, j + m_ImagePosY, m_Renderer->m_TonemappedImage->getRGB(i, j));
 			}
 		}
 	}
-	//Postprocessing
-	//if (m_ColsRendered % 20 == 19 || _state == RenderingState::SETUP)
-	if (_state == RenderingState::SETUP)
-	{
-		daImage = renderer->getImage();
-		cout << "postprocessing..." << endl;
-		postPr.updateHighestExposure(*daImage, m_ResolutionX, m_ResolutionY);
-		postPr.controlExposure(*daImage, m_ResolutionX, m_ResolutionY, CLIP);
-		float duration = (std::clock() - start) / (float)CLOCKS_PER_SEC;
-		cout << endl << "render completed!" << endl << "time: " << duration << " seconds" << endl;
-		renderTime = string("Render time: ") + to_string(duration) + string(" seconds");
-
-		//Update SDL texture
-		for (int i = 0; i < m_ResolutionX; i++)
-		{
-			for (int j = 0; j < m_ResolutionY; j++)
-			{
-				setPixel(i + m_ImagePosX, j + m_ImagePosY, daImage->getRGB(i,j));
-			}
-		}
-	}
-	m_ColsRendered++;
 }
 
 void ApplicationRoot::drawTexture(){
-	if (scPtr->textures.size() >0)
+	if (m_Renderer->m_Scene->textures.size() >0)
 	{
-		Texture tex = scPtr->textures[dispTexIdx];
+		Texture tex = m_Renderer->m_Scene->textures[dispTexIdx];
 		{
 			for (int i = 0; i < m_TexResolutionX; i++)
 			{
@@ -375,9 +309,9 @@ void ApplicationRoot::renderText(const std::string &message, TTF_Font *daFont,
 
 void ApplicationRoot::displaySceneInfo(){
 	SDL_Color color = { 255, 255, 255, 255 };
-	int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY + m_ResolutionY + dy;
-	renderText(renderTime, m_ConsoleFontRegularPtr, color, fSize, x + 300, y);
-	renderText(renderSamples, m_ConsoleFontRegularPtr, color, fSize, x + 300, y+dy);
+	int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY - 30;
+	renderText(m_Renderer->m_Status, m_ConsoleFontRegularPtr, color, fSize, x, y);
+	y = m_ImagePosY + m_ResolutionY + dy;
 	for (size_t i = 0; i < sceneInfo.size(); i++){
 		renderText(sceneInfo[i], m_ConsoleFontRegularPtr, color, fSize, x, y);
 		y += dy;
@@ -401,9 +335,9 @@ void ApplicationRoot::setPixel(int x, int y, colRGB col)
 {
 	if (y >= 0 && y < _screenHeight && x >= 0 && x < _screenWidth)
 	{
-		int red = (int)(col.red * 255) << 16;
-		int green = (int)(col.green * 255) << 8;
-		int blue = (int)(col.blue * 255);
+		int red = (int)(min(powf(col.red, (1.f / 2.2f)), 1.f) * 255) << 16;
+		int green = (int)(min(powf(col.green, (1.f / 2.2f)), 1.f) * 255) << 8;
+		int blue = (int)(min(powf(col.blue, (1.f / 2.2f)), 1.f) * 255);
 		Uint32 uint = Uint32(red + green + blue);
 		pixels[y * _screenWidth + x] = uint;
 	}

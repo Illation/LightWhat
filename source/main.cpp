@@ -1,4 +1,4 @@
-//version 0.5.1
+//version 0.6
 //by Robert Lindner
 //using SDL2, SDL_TFF (with freetype), Assimp, devIL and tinyxml2
 

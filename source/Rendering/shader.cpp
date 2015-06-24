@@ -10,7 +10,7 @@ shader::~shader()
 {
 }
 
-colRGB shader::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr)
+colRGB shader::shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr)
 {
 	cout << "unimplemented method: shade() called!" << endl;
 	return colRGB(0, 0, 0);

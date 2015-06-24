@@ -1,5 +1,5 @@
 #include "EmissionBRDF.hpp"
-#include "../Renderer.hpp"
+#include "../TraceUnit.hpp"
 #include "../Scene.hpp"
 
 
@@ -17,7 +17,7 @@ EmissionBRDF::~EmissionBRDF()
 {
 }
 
-colRGB EmissionBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr)
+colRGB EmissionBRDF::shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr)
 {
 	colRGB col = emission;
 	if (hasTexture)

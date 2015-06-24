@@ -1,5 +1,5 @@
 #include "Background.hpp"
-#include "../Renderer.hpp"
+#include "../TraceUnit.hpp"
 #include "../Scene.hpp"
 
 
@@ -12,7 +12,7 @@ Background::~Background()
 {
 }
 
-colRGB Background::shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr)
+colRGB Background::shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr)
 {
 	return lScPtr->background;
 }

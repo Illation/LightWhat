@@ -7,7 +7,7 @@ public:
 	EmissionBRDF();
 	EmissionBRDF(colRGB Emission, float intensity, bool hasTexture, size_t TexIdx);
 	virtual ~EmissionBRDF();
-	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr);
+	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr);
 	ShadingFunction getType();
 
 	colRGB emission;

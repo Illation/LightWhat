@@ -1,4 +1,4 @@
-0.1
+0.1 (Basis for rendering)
 * vector math
 * Triangle Meshes
 * Intersection
@@ -7,7 +7,7 @@
 * Phong Shader
 * Background Shader
 
-0.2.1
+0.2.1 (basic usability)
 * file input
 * tinyxml2
 * collada Import
@@ -34,7 +34,7 @@
 * added save file dialog
 * added file filters to open and save file dialogs to prevent loading of illegal file types
 	
-0.3.1
+0.3.1 (code maintainability)
 * bundled vertex math structures into common.h and common.cpp for easy re-use in other projects and more sensible file structure
 * bundled Raytracing helper structures into commonR.h and commonR.cpp to remove clutter
 * changed names of classes and functions to more generic names for better readability (Vertex -> vec3 with typedef point3 | RayColor -> colRGB)
@@ -68,7 +68,7 @@
 * added performance options to user controls ("B" to toggle backface culling, "P" to toggle performance mode)
 * => performance improvment: up to 2.6 times as fast
 
-0.4.1
+0.4.1 (Basic Shading and Textures)
 * fixed phong shader
 * added reflection shader
 * removed collada importer and included assimp
@@ -97,3 +97,26 @@
 * added tangent space interpolation to mesh intersections
 * added normal map rendering
 * it is now possible to load larger models
+
+0.5 (Performance)
+* inlined vector math
+* .h files -> .hpp files
+* added Axis aligned bounding Boxes (AABB)
+* added bounding volume hierachies
+* added building of bounding volume hierachies from meshes
+* replaced linear raycasting with raycasting through bounding volume hierachies
+* using floats instead of doubles to reduce massive overhead
+* added multithreaded tile rendering
+* displaying the render time in the application (SDL text rendering)
+
+0.6 (Global Illumination)
+* fixed Spheres
+* Made test scene a cornell box
+* Polymorphism to support multiple light types, Using both point and area lights
+* Polymorphism for shaders, Shaders now use the visitor pattern
+* created basic monteCarlo library for Global Illumination
+* Shaders now are BDSFs -> Global Illumination
+* created Diffuse, Glossy, Glass, Emission, Mix and Background Shaders
+* added basic XML parser and dom
+* render settings are now loaded from .lwtf files
+* renderer is now split into specific LWrenderer and traceUnit

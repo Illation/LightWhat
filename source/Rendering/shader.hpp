@@ -1,7 +1,7 @@
 #pragma once
 #include "commonR.hpp"
 
-class Renderer;
+class TraceUnit;
 class Scene;
 enum ShadingFunction
 {
@@ -20,7 +20,7 @@ class shader
 public:
 	shader();
 	virtual ~shader();
-	virtual colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr) = 0;
+	virtual colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr) = 0;
 	virtual ShadingFunction getType();
 };
 

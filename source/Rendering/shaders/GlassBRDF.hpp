@@ -5,28 +5,17 @@ class GlassBRDF :
 {
 public:
 	GlassBRDF();
-	GlassBRDF(colRGB Dif, float DifIntensity, bool HasDifTex, bool DifTexIdx,
-		colRGB Spec, float SpecIntensity, bool HasSpecTex, size_t SpecTexIdx,
-		float SpecExponent, float ReflIntensity, float RefrIntensity, float IOR);
+	GlassBRDF(colRGB Col, bool HasTex, size_t TexIdx, float ReflRatio, float IOR, float RoughAngle);
 	virtual ~GlassBRDF();
-	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, Renderer *lRenPtr);
+	colRGB shade(DifferentialGeometry dg, Scene *lScPtr, TraceUnit *lRenPtr);
 	ShadingFunction getType();
 
-	colRGB diffuse;
-	bool hasDifTexture = false;
-	size_t difTexIdx;
-	float difIntensity;
-
-	colRGB specular;
-	bool hasSpecTex = false;
-	size_t specTexIdx;
-	float specIntensity;
-	float specExponent;
-
-	float reflIntensity = 1.f;
-
+	colRGB col;
+	bool hasTexture = false;
+	size_t texIdx;
+	float reflRatio;
 	float ior = 1.3f;
-	float refrIntensity = 0.f;
+	float roughAngle = 0.f;
 
 	bool hasNormTex = false;
 	size_t normTexIdx;

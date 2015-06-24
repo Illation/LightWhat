@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LWTF version="0.1">
+	<fileInfo>
+		<author>Robert Lindner - 1DAE3</author>
+	</fileInfo>
+	<coordinateSystem>
+		<unit name="meter" meter="1"/>
+		<X_axis>RIGHT</X_axis>
+		<Y_axis>UP</Y_axis>
+		<Z_axis>FRONT</Z_axis>
+	</coordinateSystem>
+	<renderSettings>
+		<resolution x="1280" y="720"/>
+		<samples>256</samples>
+		<bounces>4</bounces>
+		<backfaceCulling>false</backfaceCulling>
+		<toneMapping>CLIP</toneMapping>
+		<gammaEnabled>true</gammaEnabled>
+		<gammaExponent>0.45454545454</gammaExponent>
+		<background r="0.0" g="0.0" b="0.0"/>
+	</renderSettings>
+	<camera>
+		<position x="0.3" y="-0.3" z="8.0"/>
+		<direction x="0.0" y="-0.15" z="0.0"/>
+		<directionIsTarget>true</directionIsTarget>
+		<angle>65.0</angle>
+		<clipping near="1.0" far="50.0"/>
+	</camera>
+	<materials>
+		<material>
+			<shader type="DiffuseBRDF" index="0" isOutput="true">
+				<color r="0.9" g="0.1" b="0.1"/>
+				<intensity>1.0</intensity>
+				<colTex enabled="false" index="0"/>
+				<normTex enabled="false" index="0"/>
+			</shader>
+		</material>
+		<material>
+			<shader type="DiffuseBRDF" index="0" isOutput="true">
+				<color r="1.0" g="1.0" b="1.0"/>
+				<intensity>1.0</intensity>
+				<colTex enabled="false" index="0"/>
+				<normTex enabled="false" index="0"/>
+			</shader>
+		</material>
+		<material>
+			<shader type="DiffuseBRDF" index="0" isOutput="true">
+				<color r="0.1" g="0.9" b="0.1"/>
+				<intensity>1.0</intensity>
+				<colTex enabled="false" index="0"/>
+				<normTex enabled="false" index="0"/>
+			</shader>
+		</material>
+		<material>
+			<shader type="GlossyBRDF" index="0" isOutput="false">
+				<color r="0.256" g="0.375" b="0.59"/>
+				<roughness>0.158</roughness>
+				<intensity>1.0</intensity>
+				<colTex enabled="false" index="0"/>
+				<normTex enabled="false" index="0"/>
+			</shader>
+			<shader type="DiffuseBRDF" index="1" isOutput="false">
+				<color r="0.8" g="0.8" b="0.8"/>
+				<intensity>1.0</intensity>
+				<colTex enabled="false" index="0"/>
+				<normTex enabled="false" index="0"/>
+			</shader>
+			<shader type="Mix" index="2" isOutput="true">
+				<shader0>0</shader0>
+				<shader1>1</shader1>
+				<factor>0.789</factor>
+			</shader>
+		</material>
+		<material>
+			<shader type="GlassBRDF" index="0" isOutput="true">
+				<color r="1.0" g="1.0" b="1.0"/>
+				<reflection>0.1</reflection>
+				<IOR>1.3</IOR>
+				<roughness>0.03</roughness>
+				<colTex enabled="false" index="0"/>
+				<normTex enabled="false" index="0"/>
+			</shader>
+		</material>
+	</materials>
+	<shapes>
+		<shape type="Plane">
+			<Normal x="1.0" y="0.0" z="0.0"/>
+			<Distance>-2.5</Distance>
+			<materialIndex>1</materialIndex>
+		</shape>
+		<shape type="Plane">
+			<Normal x="0.0" y="1.0" z="0.0"/>
+			<Distance>-2.5</Distance>
+			<materialIndex>2</materialIndex>
+		</shape>
+		<shape type="Plane">
+			<Normal x="0.0" y="0.0" z="1.0"/>
+			<Distance>-2.5</Distance>
+			<materialIndex>2</materialIndex>
+		</shape>
+		<shape type="Plane">
+			<Normal x="0.0" y="0.0" z="-1.0"/>
+			<Distance>-9.0</Distance>
+			<materialIndex>2</materialIndex>
+		</shape>
+		<shape type="Plane">
+			<Normal x="0.0" y="-1.0" z="0.0"/>
+			<Distance>-2.7</Distance>
+			<materialIndex>2</materialIndex>
+		</shape>
+		<shape type="Plane">
+			<Normal x="-1.0" y="0.0" z="0.0"/>
+			<Distance>-2.5</Distance>
+			<materialIndex>3</materialIndex>
+		</shape>
+		<shape type="Sphere">
+			<Center x="-1.0" y="-1.5" z="-1.0"/>
+			<Radius>1.0</Radius>
+			<materialIndex>4</materialIndex>
+		</shape>
+		<shape type="Sphere">
+			<Center x="0.3" y="-1.7" z="1.0"/>
+			<Radius>0.8</Radius>
+			<materialIndex>4</materialIndex>
+		</shape>
+	</shapes>
+	<lights>
+		<light type="Area">
+			<direction x="0.0" y="0.0" z="1.0"/>
+			<planeNormal x="0.0" y="-1.0" z="0.0"/>
+			<scale>2.0</scale>
+			<samples>1</samples>
+			<color r="0.8" g="0.8" b="0.8"/>
+			<intensity>8.0</intensity>
+		</light>
+	</lights>
+</LWTF>
