@@ -48,6 +48,9 @@
     <Filter Include="Source Files\Graphics\Kernel">
       <UniqueIdentifier>{2e98bf76-0a5f-4c22-890e-165cb771ec2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Components">
+      <UniqueIdentifier>{9c1ebf81-c79a-4226-b7a6-90384e0946fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,9 +58,6 @@
     </ClCompile>
     <ClCompile Include="ApplicationRoot.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI\winmain.cpp">
-      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="FileManagment\ImageExporter.cpp">
       <Filter>Source Files\FileManagment\Export</Filter>
@@ -146,6 +146,15 @@
     <ClCompile Include="Rendering\LWRenderer.cpp">
       <Filter>Source Files\Graphics\Kernel</Filter>
     </ClCompile>
+    <ClCompile Include="GUI\WindowManager.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GuiEngine.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Components\Bitmap.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileManagment\ImageExporter.hpp">
@@ -223,9 +232,6 @@
     <ClInclude Include="FileManagment\XMLdom.hpp">
       <Filter>Source Files\Graphics\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="GUI\winmain.hpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationRoot.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -246,6 +252,15 @@
     </ClInclude>
     <ClInclude Include="Rendering\LWRenderer.hpp">
       <Filter>Source Files\Graphics\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\WindowManager.hpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GuiEngine.hpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Components\Bitmap.hpp">
+      <Filter>Source Files\GUI\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

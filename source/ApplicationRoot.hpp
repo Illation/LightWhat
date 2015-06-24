@@ -10,7 +10,8 @@
 #include <ctime>
 
 #include "Rendering/LWRenderer.hpp"
-#include "GUI/winmain.hpp"
+#include "GUI/WindowManager.hpp"
+#include "GUI/Components/Bitmap.hpp"
 #include "FileManagment\ImageExporter.hpp"
 #include "FileManagment\SceneDescriptionLoader.hpp"
 #include "Rendering\PostProcessor.hpp"
@@ -30,24 +31,12 @@ private:
 	void functionLoop();
 	void processInput();
 	void updateImage();
-	void drawImage();
 	void drawTexture();
-	void displaySceneInfo();
-	void setPixel(int x, int y, colRGB col);
-	void renderText(const std::string &message, TTF_Font *daFont,
-		SDL_Color color, int fontSize, int posX, int posY);
-
-	SDL_Window* _window;
-	SDL_Renderer *sdlRenderer;
-	SDL_Texture *renderTex; 
-	Uint32 * pixels;
 
 	bool exit = false;
 
 	LWRenderer *m_Renderer = nullptr;
 	ImageExporter *imgExp = nullptr;
-	winmain *guiFunctions = nullptr;
-	HWND ofWnd;
 
 	size_t dispTexIdx=0;
 
@@ -56,18 +45,18 @@ private:
 
 	//Layout parameters
 
-	int _screenWidth;
-	int _screenHeight;
-
 	int m_ImagePosX;
 	int m_ImagePosY;
 	int m_ResolutionX;
 	int m_ResolutionY;
+	Bitmap* m_BmpResultPtr;
 
 	int m_TexPosX;
 	int m_TexPosY;
 	int m_TexResolutionX;
 	int m_TexResolutionY;
+	Bitmap* m_BmpTexturePtr;
+	bool m_DrawTexture = false;
 
 
 	//GUI stuff

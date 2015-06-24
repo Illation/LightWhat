@@ -91,7 +91,9 @@
     <ClCompile Include="FileManagment\TextureLoader.cpp" />
     <ClCompile Include="FileManagment\XMLdom.cpp" />
     <ClCompile Include="FileManagment\XMLParser.cpp" />
-    <ClCompile Include="GUI\winmain.cpp" />
+    <ClCompile Include="GUI\Components\Bitmap.cpp" />
+    <ClCompile Include="GUI\GuiEngine.cpp" />
+    <ClCompile Include="GUI\WindowManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ApplicationRoot.cpp" />
     <ClCompile Include="Rendering\AABB.cpp" />
@@ -126,7 +128,9 @@
     <ClInclude Include="FileManagment\TextureLoader.hpp" />
     <ClInclude Include="FileManagment\XMLdom.hpp" />
     <ClInclude Include="FileManagment\XMLParser.hpp" />
-    <ClInclude Include="GUI\winmain.hpp" />
+    <ClInclude Include="GUI\Components\Bitmap.hpp" />
+    <ClInclude Include="GUI\GuiEngine.hpp" />
+    <ClInclude Include="GUI\WindowManager.hpp" />
     <ClInclude Include="Rendering\AABB.hpp" />
     <ClInclude Include="Rendering\BVH.hpp" />
     <ClInclude Include="Rendering\common.hpp" />

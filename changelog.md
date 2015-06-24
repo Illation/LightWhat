@@ -120,3 +120,9 @@
 * added basic XML parser and dom
 * render settings are now loaded from .lwtf files
 * renderer is now split into specific LWrenderer and traceUnit
+
+0.7.1
+* created GUI engine singleton
+* created Window manager
+* moved SDL window code from application root to window manager
+* moved window drawing code to gui engine
