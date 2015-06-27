@@ -12,6 +12,7 @@
 #include "Rendering/LWRenderer.hpp"
 #include "GUI/WindowManager.hpp"
 #include "GUI/Components/Bitmap.hpp"
+#include "GUI/Components/Rectangle.hpp"
 #include "FileManagment\ImageExporter.hpp"
 #include "FileManagment\SceneDescriptionLoader.hpp"
 #include "Rendering\PostProcessor.hpp"
@@ -26,8 +27,9 @@ public:
 	void end();
 
 private:
-
+	void Paint();
 	void initSystems();
+	void SetDebuggingOptions();
 	void functionLoop();
 	void processInput();
 	void updateImage();
@@ -44,6 +46,7 @@ private:
 	string exeDirectory = string("");
 
 	//Layout parameters
+	Rect m_BGRect;
 
 	int m_ImagePosX;
 	int m_ImagePosY;

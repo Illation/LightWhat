@@ -92,7 +92,11 @@
     <ClCompile Include="FileManagment\XMLdom.cpp" />
     <ClCompile Include="FileManagment\XMLParser.cpp" />
     <ClCompile Include="GUI\Components\Bitmap.cpp" />
+    <ClCompile Include="GUI\Components\Rectangle.cpp" />
+    <ClCompile Include="GUI\EventManager.cpp" />
     <ClCompile Include="GUI\GuiEngine.cpp" />
+    <ClCompile Include="GUI\Panel.cpp" />
+    <ClCompile Include="GUI\Window.cpp" />
     <ClCompile Include="GUI\WindowManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ApplicationRoot.cpp" />
@@ -129,7 +133,11 @@
     <ClInclude Include="FileManagment\XMLdom.hpp" />
     <ClInclude Include="FileManagment\XMLParser.hpp" />
     <ClInclude Include="GUI\Components\Bitmap.hpp" />
+    <ClInclude Include="GUI\Components\Rectangle.hpp" />
+    <ClInclude Include="GUI\EventManager.hpp" />
     <ClInclude Include="GUI\GuiEngine.hpp" />
+    <ClInclude Include="GUI\Panel.hpp" />
+    <ClInclude Include="GUI\Window.hpp" />
     <ClInclude Include="GUI\WindowManager.hpp" />
     <ClInclude Include="Rendering\AABB.hpp" />
     <ClInclude Include="Rendering\BVH.hpp" />

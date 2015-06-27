@@ -51,6 +51,9 @@
     <Filter Include="Source Files\GUI\Components">
       <UniqueIdentifier>{9c1ebf81-c79a-4226-b7a6-90384e0946fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\WindowManagment">
+      <UniqueIdentifier>{4cc0c89c-e66f-4ddd-927d-971e86cc8cca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,14 +149,26 @@
     <ClCompile Include="Rendering\LWRenderer.cpp">
       <Filter>Source Files\Graphics\Kernel</Filter>
     </ClCompile>
-    <ClCompile Include="GUI\WindowManager.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="GUI\GuiEngine.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUI\Components\Bitmap.cpp">
       <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Components\Rectangle.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\WindowManager.cpp">
+      <Filter>Source Files\GUI\WindowManagment</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Panel.cpp">
+      <Filter>Source Files\GUI\WindowManagment</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Window.cpp">
+      <Filter>Source Files\GUI\WindowManagment</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\EventManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,15 +268,25 @@
     <ClInclude Include="Rendering\LWRenderer.hpp">
       <Filter>Source Files\Graphics\Kernel</Filter>
     </ClInclude>
-    <ClInclude Include="GUI\WindowManager.hpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="GUI\GuiEngine.hpp">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUI\Components\Bitmap.hpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClInclude>
+    <ClInclude Include="GUI\Components\Rectangle.hpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\WindowManager.hpp">
+      <Filter>Source Files\GUI\WindowManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Panel.hpp">
+      <Filter>Source Files\GUI\WindowManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Window.hpp">
+      <Filter>Source Files\GUI\WindowManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\EventManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LightWhat.rc">

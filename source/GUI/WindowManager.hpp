@@ -1,15 +1,15 @@
 #pragma once
-
+//std includes
 #include <string>
-
+#include <vector>
 #include <Windows.h>
 #include <Commdlg.h>
+//sdl includes
 #include <SDL/SDL.h>
 #include <SDL/SDL_TTF.h>
-
-#include <vector>
+//light what includes
 #include "../Rendering/common.hpp"
-
+#include "Window.hpp"
 class WindowManager
 {
 public:
@@ -18,26 +18,12 @@ public:
 
 	void InitWindow();
 
-	std::string GetFileName();
-	std::string GetTTFName();
-	std::string SaveFileName();
-
-	void RenderText(const std::string &message, TTF_Font *daFont,
-		SDL_Color color, int fontSize, int posX, int posY);
-	//void SetPixel(int x, int y, colRGB col);
-	void UpdateWindow();// std::vector<SDL_Texture*> sdlTexturePtrArr);
+	void UpdateWindow();
 
 	int GetWindowWidth();
 	int GetWindowHeight();
 
 	SDL_Renderer* GetRenderer();
 private:
-	SDL_Window* _window;
-	SDL_Renderer *sdlRenderer;
-	//SDL_Texture *renderTex;
-	//Uint32 * pixels;
-	HWND ofWnd;
-
-	int _screenWidth;
-	int _screenHeight;
+	Window *m_WindowPtr;
 };

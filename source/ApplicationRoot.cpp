@@ -9,11 +9,24 @@
 
 ApplicationRoot::ApplicationRoot()
 {
+	SetDebuggingOptions();
 }
-
-
 ApplicationRoot::~ApplicationRoot()
 {
+}
+void ApplicationRoot::SetDebuggingOptions()
+{
+	//notify user if heap is corrupt
+	HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+
+	// Enable run-time memory leak check for debug builds.
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	typedef HRESULT(__stdcall *fPtr)(const IID&, void**);
+
+	_CrtSetBreakAlloc(13703);
+#endif
 }
 
 
@@ -42,6 +55,7 @@ void ApplicationRoot::initSystems()
 {
 	GUI_ENGINE->Init();
 
+	//Init the image Loader
 	ilInit();
 	iluInit();
 	ilutRenderer(ILUT_DIRECT3D9);
@@ -49,7 +63,7 @@ void ApplicationRoot::initSystems()
 	m_Renderer = new LWRenderer();
 	imgExp = new ImageExporter();
 
-
+	//Confusing code :)
 	cout << "loading fonts...";
 	char ownPth[MAX_PATH];
 	HMODULE hModule = GetModuleHandle(NULL);
@@ -80,6 +94,8 @@ void ApplicationRoot::initSystems()
 		m_TexPosY = GUI_ENGINE->GetHeight() - (m_TexResolutionX + 50);
 		m_BmpTexturePtr = new Bitmap(m_TexResolutionX, m_TexResolutionY);
 
+		m_BGRect = Rect(vec2(0, 0), vec2((float)GUI_ENGINE->GetWidth(), (float)GUI_ENGINE->GetHeight()), colRGB(0.3f, 0.3f, 0.3f));
+
 		m_ConsoleFontRegularPtr = TTF_OpenFont((exeDirectory + string("Resources/fonts/Inconsolata-Regular.ttf")).c_str(), 20);
 		m_ConsoleFontBoldPtr = TTF_OpenFont((exeDirectory + string("Resources/fonts/Inconsolata-Bold.ttf")).c_str(), 20);
 
@@ -108,23 +124,8 @@ void ApplicationRoot::functionLoop()
 			updateImage();
 			break;
 		}
-		//Draw Scene Info
-		SDL_Color color = { 255, 255, 255, 255 };
-		int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY - 30;
-		GUI_ENGINE->DrawString(m_Renderer->m_Status, m_ConsoleFontRegularPtr, color, fSize, x, y);
-		y = m_ImagePosY + m_ResolutionY + dy;
-		for (size_t i = 0; i < sceneInfo.size(); i++){
-			GUI_ENGINE->DrawString(sceneInfo[i], m_ConsoleFontRegularPtr, color, fSize, x, y);
-			y += dy;
-		}
-		//Draw Texture Bitmap
-		if (m_DrawTexture)
-		{
-			GUI_ENGINE->DrawBitmap(m_TexPosX, m_TexPosY, m_BmpTexturePtr);
-		}
-		//Draw Rendered image
-		GUI_ENGINE->DrawBitmap(m_ImagePosX, m_ImagePosY, m_BmpResultPtr);
-		//Make SDL render the GUI
+		GUI_ENGINE->Clear();
+		Paint();
 		GUI_ENGINE->Paint();
 	}
 }
@@ -132,92 +133,89 @@ void ApplicationRoot::functionLoop()
 
 void ApplicationRoot::processInput()
 {
-	SDL_Event evnt;
-	while (SDL_PollEvent(&evnt)){
-		switch (evnt.type) {
-		case SDL_QUIT:
-			exit = true;
-			cout << "quitting.... " << endl;
-			break; 
-		case SDL_KEYDOWN:
-			switch (evnt.key.keysym.sym)
-			{
-			case SDLK_KP_ENTER:
-				cout << endl << "starting render.... " << endl;
-				m_Renderer->preprocess();
-				break;
-			case SDLK_RETURN:
-				cout << endl << "starting render.... " << endl;
-				m_Renderer->preprocess();
-				break;
-			case SDLK_l:
-				fileName = GUI_ENGINE->GetWindow()->GetFileName();
-				if ((fileName==string("nofile")))
-				{
-					cout << "loading file canceled " << endl;
-				}
-				else
-				{
-					cout << "loading file: " << fileName.c_str() << endl;
-					m_Renderer->importExternal(fileName.c_str());
-					cout << "file loaded! " << endl;
-					sceneInfo.clear();
-					sceneInfo.push_back(string("Scene info:\n"));
-					sceneInfo.push_back(string("Vertices: ") + to_string(m_Renderer->m_Scene->vertCount) + string("\n"));
-					sceneInfo.push_back(string("Triangles: ") + to_string(m_Renderer->m_Scene->triCount) + string("\n"));
-					sceneInfo.push_back(string("Objects: ") + to_string(m_Renderer->m_Scene->objCount) + string("\n"));
-					sceneInfo.push_back(string("Lights: ") + to_string(m_Renderer->m_Scene->lightCount) + string("\n"));
-				}
-				break;
-			case SDLK_t:
-				cout << "loading test scene..." << endl;
-				m_Renderer->loadLWTF((exeDirectory + string("Resources/sceneDescriptionFiles/sceneCornell.lwtf")).c_str());
-				cout << "scene loaded! " << endl;
-				sceneInfo.clear();
-				sceneInfo.push_back(string("Scene info:\n"));
-				sceneInfo.push_back(string("Vertices: ") + to_string(m_Renderer->m_Scene->vertCount) + string("\n"));
-				sceneInfo.push_back(string("Triangles: ") + to_string(m_Renderer->m_Scene->triCount) + string("\n"));
-				sceneInfo.push_back(string("Objects: ") + to_string(m_Renderer->m_Scene->objCount) + string("\n"));
-				sceneInfo.push_back(string("Lights: ") + to_string(m_Renderer->m_Scene->lightCount) + string("\n"));
-				break;
-			case SDLK_c:
-				cout << "clearing scene..." << endl;
-				m_Renderer->clear();
-				cout << "scene cleared! " << endl;
-				break;
-			case SDLK_s:
-				fileName = GUI_ENGINE->GetWindow()->SaveFileName();
-				if ((fileName == string("nofile")))
-				{
-					cout << "saving file canceled " << endl;
-				}
-				else
-				{
-					cout << "saving file: " << (fileName+string(".bmp")).c_str() << endl;
-					imgExp->saveBMP((fileName + string(".bmp")).c_str(), m_Renderer->m_Settings.resolutionX, m_Renderer->m_Settings.resolutionY, 72, *m_Renderer->m_TonemappedImage);
-					cout << "file saved! " << endl;
-				}
-				break;
-			case SDLK_b:
-				if (m_Renderer->m_Settings.backfaceCulling == false){
-					cout << "backface culling enabled" << endl;
-					m_Renderer->m_Settings.backfaceCulling = true;
-				}
-				else{
-					cout << "backface culling disabled" << endl;
-					m_Renderer->m_Settings.backfaceCulling = false;
-				}
-				break;
-			case SDLK_d:
-				m_DrawTexture = !m_DrawTexture;
-				if (m_DrawTexture)
-				{
-					drawTexture();
-				}
-				break;
-			default:
-				break;
-			}
+	//Always Execute this code
+	GUI_ENGINE->PreTick();
+	if (GUI_ENGINE->IsExitRequested())
+	{
+		exit = true;
+		cout << "quitting.... " << endl;
+	}
+
+	//Application flow code
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_KP_ENTER) || GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_RETURN))
+	{
+		cout << endl << "starting render.... " << endl;
+		m_Renderer->preprocess();
+	}
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_L))
+	{
+		fileName = GUI_ENGINE->GetFileName();
+		if ((fileName==string("nofile")))
+		{
+			cout << "loading file canceled " << endl;
+		}
+		else
+		{
+			cout << "loading file: " << fileName.c_str() << endl;
+			m_Renderer->importExternal(fileName.c_str());
+			cout << "file loaded! " << endl;
+			sceneInfo.clear();
+			sceneInfo.push_back(string("Scene info:\n"));
+			sceneInfo.push_back(string("Vertices: ") + to_string(m_Renderer->m_Scene->vertCount) + string("\n"));
+			sceneInfo.push_back(string("Triangles: ") + to_string(m_Renderer->m_Scene->triCount) + string("\n"));
+			sceneInfo.push_back(string("Objects: ") + to_string(m_Renderer->m_Scene->objCount) + string("\n"));
+			sceneInfo.push_back(string("Lights: ") + to_string(m_Renderer->m_Scene->lightCount) + string("\n"));
+		}
+	}
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_T))
+	{
+		cout << "loading test scene..." << endl;
+		m_Renderer->loadLWTF((exeDirectory + string("Resources/sceneDescriptionFiles/sceneCornell.lwtf")).c_str());
+		cout << "scene loaded! " << endl;
+		sceneInfo.clear();
+		sceneInfo.push_back(string("Scene info:\n"));
+		sceneInfo.push_back(string("Vertices: ") + to_string(m_Renderer->m_Scene->vertCount) + string("\n"));
+		sceneInfo.push_back(string("Triangles: ") + to_string(m_Renderer->m_Scene->triCount) + string("\n"));
+		sceneInfo.push_back(string("Objects: ") + to_string(m_Renderer->m_Scene->objCount) + string("\n"));
+		sceneInfo.push_back(string("Lights: ") + to_string(m_Renderer->m_Scene->lightCount) + string("\n"));
+	}
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_C))
+	{
+		cout << "clearing scene..." << endl;
+		m_Renderer->clear();
+		cout << "scene cleared! " << endl;
+	}
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_S))
+	{
+		fileName = GUI_ENGINE->SaveFileName();
+		if ((fileName == string("nofile")))
+		{
+			cout << "saving file canceled " << endl;
+		}
+		else
+		{
+			cout << "saving file: " << (fileName+string(".bmp")).c_str() << endl;
+			imgExp->saveBMP((fileName + string(".bmp")).c_str(), m_Renderer->m_Settings.resolutionX, m_Renderer->m_Settings.resolutionY, 72, *m_Renderer->m_TonemappedImage);
+			cout << "file saved! " << endl;
+		}
+	}
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_B))
+	{
+		if (m_Renderer->m_Settings.backfaceCulling == false){
+			cout << "backface culling enabled" << endl;
+			m_Renderer->m_Settings.backfaceCulling = true;
+		}
+		else{
+			cout << "backface culling disabled" << endl;
+			m_Renderer->m_Settings.backfaceCulling = false;
+		}
+	}
+	if (GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_D))
+	{
+		m_DrawTexture = !m_DrawTexture;
+		if (m_DrawTexture)
+		{
+			drawTexture();
 		}
 	}
 }
@@ -238,6 +236,30 @@ void ApplicationRoot::updateImage()
 	}
 }
 
+void ApplicationRoot::Paint()
+{
+	//Draw Background
+	GUI_ENGINE->FillRect(m_BGRect);
+	//Draw Scene Info
+	SDL_Color color = { 255, 255, 255, 255 };
+	int x = m_ImagePosX, dy = 30, fSize = 20, y = m_ImagePosY - 30;
+	GUI_ENGINE->DrawString(m_Renderer->m_Status, m_ConsoleFontRegularPtr, color, fSize, x, y);
+	y = m_ImagePosY + m_ResolutionY + dy;
+	for (size_t i = 0; i < sceneInfo.size(); i++){
+		GUI_ENGINE->DrawString(sceneInfo[i], m_ConsoleFontRegularPtr, color, fSize, x, y);
+		y += dy;
+	}
+	//Draw Texture Bitmap
+	if (m_DrawTexture)
+	{
+		GUI_ENGINE->DrawBitmap(m_TexPosX, m_TexPosY, m_BmpTexturePtr);
+	}
+	//Draw Rendered image
+	GUI_ENGINE->DrawBitmap(m_ImagePosX, m_ImagePosY, m_BmpResultPtr);
+	//Make SDL render the GUI
+}
+
+//replace with bitmap functions
 void ApplicationRoot::drawTexture(){
 	if (m_Renderer->m_Scene->textures.size() >0)
 	{

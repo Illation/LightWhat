@@ -126,3 +126,5 @@
 * created Window manager
 * moved SDL window code from application root to window manager
 * moved window drawing code to gui engine
+* added Event manager to GUI engine for input handling
+* modified Window handling code
