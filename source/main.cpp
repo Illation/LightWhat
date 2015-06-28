@@ -1,6 +1,6 @@
 //version 0.7.1
 //by Robert Lindner
-//using SDL2, SDL_TFF (with freetype), Assimp, devIL and tinyxml2
+//using SDL2, SDL_TFF (with freetype), Assimp and devIL
 
 //Assimp copyright notice:
 //Copyright(c) 2006 - 2012 assimp team
@@ -17,13 +17,31 @@
 //PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
 //OR TORT(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 
-#include "ApplicationRoot.hpp"
+#include "ProgramController.hpp"
+#include "LightWhat.hpp"
 #include <iostream>
+
+void SetDebuggingOptions();
 
 int main(int argc, char** argv)
 {
-	ApplicationRoot *renderApp = new ApplicationRoot();
-	renderApp->run();
-	delete renderApp;
+	SetDebuggingOptions();
+	ProgramController *program = new ProgramController(new LightWhat);
+	delete program;
 	return 0;
+}
+
+void SetDebuggingOptions()
+{
+	//notify user if heap is corrupt
+	HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+
+	// Enable run-time memory leak check for debug builds.
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	typedef HRESULT(__stdcall *fPtr)(const IID&, void**);
+
+	_CrtSetBreakAlloc(13703);
+#endif
 }

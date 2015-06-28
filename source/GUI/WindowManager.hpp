@@ -1,12 +1,9 @@
 #pragma once
 //std includes
-#include <string>
 #include <vector>
-#include <Windows.h>
-#include <Commdlg.h>
+#include <iostream>
 //sdl includes
 #include <SDL/SDL.h>
-#include <SDL/SDL_TTF.h>
 //light what includes
 #include "../Rendering/common.hpp"
 #include "Window.hpp"
@@ -16,14 +13,19 @@ public:
 	WindowManager();
 	~WindowManager();
 
-	void InitWindow();
+	// Creates a Window and returns the ID
+	int CreateNewWindow();
+	// Destroys the Window. Window ID becomes invalid!
+	void DestroyWindow(int windowId);
 
-	void UpdateWindow();
+	//Eventloop functions
+	void ClearWindows();
+	void HandleWindowEvent(SDL_Event);
+	void UpdateWindows();
 
-	int GetWindowWidth();
-	int GetWindowHeight();
-
-	SDL_Renderer* GetRenderer();
+	//Getters
+	Window* GetWindow(int windowId);
+	bool AllWindowsClosed();
 private:
-	Window *m_WindowPtr;
+	std::vector<Window*> m_WinPtrArr;
 };

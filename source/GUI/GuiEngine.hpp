@@ -1,8 +1,17 @@
 #pragma once
+#include <Windows.h>
+#include <Commdlg.h>
+
+#include <SDL/SDL_TTF.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
+
 #include "WindowManager.hpp"
 #include "EventManager.hpp"
 
 #include "Components\Bitmap.hpp"
+#include "Components\Font.hpp"
 #include "Components\Rectangle.hpp"
 class GuiEngine
 {
@@ -16,21 +25,24 @@ public:
 	void PreTick();
 	void Paint();
 
+	//Window stuff
+	int CreateNewWindow();
+	void DestroyWindow(int windowId);
 	//General getters
 	WindowManager* GetWindow();
-	int GetWidth();
-	int GetHeight();
+	int GetWidth(int windowId);
+	int GetHeight(int windowId);
 	bool IsExitRequested();
 	//Windows functions
 	std::string GetFileName();
 	std::string GetTTFName();
+	std::string GetRootDirectory();
 	std::string SaveFileName();
 
 	//Draw functions
-	void DrawBitmap(int x, int y, Bitmap *bmpPtr);
-	void DrawString(const std::string &message, TTF_Font *daFont,
-		SDL_Color color, int fontSize, int posX, int posY);
-	void FillRect(Rect rect);
+	void DrawBitmap(int windowId, int x, int y, Bitmap *bmpPtr);
+	void DrawString(int windowId, const std::string &message, Font *fontPtr, int posX, int posY);
+	void FillRect(int windowId, Rect rect);
 
 	//Input
 
@@ -57,5 +69,8 @@ private:
 	WindowManager *m_WindowPtr = nullptr;
 	EventManager *m_EventMngPtr = nullptr;
 	HWND m_WindowsWindow;
+
+	std::string m_RootDirectory = string("");
+	bool m_Exit = false;
 };
 

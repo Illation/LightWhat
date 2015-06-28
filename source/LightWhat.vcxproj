@@ -74,6 +74,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)dependancies\include\assimp;$(SolutionDir)dependancies\include\IL</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -83,8 +84,12 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;assimp.lib;DevIL.lib;ILU.lib;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Robert\Desktop\Personal Projects\3DEngine\Raytracer\LightWhat\v_0.4.1\source\dependancies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractProgram.cpp" />
     <ClCompile Include="FileManagment\ImageExporter.cpp" />
     <ClCompile Include="FileManagment\SceneDescriptionLoader.cpp" />
     <ClCompile Include="FileManagment\SceneImporter.cpp" />
@@ -92,14 +97,17 @@
     <ClCompile Include="FileManagment\XMLdom.cpp" />
     <ClCompile Include="FileManagment\XMLParser.cpp" />
     <ClCompile Include="GUI\Components\Bitmap.cpp" />
+    <ClCompile Include="GUI\Components\Font.cpp" />
     <ClCompile Include="GUI\Components\Rectangle.cpp" />
     <ClCompile Include="GUI\EventManager.cpp" />
     <ClCompile Include="GUI\GuiEngine.cpp" />
+    <ClCompile Include="GUI\LWui.cpp" />
     <ClCompile Include="GUI\Panel.cpp" />
     <ClCompile Include="GUI\Window.cpp" />
     <ClCompile Include="GUI\WindowManager.cpp" />
+    <ClCompile Include="LightWhat.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ApplicationRoot.cpp" />
+    <ClCompile Include="ProgramController.cpp" />
     <ClCompile Include="Rendering\AABB.cpp" />
     <ClCompile Include="Rendering\BVH.cpp" />
     <ClCompile Include="Rendering\common.cpp" />
@@ -125,7 +133,11 @@
     <ClCompile Include="Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationRoot.hpp" />
+    <ClInclude Include="AbstractProgram.hpp" />
+    <ClInclude Include="GUI\Components\Font.hpp" />
+    <ClInclude Include="GUI\LWui.hpp" />
+    <ClInclude Include="LightWhat.hpp" />
+    <ClInclude Include="ProgramController.hpp" />
     <ClInclude Include="FileManagment\ImageExporter.hpp" />
     <ClInclude Include="FileManagment\SceneDescriptionLoader.hpp" />
     <ClInclude Include="FileManagment\SceneImporter.hpp" />

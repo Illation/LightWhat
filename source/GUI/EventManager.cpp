@@ -76,6 +76,7 @@ void EventManager::UpdateEvents()
 			m_ExitRequested = true;
 			break;
 		case SDL_WINDOWEVENT:
+			m_WinManagerPtr->HandleWindowEvent(evnt);
 			break;
 		}
 	}
@@ -110,7 +111,7 @@ bool EventManager::IsKeyboardKeyPressed(char key)
 	SDL_Scancode sKey;
 	if (GetScancode(sKey, key))
 	{
-		return m_KeyMapNew[key] && !m_KeyMapOld[key];
+		return m_KeyMapNew[sKey] && !m_KeyMapOld[sKey];
 	}
 	return false;
 }
@@ -123,7 +124,7 @@ bool EventManager::IsKeyboardKeyDown(char key)
 	SDL_Scancode sKey;
 	if (GetScancode(sKey, key))
 	{
-		return m_KeyMapNew[key] && m_KeyMapOld[key];
+		return m_KeyMapNew[sKey] && m_KeyMapOld[sKey];
 	}
 	return false;
 }
@@ -136,7 +137,7 @@ bool EventManager::IsKeyboardKeyReleased(char key)
 	SDL_Scancode sKey;
 	if (GetScancode(sKey, key))
 	{
-		return !m_KeyMapNew[key] && m_KeyMapOld[key];
+		return !m_KeyMapNew[sKey] && m_KeyMapOld[sKey];
 	}
 	return false;
 }

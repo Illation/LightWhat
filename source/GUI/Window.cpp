@@ -8,6 +8,8 @@ Window::Window(int width, int height, Uint32 flags)
 
 	SDL_GetWindowSize(m_SdlWindowPtr, &m_Width, &m_Height);
 	m_SdlRenderPtr = SDL_CreateRenderer(m_SdlWindowPtr, -1, 0);
+
+	m_ID = SDL_GetWindowID(m_SdlWindowPtr);
 }
 
 Window::~Window()
@@ -16,7 +18,22 @@ Window::~Window()
 	SDL_DestroyWindow(m_SdlWindowPtr);
 }
 
-void Window::UpdateWindow()
+void Window::Clear()
+{
+	SDL_RenderClear(m_SdlRenderPtr);
+}
+
+void Window::HandleEvent(SDL_Event event)
+{
+	switch (event.window.event)
+	{
+	case SDL_WINDOWEVENT_CLOSE:
+		m_IsClosed = true;
+		break;
+	}
+}
+
+void Window::Update()
 {
 	SDL_RenderPresent(m_SdlRenderPtr);
 }
@@ -29,6 +46,16 @@ int Window::GetWidth()
 int Window::GetHeight()
 {
 	return m_Height;
+}
+
+int Window::GetID()
+{
+	return m_ID;
+}
+
+bool Window::IsClosed()
+{
+	return m_IsClosed;
 }
 
 SDL_Renderer* Window::GetRenderer()

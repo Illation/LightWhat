@@ -9,124 +9,124 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{90d2e4ae-1c62-4cf7-9219-ec7cdadc97f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\FileManagment">
       <UniqueIdentifier>{e238d5e0-a3ae-4f95-ad80-1d2d4519df82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphics\Geometry">
-      <UniqueIdentifier>{61cc891c-9bda-421d-80eb-0c96f3e82276}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\FileManagment\Import">
       <UniqueIdentifier>{667cc4b4-6e69-4b65-b8e7-bba3099dd868}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI">
-      <UniqueIdentifier>{017e90cb-045c-4668-9562-9c655e126932}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\FileManagment\Export">
       <UniqueIdentifier>{9881ab5d-da04-49f1-bfc5-8d2fc499823d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Geometry\shapes">
+    <Filter Include="Source Files\LightWhat Renderer">
+      <UniqueIdentifier>{90d2e4ae-1c62-4cf7-9219-ec7cdadc97f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LightWhat Renderer\Geometry">
+      <UniqueIdentifier>{61cc891c-9bda-421d-80eb-0c96f3e82276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LightWhat Renderer\Geometry\shapes">
       <UniqueIdentifier>{ba4388e8-ceab-4970-b49c-a2c081745329}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Geometry\Acceleration">
+    <Filter Include="Source Files\LightWhat Renderer\Geometry\Acceleration">
       <UniqueIdentifier>{569912ba-fc5a-49fc-8ad0-d3784dade02d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Geometry\lights">
+    <Filter Include="Source Files\LightWhat Renderer\Geometry\lights">
       <UniqueIdentifier>{ffaca84d-d68b-4d86-ab00-e22435062fcf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Shading">
+    <Filter Include="Source Files\LightWhat Renderer\Shading">
       <UniqueIdentifier>{a7dcd104-3268-4504-9b25-c2a0220aaafc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Shading\shaders">
+    <Filter Include="Source Files\LightWhat Renderer\Shading\shaders">
       <UniqueIdentifier>{25e9b251-b9d3-4bab-8f3d-3e964dbf7a01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Utility">
+    <Filter Include="Source Files\LightWhat Renderer\Utility">
       <UniqueIdentifier>{07458230-3c55-41f6-86da-8a31421ded72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Kernel">
+    <Filter Include="Source Files\LightWhat Renderer\Kernel">
       <UniqueIdentifier>{2e98bf76-0a5f-4c22-890e-165cb771ec2b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\Components">
+    <Filter Include="Source Files\LightWhat Base">
+      <UniqueIdentifier>{1480c47a-a0b3-4829-8412-b88672f4e2fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI Engine">
+      <UniqueIdentifier>{017e90cb-045c-4668-9562-9c655e126932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI Engine\Components">
       <UniqueIdentifier>{9c1ebf81-c79a-4226-b7a6-90384e0946fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI\WindowManagment">
-      <UniqueIdentifier>{4cc0c89c-e66f-4ddd-927d-971e86cc8cca}</UniqueIdentifier>
+    <Filter Include="Source Files\UI Engine\GUI Managers">
+      <UniqueIdentifier>{39219ff8-acb5-4f8f-b262-d1d919dd0dfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProgramControl">
+      <UniqueIdentifier>{b41a921e-9af3-40a6-8e83-3d4b54df2ce3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationRoot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FileManagment\ImageExporter.cpp">
       <Filter>Source Files\FileManagment\Export</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shape.cpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shapes\Mesh.cpp">
-      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\shapes</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shapes\Sphere.cpp">
-      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\shapes</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shapes\Plane.cpp">
-      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\shapes</Filter>
     </ClCompile>
     <ClCompile Include="FileManagment\TextureLoader.cpp">
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\AABB.cpp">
-      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\Acceleration</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\commonR.cpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\common.cpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\BVH.cpp">
-      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\Acceleration</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\light.cpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\lights\PointLight.cpp">
-      <Filter>Source Files\Graphics\Geometry\lights</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\lights</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shader.cpp">
-      <Filter>Source Files\Graphics\Shading</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\lights\AreaLight.cpp">
-      <Filter>Source Files\Graphics\Geometry\lights</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\lights</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shaders\DiffuseBRDF.cpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shaders\Background.cpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shaders\EmissionBRDF.cpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shaders\GlassBRDF.cpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shaders\GlossyBRDF.cpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shaders\Mix.cpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClCompile>
     <ClCompile Include="FileManagment\XMLParser.cpp">
       <Filter>Source Files\FileManagment\Import</Filter>
-    </ClCompile>
-    <ClCompile Include="FileManagment\XMLdom.cpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
     </ClCompile>
     <ClCompile Include="FileManagment\SceneImporter.cpp">
       <Filter>Source Files\FileManagment\Import</Filter>
@@ -135,40 +135,58 @@
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\PostProcessor.cpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Scene.cpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Texture.cpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\TraceUnit.cpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\LWRenderer.cpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
     </ClCompile>
     <ClCompile Include="GUI\GuiEngine.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\UI Engine</Filter>
     </ClCompile>
     <ClCompile Include="GUI\Components\Bitmap.cpp">
-      <Filter>Source Files\GUI\Components</Filter>
+      <Filter>Source Files\UI Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="GUI\Components\Rectangle.cpp">
-      <Filter>Source Files\GUI\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI\WindowManager.cpp">
-      <Filter>Source Files\GUI\WindowManagment</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI\Panel.cpp">
-      <Filter>Source Files\GUI\WindowManagment</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI\Window.cpp">
-      <Filter>Source Files\GUI\WindowManagment</Filter>
+      <Filter>Source Files\UI Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="GUI\EventManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI Engine\GUI Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\WindowManager.cpp">
+      <Filter>Source Files\UI Engine\GUI Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Panel.cpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Window.cpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramController.cpp">
+      <Filter>Source Files\ProgramControl</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManagment\XMLdom.cpp">
+      <Filter>Source Files\FileManagment\Import</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractProgram.cpp">
+      <Filter>Source Files\ProgramControl</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\Components\Font.cpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LightWhat.cpp">
+      <Filter>Source Files\LightWhat Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\LWui.cpp">
+      <Filter>Source Files\LightWhat Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,105 +206,119 @@
       <Filter>Source Files\FileManagment\Import</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\AABB.hpp">
-      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\Acceleration</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\BVH.hpp">
-      <Filter>Source Files\Graphics\Geometry\Acceleration</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\Acceleration</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\lights\AreaLight.hpp">
-      <Filter>Source Files\Graphics\Geometry\lights</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\lights</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\lights\PointLight.hpp">
-      <Filter>Source Files\Graphics\Geometry\lights</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\lights</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shapes\Mesh.hpp">
-      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\shapes</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shapes\Plane.hpp">
-      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\shapes</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shapes\Sphere.hpp">
-      <Filter>Source Files\Graphics\Geometry\shapes</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry\shapes</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shape.hpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\light.hpp">
-      <Filter>Source Files\Graphics\Geometry</Filter>
+      <Filter>Source Files\LightWhat Renderer\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\Background.hpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\DiffuseBRDF.hpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\EmissionBRDF.hpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\GlassBRDF.hpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\GlossyBRDF.hpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shaders\Mix.hpp">
-      <Filter>Source Files\Graphics\Shading\shaders</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shader.hpp">
-      <Filter>Source Files\Graphics\Shading</Filter>
+      <Filter>Source Files\LightWhat Renderer\Shading</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\common.hpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\commonR.hpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\MonteCarlo.hpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\PostProcessor.hpp">
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Scene.hpp">
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.hpp">
+      <Filter>Source Files\LightWhat Renderer\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\TraceUnit.hpp">
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\LWRenderer.hpp">
+      <Filter>Source Files\LightWhat Renderer\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GuiEngine.hpp">
+      <Filter>Source Files\UI Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Components\Bitmap.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Components\Rectangle.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\EventManager.hpp">
+      <Filter>Source Files\UI Engine\GUI Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\WindowManager.hpp">
+      <Filter>Source Files\UI Engine\GUI Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Window.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Panel.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramController.hpp">
+      <Filter>Source Files\ProgramControl</Filter>
     </ClInclude>
     <ClInclude Include="FileManagment\XMLdom.hpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
+      <Filter>Source Files\FileManagment\Import</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationRoot.hpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="AbstractProgram.hpp">
+      <Filter>Source Files\ProgramControl</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Components\Font.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LightWhat.hpp">
+      <Filter>Source Files\LightWhat Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\LWui.hpp">
+      <Filter>Source Files\LightWhat Base</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\PostProcessor.hpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Scene.hpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Texture.hpp">
-      <Filter>Source Files\Graphics\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\TraceUnit.hpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\LWRenderer.hpp">
-      <Filter>Source Files\Graphics\Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\GuiEngine.hpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\Components\Bitmap.hpp">
-      <Filter>Source Files\GUI\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\Components\Rectangle.hpp">
-      <Filter>Source Files\GUI\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\WindowManager.hpp">
-      <Filter>Source Files\GUI\WindowManagment</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\Panel.hpp">
-      <Filter>Source Files\GUI\WindowManagment</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\Window.hpp">
-      <Filter>Source Files\GUI\WindowManagment</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\EventManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LightWhat.rc">
