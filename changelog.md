@@ -33,13 +33,13 @@
 * added saving to bitmap function
 * added save file dialog
 * added file filters to open and save file dialogs to prevent loading of illegal file types
-	
+
 0.3.1 (code maintainability)
 * bundled vertex math structures into common.h and common.cpp for easy re-use in other projects and more sensible file structure
 * bundled Raytracing helper structures into commonR.h and commonR.cpp to remove clutter
 * changed names of classes and functions to more generic names for better readability (Vertex -> vec3 with typedef point3 | RayColor -> colRGB)
 * added line and plane structure. line plane intersection is handled within planes directly
-* moved faces directly to the mesh class and called them tri, because it is basically part of the primitive and wont be used in other primitives. 
+* moved faces directly to the mesh class and called them tri, because it is basically part of the primitive and wont be used in other primitives.
 * removed unnecessary edgehandling of meshes to save memory
 * meshes now have to be placed on heap for better memory allocation
 * removed bug where importing collada meshes with a space after the last vcount number would crash the application
@@ -78,7 +78,7 @@
 
 0.4.2
 * added 2D vectors and points
-* added UV sets to Meshes 
+* added UV sets to Meshes
 * calculating UV coordinates for mesh intersection
 * added UV loading to sceneLoader
 * added camera transformation
@@ -127,4 +127,11 @@
 * moved SDL window code from application root to window manager
 * moved window drawing code to gui engine
 * added Event manager to GUI engine for input handling
-* modified Window handling code
+* engine can handle multiple windows and accesses them by id
+* abstract program hierachy with init, tick and Paint
+* ApplicationRoot->ProgramControl
+* LightWhat as central control class inherits from abstract program
+* seperate UI class
+* added EventQueue for LW events like start render, save image etc
+* LightWhat now owns the State, Settings and Scene and passes them to the renderer to work with
+* reorganized the entire file structure for maintainability and readability
