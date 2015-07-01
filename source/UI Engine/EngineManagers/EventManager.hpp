@@ -1,5 +1,6 @@
 #pragma once
 #include "WindowManager.hpp"
+#include "../../LightWhatRenderer/Utility/common.hpp"
 #include <map>
 //----------------------------
 //Event Manager class definintion
@@ -21,6 +22,7 @@ public:
 	//Getters
 
 	bool IsExitRequested();
+
 	//Keyboard
 
 	// True if user starts pressing key
@@ -38,6 +40,17 @@ public:
 	// True if user stops pressing key
 	// Supported chars are CAPITAL letters and numbers
 	bool IsKeyboardKeyReleased(char key);
+
+	//Mouse
+
+	//True if user starts pressing button
+	bool IsMouseButtonPressed(int button);
+	//True if user is pressing button
+	bool IsMouseButtonDown(int button);
+	//True if user stops pressing button
+	bool IsMouseButtonReleased(int button);
+	//Returns mouse position as vector
+	vec2 GetMousePosition();
 private:
 	//----------------------------
 	// Member functions
@@ -61,6 +74,11 @@ private:
 	int m_KeyboardLength;
 	std::map<char, SDL_Scancode> m_CharToSdlMap;
 
+	//Mouse Input
+	int m_MousePosX = 0;
+	int m_MousePosY = 0;
+	Uint32 m_MouseMapNew,
+		m_MouseMapOld;
 	//Application flow
 	bool m_ExitRequested = false;
 };

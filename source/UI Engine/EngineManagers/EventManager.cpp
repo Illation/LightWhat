@@ -62,10 +62,13 @@ void EventManager::Init()
 	m_KeyMapSdl = SDL_GetKeyboardState(&m_KeyboardLength);//Set this map to be constantly updated
 	m_KeyMapNew = new Uint8[m_KeyboardLength];
 	m_KeyMapOld = new Uint8[m_KeyboardLength];
+	m_MouseMapNew = SDL_GetMouseState(NULL, NULL);
+	m_MouseMapOld = m_MouseMapNew;
 }
 void EventManager::UpdateEvents()
 {
 	std::memcpy(m_KeyMapOld, m_KeyMapNew, m_KeyboardLength);//Update Old Keyboard state
+	m_MouseMapOld = m_MouseMapNew;//Update old Mouse state
 	//Pump SDL events
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt))
@@ -81,6 +84,7 @@ void EventManager::UpdateEvents()
 		}
 	}
 	std::memcpy(m_KeyMapNew, m_KeyMapSdl, m_KeyboardLength);//Update New Keyboard state
+	m_MouseMapNew = SDL_GetMouseState(&m_MousePosX, &m_MousePosY);//Update new Mouse state and position
 }
 //----------------------------
 //Getters
@@ -140,4 +144,26 @@ bool EventManager::IsKeyboardKeyReleased(char key)
 		return !m_KeyMapNew[sKey] && m_KeyMapOld[sKey];
 	}
 	return false;
+}
+//----------------------------
+//Mouse
+//----------------------------
+bool EventManager::IsMouseButtonPressed(int button)
+{
+	return (m_MouseMapNew & SDL_BUTTON(button)) && 
+		!(m_MouseMapOld & SDL_BUTTON(button));
+}
+bool EventManager::IsMouseButtonDown(int button)
+{
+	return (m_MouseMapNew & SDL_BUTTON(button)) &&
+		(m_MouseMapOld & SDL_BUTTON(button));
+}
+bool EventManager::IsMouseButtonReleased(int button)
+{
+	return !(m_MouseMapNew & SDL_BUTTON(button)) &&
+		(m_MouseMapOld & SDL_BUTTON(button));
+}
+vec2 EventManager::GetMousePosition()
+{
+	return vec2((float)m_MousePosX, (float)m_MousePosY);
 }

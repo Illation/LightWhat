@@ -1,4 +1,4 @@
-//version 0.7.1 alpha
+//version 0.7.2 alpha
 //by Robert Lindner
 //using SDL2, SDL_TFF (with freetype), Assimp and devIL
 
@@ -28,6 +28,8 @@ int main(int argc, char** argv)
 	SetDebuggingOptions();
 	ProgramController *program = new ProgramController(new LightWhat);
 	delete program;
+	//cout << "Press ENTER to continue...";
+	//cin.get();
 	return 0;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../UI Engine/Components/Button.hpp"
 #include "../../UI Engine/Components/Bitmap.hpp"
 #include "../../UI Engine/Components/Font.hpp"
 #include "../../UI Engine/Components/Rectangle.hpp"
@@ -33,6 +34,13 @@ private:
 	//Data members
 	Bitmap *m_BmpResultPtr = nullptr;
 	Bitmap *m_BmpTexturePtr = nullptr;
+
+	Button *m_BtnRenderPtr = nullptr
+		, *m_BtnLoadPtr = nullptr
+		, *m_BtnLoadTestPtr = nullptr
+		, *m_BtnClearPtr = nullptr
+		, *m_BtnBfcPtr = nullptr
+		, *m_BtnSavePtr = nullptr;
 
 	LWState *m_StatePtr = nullptr;
 	LWSettings *m_SettingsPtr = nullptr;

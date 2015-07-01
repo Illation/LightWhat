@@ -1,4 +1,4 @@
-0.1 (Basis for rendering)
+### 0.1 (Basis for rendering)
 * vector math
 * Triangle Meshes
 * Intersection
@@ -7,19 +7,20 @@
 * Phong Shader
 * Background Shader
 
-0.2.1 (basic usability)
+### 0.2 (basic usability)
+### 0.2.1
 * file input
 * tinyxml2
 * collada Import
 * new shading setup
 
-0.2.2
+### 0.2.2
 * removed unnecessary game engine
 * ported to SDL2
 * efficient application loop setup
 * using native c++ string library
 
-0.2.3
+### 0.2.3
 * preventing window from freezing during render
 * choosing files to load from with Open file Dialogue
 * basic window layout and user control with hotkeys
@@ -28,13 +29,14 @@
 * progress feedback from console
 * building release versions
 
-0.2.4
+### 0.2.4
 * added image saving class
 * added saving to bitmap function
 * added save file dialog
 * added file filters to open and save file dialogs to prevent loading of illegal file types
 
-0.3.1 (code maintainability)
+## 0.3 (code maintainability)
+### 0.3.1
 * bundled vertex math structures into common.h and common.cpp for easy re-use in other projects and more sensible file structure
 * bundled Raytracing helper structures into commonR.h and commonR.cpp to remove clutter
 * changed names of classes and functions to more generic names for better readability (Vertex -> vec3 with typedef point3 | RayColor -> colRGB)
@@ -44,21 +46,21 @@
 * meshes now have to be placed on heap for better memory allocation
 * removed bug where importing collada meshes with a space after the last vcount number would crash the application
 
-0.3.2
+### 0.3.2
 * added shape base class for all types of shapes
 * made meshes derive from shapes
 * main renderer class doesnt handle specific intersections anymore, but gets the results from shapes that are stored in lists
 * moved current mesh intersection into meshes
 * added differential geometry structure that provides information for shading, now including baryacentric UV coordinates
 
-0.3.3
+### 0.3.3
 * added sphere and plane shapes
 * added option to load a test scene with spheres and a plane by pressing "T"
 * removed weird distortion from camera ray generation
 * fixed diffuse shader and gave it shadow tests
 * added image postprocessor that removes shader banding by fixing the exposure
 
-0.3.4
+### 0.3.4
 * added a scene class thay handles all objects and provides scene information -> render class now actually only does rendering and no scene handling
 * added option to clear scenes of all objects and lights ("C")
 * improved general racast structure
@@ -68,7 +70,8 @@
 * added performance options to user controls ("B" to toggle backface culling, "P" to toggle performance mode)
 * => performance improvment: up to 2.6 times as fast
 
-0.4.1 (Basic Shading and Textures)
+## 0.4 (Basic Shading and Textures)
+### 0.4.1
 * fixed phong shader
 * added reflection shader
 * removed collada importer and included assimp
@@ -76,21 +79,21 @@
 * added support for multiple materials
 * added mesh smoothing
 
-0.4.2
+### 0.4.2
 * added 2D vectors and points
 * added UV sets to Meshes
 * calculating UV coordinates for mesh intersection
 * added UV loading to sceneLoader
 * added camera transformation
 
-0.4.3
+### 0.4.3
 * added Texture class
 * added texture loading with devIL
 * added diffuse map rendering
 * added text display with SDL_TFF
 * added texture display in application ("D")
 
-0.4.4
+### 0.4.4
 * added linear texture interpolation
 * added tangent space data to meshes
 * added specular map texture rendering
@@ -98,7 +101,7 @@
 * added normal map rendering
 * it is now possible to load larger models
 
-0.5 (Performance)
+## 0.5 (Performance)
 * inlined vector math
 * .h files -> .hpp files
 * added Axis aligned bounding Boxes (AABB)
@@ -109,7 +112,7 @@
 * added multithreaded tile rendering
 * displaying the render time in the application (SDL text rendering)
 
-0.6 (Global Illumination)
+## 0.6 (Global Illumination)
 * fixed Spheres
 * Made test scene a cornell box
 * Polymorphism to support multiple light types, Using both point and area lights
@@ -121,7 +124,8 @@
 * render settings are now loaded from .lwtf files
 * renderer is now split into specific LWrenderer and traceUnit
 
-0.7.1
+## 0.7
+### 0.7.1
 * created GUI engine singleton
 * created Window manager
 * moved SDL window code from application root to window manager
@@ -135,3 +139,8 @@
 * added EventQueue for LW events like start render, save image etc
 * LightWhat now owns the State, Settings and Scene and passes them to the renderer to work with
 * reorganized the entire file structure for maintainability and readability
+
+### 0.7.2
+* *GUI_ENGINE:* Added mouse support
+* *GUI_ENGINE:* Added button support
+* *LightWhat:* Added simple button layout

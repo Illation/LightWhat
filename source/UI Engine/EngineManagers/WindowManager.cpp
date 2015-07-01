@@ -18,6 +18,7 @@ WindowManager::~WindowManager()
 
 int WindowManager::CreateNewWindow()
 {
+	m_WindowEverCreated = true;
 	Window *windowPtr = new Window(1900, 980, 0);
 	m_WinPtrArr.push_back(windowPtr);
 	return windowPtr->GetID();
@@ -82,7 +83,32 @@ Window* WindowManager::GetWindow(int windowId)
 	return nullWindow;
 }
 
+Window* WindowManager::operator[](int windowId)
+{
+	return GetWindow(windowId);
+}
+
+bool WindowManager::HasWindow(int windowId)
+{
+	for (size_t i = 0; i < m_WinPtrArr.size(); i++)
+	{
+		if (windowId == m_WinPtrArr[i]->GetID())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool WindowManager::AllWindowsClosed()
 {
-	return m_WinPtrArr.size() <= 0;
+	if (m_WindowEverCreated)
+	{
+		if (m_WinPtrArr.size() <= 0)
+		{
+			std::cout << "all windows closed.." << std::endl;
+			return true;
+		}
+	}
+	return false;
 }

@@ -125,7 +125,9 @@
     <ClCompile Include="LightWhatRenderer\Utility\Texture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI Engine\Components\Bitmap.cpp" />
+    <ClCompile Include="UI Engine\Components\Button.cpp" />
     <ClCompile Include="UI Engine\Components\Font.cpp" />
+    <ClCompile Include="UI Engine\Components\GuiObject.cpp" />
     <ClCompile Include="UI Engine\Components\Panel.cpp" />
     <ClCompile Include="UI Engine\Components\Rectangle.cpp" />
     <ClCompile Include="UI Engine\Components\Window.cpp" />
@@ -173,7 +175,9 @@
     <ClInclude Include="LightWhatRenderer\Utility\Texture.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="UI Engine\Components\Bitmap.hpp" />
+    <ClInclude Include="UI Engine\Components\Button.hpp" />
     <ClInclude Include="UI Engine\Components\Font.hpp" />
+    <ClInclude Include="UI Engine\Components\GuiObject.hpp" />
     <ClInclude Include="UI Engine\Components\Panel.hpp" />
     <ClInclude Include="UI Engine\Components\Rectangle.hpp" />
     <ClInclude Include="UI Engine\Components\Window.hpp" />

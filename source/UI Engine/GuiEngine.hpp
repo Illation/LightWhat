@@ -1,48 +1,47 @@
 #pragma once
-#include <Windows.h>
-#include <Commdlg.h>
 
-#include <SDL/SDL_TTF.h>
-#include <IL/il.h>
-#include <IL/ilu.h>
-#include <IL/ilut.h>
 
 #include "EngineManagers/WindowManager.hpp"
 #include "EngineManagers/EventManager.hpp"
 
+#include "Components\GuiObject.hpp"
 #include "Components\Bitmap.hpp"
 #include "Components\Font.hpp"
 #include "Components\Rectangle.hpp"
 class GuiEngine
 {
+	friend class ProgramController;
 public:
 	virtual ~GuiEngine();
 	static GuiEngine* GetSingleton();//duh
 
-	//Application functions
-	void Init();
-	void Clear();
-	void PreTick();
-	void Paint();
-
 	//Window stuff
 	int CreateNewWindow();
 	void DestroyWindow(int windowId);
-	//General getters
-	WindowManager* GetWindow();
 	int GetWidth(int windowId);
 	int GetHeight(int windowId);
-	bool IsExitRequested();
-	//Windows functions
+
+	//Operating System functions
 	std::string GetFileName();
 	std::string GetTTFName();
 	std::string GetRootDirectory();
 	std::string SaveFileName();
 
+	//Setters for Drawing
+	void SetWindow(int windowId);
+	void SetColor(colRGB color);
+	void SetFont(Font *fontPtr);
+	void SetDefaultFont();
+
+	//Getters for Drawing
+	Font* GetFont();
+
 	//Draw functions
-	void DrawBitmap(int windowId, int x, int y, Bitmap *bmpPtr);
-	void DrawString(int windowId, const std::string &message, Font *fontPtr, int posX, int posY);
-	void FillRect(int windowId, Rect rect);
+	void DrawBitmap(int x, int y, Bitmap *bmpPtr);
+	void DrawString(const std::string &message, int posX, int posY);
+	void DrawLine(vec2 pos1, vec2 pos2);
+	void DrawRect(Rect rect);
+	void FillRect(Rect rect);
 
 	//Input
 
@@ -61,6 +60,28 @@ public:
 	// True if user stops pressing key
 	// Supported chars are CAPITAL letters and numbers
 	bool IsKeyboardKeyReleased(char key);
+
+	//True if user starts pressing button
+	bool IsMouseButtonPressed(int button);
+	//True if user is pressing button
+	bool IsMouseButtonDown(int button);
+	//True if user stops pressing button
+	bool IsMouseButtonReleased(int button);
+	//Returns mouse position as vector
+	vec2 GetMousePosition();
+
+	//GuiObjects
+	void RegisterGuiObject(GuiObject *objPtr);
+	void UnRegisterGuiObject(GuiObject *objPtr);
+
+protected:
+	//functions called by program controller
+	//Application functions
+	void Init();
+	void Clear();
+	void PreTick();
+	void Paint();
+	bool IsExitRequested();
 private:
 	//Singleton constructor and instance
 	GuiEngine();
@@ -68,9 +89,15 @@ private:
 
 	WindowManager *m_WindowPtr = nullptr;
 	EventManager *m_EventMngPtr = nullptr;
-	HWND m_WindowsWindow;
 
 	std::string m_RootDirectory = string("");
 	bool m_Exit = false;
+
+	std::vector<GuiObject*> m_GuiObjPtrArr;
+
+	int m_CurrentWindowId = 0;
+	SDL_Color m_Color;
+	Font *m_FontPtr = nullptr;
+	Font *m_DefaultFontPtr = nullptr;
 };
 

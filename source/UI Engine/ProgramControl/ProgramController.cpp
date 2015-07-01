@@ -20,6 +20,12 @@ ProgramController::~ProgramController()
 void ProgramController::Init()
 {
 	GUI_ENGINE->Init();
+	if (GUI_ENGINE->IsExitRequested())
+	{
+		m_Exit = true;
+		cout << "quitting.... " << endl;
+		return;
+	}
 	m_ProgramPtr->Init();
 }
 

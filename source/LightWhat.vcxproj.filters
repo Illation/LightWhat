@@ -201,6 +201,12 @@
     <ClCompile Include="UI Engine\GuiEngine.cpp">
       <Filter>Source Files\UI Engine</Filter>
     </ClCompile>
+    <ClCompile Include="UI Engine\Components\GuiObject.cpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UI Engine\Components\Button.cpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -338,6 +344,12 @@
     </ClInclude>
     <ClInclude Include="UI Engine\GuiEngine.hpp">
       <Filter>Source Files\UI Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="UI Engine\Components\GuiObject.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UI Engine\Components\Button.hpp">
+      <Filter>Source Files\UI Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

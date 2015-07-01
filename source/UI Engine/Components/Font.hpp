@@ -8,13 +8,10 @@
 struct Font
 {
 public:
-	Font(std::string filepath, int fontSize, colRGB color);
+	Font(std::string filepath, int fontSize);
 	virtual ~Font();
-
-	void SetColor(colRGB color);
 
 	TTF_Font *sdlFont;
 	int size;
-	SDL_Color color;
 };
 

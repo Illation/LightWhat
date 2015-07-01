@@ -25,7 +25,10 @@ public:
 
 	//Getters
 	Window* GetWindow(int windowId);
+	Window* operator[](int windowId);
+	bool HasWindow(int windowId);
 	bool AllWindowsClosed();
 private:
 	std::vector<Window*> m_WinPtrArr;
+	bool m_WindowEverCreated = false;
 };

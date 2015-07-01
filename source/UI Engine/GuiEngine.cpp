@@ -1,4 +1,11 @@
 #include "GuiEngine.hpp"
+
+#include <Windows.h>
+#include <Commdlg.h>
+
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 //----------------------------
 //Static Variable
 //----------------------------
@@ -8,19 +15,18 @@ GuiEngine* GuiEngine::m_GuiEnginePtr = nullptr;
 //----------------------------
 GuiEngine::GuiEngine()
 {
-	m_WindowsWindow = nullptr;
 	m_WindowPtr = new WindowManager();
 	m_EventMngPtr = new EventManager(m_WindowPtr);
 
 }
 GuiEngine::~GuiEngine()
 {
-	delete m_WindowsWindow;
-	m_WindowsWindow = nullptr;
 	delete m_EventMngPtr;
 	m_EventMngPtr = nullptr;
 	delete m_WindowPtr;
 	m_WindowPtr = nullptr;
+	delete m_DefaultFontPtr;
+	m_DefaultFontPtr = nullptr;
 }
 //----------------------------
 //Static Engine Functions
@@ -38,6 +44,7 @@ GuiEngine* GuiEngine::GetSingleton()
 //----------------------------
 std::string GuiEngine::GetFileName()
 {
+	HWND m_WindowsWindow = nullptr;
 	using namespace std;
 	OPENFILENAME ofn;
 	char szFile[256];
@@ -61,6 +68,7 @@ std::string GuiEngine::GetFileName()
 
 std::string GuiEngine::GetTTFName()
 {
+	HWND m_WindowsWindow = nullptr;
 	using namespace std;
 	OPENFILENAME ofn;
 	char szFile[256];
@@ -89,6 +97,7 @@ std::string GuiEngine::GetRootDirectory()
 
 std::string GuiEngine::SaveFileName()
 {
+	HWND m_WindowsWindow = nullptr;
 	using namespace std;
 	OPENFILENAME ofn;
 	char szFile[256];
@@ -137,8 +146,9 @@ void GuiEngine::Init()
 	{
 		cout << "Failed to load root directory, quitting..." << endl;
 		m_Exit = true;
-		cout << "Press Enter to Continue";
+		cout << "Press ENTER to continue...";
 		cin.get();
+		return;
 	}
 	else
 	{
@@ -154,6 +164,9 @@ void GuiEngine::Init()
 
 		m_RootDirectory = t;
 	}
+	m_DefaultFontPtr = new Font(GetRootDirectory() + string("Resources/fonts/Inconsolata-Regular.ttf"), 20);
+	m_FontPtr = m_DefaultFontPtr;
+	m_Color = { 255, 255, 255, 255 };
 }
 void GuiEngine::Clear()
 {
@@ -162,10 +175,25 @@ void GuiEngine::Clear()
 void GuiEngine::PreTick()
 {
 	m_EventMngPtr->UpdateEvents();
+	//Tick all GuiObjects
+	for (size_t i = 0; i < m_GuiObjPtrArr.size(); i++)
+	{
+		m_GuiObjPtrArr[i]->Tick();
+	}
 }
 void GuiEngine::Paint()
 {
+	//Consume all GuiObject Events
+	for (size_t i = 0; i < m_GuiObjPtrArr.size(); i++)
+	{
+		m_GuiObjPtrArr[i]->ConsumeEvent();
+	}
+	//Paint windows
 	m_WindowPtr->UpdateWindows();
+}
+bool GuiEngine::IsExitRequested()
+{
+	return m_EventMngPtr->IsExitRequested()||m_WindowPtr->AllWindowsClosed()||m_Exit;
 }
 //----------------------------
 //Window Methods
@@ -178,13 +206,6 @@ void GuiEngine::DestroyWindow(int windowId)
 {
 	m_WindowPtr->DestroyWindow(windowId);
 }
-//----------------------------
-//General Getters
-//----------------------------
-WindowManager* GuiEngine::GetWindow()
-{
-	return m_WindowPtr;
-}
 int GuiEngine::GetWidth(int windowId)
 {
 	return m_WindowPtr->GetWindow(windowId)->GetWidth();
@@ -193,14 +214,39 @@ int GuiEngine::GetHeight(int windowId)
 {
 	return m_WindowPtr->GetWindow(windowId)->GetHeight();
 }
-bool GuiEngine::IsExitRequested()
+//----------------------------
+//Setters for Drawing
+//----------------------------
+void GuiEngine::SetWindow(int windowId)
 {
-	return m_EventMngPtr->IsExitRequested()||m_WindowPtr->AllWindowsClosed()||m_Exit;
+	if (m_WindowPtr->HasWindow(windowId))
+	{
+		m_CurrentWindowId = windowId;
+	}
+	else
+	{
+		cout << "no window with id: '" << to_string(windowId) << "' found" << endl;
+	}
+}
+void GuiEngine::SetColor(colRGB c)
+{
+	m_Color = { (int)(c.red * 255), (int)(c.green * 255), (int)(c.blue * 255), 255 };
+}
+void GuiEngine::SetFont(Font *fontPtr)
+{
+	m_FontPtr = fontPtr;
+}
+//----------------------------
+//Getters for Drawing
+//----------------------------
+Font* GuiEngine::GetFont()
+{
+	return m_FontPtr;
 }
 //----------------------------
 //Draw Methods
 //----------------------------
-void GuiEngine::DrawBitmap(int windowId, int x, int y, Bitmap *bmpPtr)
+void GuiEngine::DrawBitmap(int x, int y, Bitmap *bmpPtr)
 {
 	SDL_Rect texture_rect;
 	texture_rect.x = x;
@@ -208,46 +254,55 @@ void GuiEngine::DrawBitmap(int windowId, int x, int y, Bitmap *bmpPtr)
 	texture_rect.w = bmpPtr->GetWidth();
 	texture_rect.h = bmpPtr->GetHeight();
 
-	SDL_Texture* texture = SDL_CreateTexture(m_WindowPtr->GetWindow(windowId)->GetRenderer(),
+	SDL_Texture* texture = SDL_CreateTexture(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
 		SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, 
 		bmpPtr->GetWidth(), bmpPtr->GetHeight());
 	SDL_UpdateTexture(texture, NULL, bmpPtr->GetData(), bmpPtr->GetWidth() *sizeof(Uint32));
 
-	SDL_RenderCopy(m_WindowPtr->GetWindow(windowId)->GetRenderer(), texture, NULL, &texture_rect);
+	SDL_RenderCopy(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(), texture, NULL, &texture_rect);
 	SDL_DestroyTexture(texture);
 }
 
-void GuiEngine::DrawString(int windowId, const std::string &message, Font *fontPtr, int posX, int posY)
+void GuiEngine::DrawString(const std::string &message, int posX, int posY)
 {
-	SDL_Surface *surf = TTF_RenderText_Blended(fontPtr->sdlFont, message.c_str(), fontPtr->color);
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(m_WindowPtr->GetWindow(windowId)->GetRenderer(), surf);
+	SDL_Surface *surf = TTF_RenderText_Blended(m_FontPtr->sdlFont, message.c_str(), m_Color);
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(), surf);
 	SDL_FreeSurface(surf);
 
 	SDL_Rect texture_rect;
 	texture_rect.x = posX;
 	texture_rect.y = posY;
-	texture_rect.w = message.length()*fontPtr->size / 2;
-	texture_rect.h = fontPtr->size;
+	texture_rect.w = message.length()*m_FontPtr->size / 2;
+	texture_rect.h = m_FontPtr->size;
 
-	SDL_RenderCopy(m_WindowPtr->GetWindow(windowId)->GetRenderer(), texture, NULL, &texture_rect);
+	SDL_RenderCopy(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(), texture, NULL, &texture_rect);
 	SDL_DestroyTexture(texture);
 }
 
-void GuiEngine::FillRect(int windowId, Rect rect)
+void GuiEngine::DrawLine(vec2 pos1, vec2 pos2)
 {
-	SDL_Surface *surf = SDL_CreateRGBSurface(0, (int)rect.dim.x, (int)rect.dim.y, 32, 0, 0, 0, 0);
-	SDL_FillRect(surf, NULL, SDL_MapRGB(surf->format, (Uint8)(rect.col.red * 255), (Uint8)(rect.col.green * 255), (Uint8)(rect.col.blue * 255)));
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(m_WindowPtr->GetWindow(windowId)->GetRenderer(), surf);
-	SDL_FreeSurface(surf);
+	SDL_SetRenderDrawColor(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
+		m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+	SDL_RenderDrawLine(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
+		(int)pos1.x, (int)pos1.y, (int)pos2.x, (int)pos2.y);
+}
 
-	SDL_Rect texture_rect;
-	texture_rect.x = (int)rect.pos.x;
-	texture_rect.y = (int)rect.pos.y;
-	texture_rect.w = (int)rect.dim.x;
-	texture_rect.h = (int)rect.dim.y;
+void GuiEngine::DrawRect(Rect rect)
+{
+	SDL_Rect outlineRect = { (int)rect.pos.x, (int)rect.pos.y, (int)rect.dim.x, (int)rect.dim.y };
+	SDL_SetRenderDrawColor(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
+		m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+	SDL_RenderDrawRect(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
+		&outlineRect);
+}
 
-	SDL_RenderCopy(m_WindowPtr->GetWindow(windowId)->GetRenderer(), texture, NULL, &texture_rect);
-	SDL_DestroyTexture(texture);
+void GuiEngine::FillRect(Rect rect)
+{
+	SDL_Rect outlineRect = { (int)rect.pos.x, (int)rect.pos.y, (int)rect.dim.x, (int)rect.dim.y };
+	SDL_SetRenderDrawColor(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
+		m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+	SDL_RenderFillRect(m_WindowPtr->GetWindow(m_CurrentWindowId)->GetRenderer(),
+		&outlineRect);
 }
 //----------------------------
 // Input
@@ -277,4 +332,40 @@ bool GuiEngine::IsKeyboardKeyReleased(SDL_Scancode key)
 bool GuiEngine::IsKeyboardKeyReleased(char key)
 {
 	return m_EventMngPtr->IsKeyboardKeyReleased(key);
+}
+
+bool GuiEngine::IsMouseButtonPressed(int button)
+{
+	return m_EventMngPtr->IsMouseButtonPressed(button);
+}
+bool GuiEngine::IsMouseButtonDown(int button)
+{
+	return m_EventMngPtr->IsMouseButtonDown(button);
+}
+bool GuiEngine::IsMouseButtonReleased(int button)
+{
+	return m_EventMngPtr->IsMouseButtonReleased(button);
+}
+vec2 GuiEngine::GetMousePosition()
+{
+	return m_EventMngPtr->GetMousePosition();
+}
+//----------------------------
+// Gui Objects
+//----------------------------
+void GuiEngine::RegisterGuiObject(GuiObject *objPtr)
+{
+	m_GuiObjPtrArr.push_back(objPtr);
+}
+void GuiEngine::UnRegisterGuiObject(GuiObject *objPtr)
+{
+	std::vector<GuiObject*>::iterator pos = find(m_GuiObjPtrArr.begin(), m_GuiObjPtrArr.end(), objPtr); // find algorithm from STL
+
+	if (pos == m_GuiObjPtrArr.end()) return;
+	else
+	{
+		m_GuiObjPtrArr.erase(pos);
+		return;
+	}
+	m_GuiObjPtrArr.push_back(objPtr);
 }
