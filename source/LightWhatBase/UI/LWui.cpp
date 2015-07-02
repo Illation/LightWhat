@@ -114,27 +114,29 @@ void LWui::Paint()
 
 void LWui::Tick()
 {
-	if (m_BtnRenderPtr->IsPressed())
+	if (m_BtnRenderPtr->IsPressed() || 
+		GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_RETURN) || 
+		GUI_ENGINE->IsKeyboardKeyPressed(SDL_SCANCODE_KP_ENTER))
 	{
 		m_EvntQPtr->AddEvent(LW_EVENT_RENDER_START);
 	}
-	if (m_BtnLoadPtr->IsPressed())
+	if (m_BtnLoadPtr->IsPressed() || GUI_ENGINE->IsKeyboardKeyPressed('L'))
 	{
 		m_EvntQPtr->AddEvent(LW_EVENT_LOAD);
 	}
-	if (m_BtnLoadTestPtr->IsPressed())
+	if (m_BtnLoadTestPtr->IsPressed() || GUI_ENGINE->IsKeyboardKeyPressed('T'))
 	{
 		m_EvntQPtr->AddEvent(LW_EVENT_LOAD_TEST);
 	}
-	if (m_BtnClearPtr->IsPressed())
+	if (m_BtnClearPtr->IsPressed() || GUI_ENGINE->IsKeyboardKeyPressed('C'))
 	{
 		m_EvntQPtr->AddEvent(LW_EVENT_CLEAR);
 	}
-	if (m_BtnSavePtr->IsPressed())
+	if (m_BtnSavePtr->IsPressed() || GUI_ENGINE->IsKeyboardKeyPressed('S'))
 	{
 		m_EvntQPtr->AddEvent(LW_EVENT_SAVE);
 	}
-	if (m_BtnBfcPtr->IsPressed())
+	if (m_BtnBfcPtr->IsPressed() || GUI_ENGINE->IsKeyboardKeyPressed('B'))
 	{
 		m_EvntQPtr->AddEvent(LW_EVENT_TOGGLE_BFC);
 	}
@@ -162,48 +164,22 @@ void LWui::Tick()
 
 void LWui::UpdateRenderImage()
 {
-	for (int i = 0; i < m_ResolutionX; i++)
-	{
-		for (int j = 0; j < m_ResolutionY; j++)
-		{
-			m_BmpResultPtr->SetPixel(i, j, m_StatePtr->GetTonemappedImage()->getRGB(i, j));
-		}
-	}
+	m_BmpResultPtr->SetFromTexture(m_StatePtr->GetTonemappedImage(), m_SettingsPtr->gammaExponent);
 }
-//replace with bitmap functions
 void LWui::UpdateTexture(){
 	if (m_ScenePtr->textures.size() >0)
 	{
-		Texture tex = m_ScenePtr->textures[m_ActiveTextureIndex];
-		for (int i = 0; i < m_TexResolutionX; i++)
-		{
-			for (int j = 0; j < m_TexResolutionY; j++)
-			{
-				m_BmpTexturePtr->SetPixel(i, j, tex.getRGB(((float)i / (float)m_TexResolutionX), ((float)j / (float)m_TexResolutionY)));
-			}
-		}
+		m_BmpTexturePtr->SetFromTexture(&(m_ScenePtr->textures[m_ActiveTextureIndex]));
 	}
 	else
 	{
-		int texSizeX = 10, texSizeY = 10;
-		Texture tex = Texture(string("test texture"), texSizeX, texSizeY);
-		tex.setInterpolationMode(INTPOL_LINEAR);
-		tex.setQuadraticFittingMode(FIT_STRETCHXY);
-		for (int x = 0; x < texSizeX; x++)
-		{
-			for (int y = 0; y < texSizeY; y++)
-			{
-				tex.setRGB(colRGB(x / (float)texSizeX, y / (float)texSizeY, 1), x, y);
-			}
-		}
 		for (int i = 0; i < m_TexResolutionX; i++)
 		{
 			for (int j = 0; j < m_TexResolutionY; j++)
 			{
-				float x = (float)i / (float)m_TexResolutionX;
-				float y = (float)j / (float)m_TexResolutionY;
-				colRGB thisPixel = tex.getRGB(x, y);
-				m_BmpTexturePtr->SetPixel(i, j, thisPixel);
+				m_BmpTexturePtr->SetPixel(i, j, 
+					colRGB(i / (float)m_BmpTexturePtr->GetWidth(), j 
+					/ (float)m_BmpTexturePtr->GetHeight(), 1));
 			}
 		}
 	}

@@ -22,6 +22,7 @@ While I wrote all the code myself, the structure of the Bottom Layer is heavily 
 * press "P" to toggle between high performance mode and progress viewing mode
 * press "B" to toggle backface culling on and off
 * press "D" to display the first texture in the list, or a test texture if no images where loaded
+
 There is also button support now :smiling_imp:
 
 ## How to use

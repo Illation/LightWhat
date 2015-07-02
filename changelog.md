@@ -141,6 +141,8 @@
 * reorganized the entire file structure for maintainability and readability
 
 ### 0.7.2
-* *GUI_ENGINE:* Added mouse support
-* *GUI_ENGINE:* Added button support
-* *LightWhat:* Added simple button layout
+* **GUI_ENGINE:** Added mouse support
+* **GUI_ENGINE:** Added button support
+* **GUI_ENGINE:** Bitmaps can load from Textures
+* **LightWhat:** Added simple button layout
+* **LW_RENDERER:** Changed internal Texture data structure from double vector to float array for efficiency

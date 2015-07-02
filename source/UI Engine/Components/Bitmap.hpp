@@ -13,6 +13,10 @@ public:
 	Bitmap& operator=(const Bitmap&) = delete;
 	//Member Functions
 	void SetPixel(int x, int y, colRGB col);
+	void SetPixel(int x, int y, colRGB col, float gamma);
+	void SetFromTexture(Texture* texPtr);
+	void SetFromTexture(Texture* texPtr, float gamma);
+
 	Uint32* GetData();
 	int GetWidth();
 	int GetHeight();

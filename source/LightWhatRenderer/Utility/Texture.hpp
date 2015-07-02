@@ -27,18 +27,20 @@ public:
 	colRGB getRGB(float x, float y);
 	float getAlpha(int x, int y);
 	float getAlpha(float x, float y);
+	float* GetData();
 
 	size_t getWidth();
 	size_t getHeight();
+	unsigned int GetLength();
 	string getName();
 
 	bool hasAlpha;
 private:
 	string m_Name;
-	vector<vector<colRGB> > m_RGBcolours;
-	vector<vector<float> > m_AlphaValues;
-	size_t m_PixelsX;
-	size_t m_PixelsY;
+	float *m_Pixels;
+	unsigned int m_Length;
+	size_t m_Width;
+	size_t m_Height;
 	interpolationMode m_IntPolMode;
 	fitMode m_FitMode = FIT_STRETCHXY;
 };
