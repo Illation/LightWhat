@@ -61,3 +61,7 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+# Ignore dependancies for source language analysis
+dependancies/* linguist-vendored=true
+source/dependancies/* linguist-vendored=true
